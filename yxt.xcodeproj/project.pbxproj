@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F27C00DE1723E5A7006B9DBE /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F27C00DD1723E5A7006B9DBE /* Icon.png */; };
+		F27C00E01723E753006B9DBE /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = F27C00DF1723E753006B9DBE /* background.png */; };
+		F289AE5B17219617004156E5 /* yxtInfoList.m in Sources */ = {isa = PBXBuildFile; fileRef = F289AE5917219617004156E5 /* yxtInfoList.m */; };
+		F289AE5C17219617004156E5 /* yxtInfoList.xib in Resources */ = {isa = PBXBuildFile; fileRef = F289AE5A17219617004156E5 /* yxtInfoList.xib */; };
+		F28C9792172145B4009D8F1C /* index1BtnGrade.png in Resources */ = {isa = PBXBuildFile; fileRef = F28C978E172145B4009D8F1C /* index1BtnGrade.png */; };
+		F28C9793172145B4009D8F1C /* index1BtnMessage.png in Resources */ = {isa = PBXBuildFile; fileRef = F28C978F172145B4009D8F1C /* index1BtnMessage.png */; };
+		F28C9794172145B4009D8F1C /* index1BtnNotice.png in Resources */ = {isa = PBXBuildFile; fileRef = F28C9790172145B4009D8F1C /* index1BtnNotice.png */; };
+		F28C9795172145B4009D8F1C /* index1BtnWork.png in Resources */ = {isa = PBXBuildFile; fileRef = F28C9791172145B4009D8F1C /* index1BtnWork.png */; };
+		F28C979917214676009D8F1C /* index2Title.png in Resources */ = {isa = PBXBuildFile; fileRef = F28C979617214676009D8F1C /* index2Title.png */; };
+		F28C979A17214676009D8F1C /* index3Title.png in Resources */ = {isa = PBXBuildFile; fileRef = F28C979717214676009D8F1C /* index3Title.png */; };
+		F28C979B17214676009D8F1C /* index1Title.png in Resources */ = {isa = PBXBuildFile; fileRef = F28C979817214676009D8F1C /* index1Title.png */; };
 		F2A7702F1720F5FD00CCEE55 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2A7702E1720F5FD00CCEE55 /* UIKit.framework */; };
 		F2A770311720F5FD00CCEE55 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2A770301720F5FD00CCEE55 /* Foundation.framework */; };
 		F2A770331720F5FD00CCEE55 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2A770321720F5FD00CCEE55 /* CoreGraphics.framework */; };
@@ -16,11 +27,32 @@
 		F2A770411720F5FD00CCEE55 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F2A770401720F5FD00CCEE55 /* Default.png */; };
 		F2A770431720F5FD00CCEE55 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2A770421720F5FD00CCEE55 /* Default@2x.png */; };
 		F2A770451720F5FD00CCEE55 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2A770441720F5FD00CCEE55 /* Default-568h@2x.png */; };
-		F2A770481720F5FD00CCEE55 /* yxtViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A770471720F5FD00CCEE55 /* yxtViewController.m */; };
-		F2A7704B1720F5FD00CCEE55 /* yxtViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2A770491720F5FD00CCEE55 /* yxtViewController.xib */; };
+		F2A770481720F5FD00CCEE55 /* yxtLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A770471720F5FD00CCEE55 /* yxtLogin.m */; };
+		F2A7704B1720F5FD00CCEE55 /* yxtLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2A770491720F5FD00CCEE55 /* yxtLogin.xib */; };
+		F2A770591720F80800CCEE55 /* Checkbox.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A770571720F80800CCEE55 /* Checkbox.m */; };
+		F2A770701721303C00CCEE55 /* yxtIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A7706E1721303C00CCEE55 /* yxtIndex.m */; };
+		F2A770711721303C00CCEE55 /* yxtIndex.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2A7706F1721303C00CCEE55 /* yxtIndex.xib */; };
+		F2A770751721363100CCEE55 /* yxtIndex1.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A770731721363100CCEE55 /* yxtIndex1.m */; };
+		F2A770761721363100CCEE55 /* yxtIndex1.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2A770741721363100CCEE55 /* yxtIndex1.xib */; };
+		F2A7707A172138BE00CCEE55 /* yxtIndex2.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A77078172138BE00CCEE55 /* yxtIndex2.m */; };
+		F2A7707B172138BE00CCEE55 /* yxtIndex2.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2A77079172138BE00CCEE55 /* yxtIndex2.xib */; };
+		F2A7707F172138D400CCEE55 /* yxtIndex3.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A7707D172138D400CCEE55 /* yxtIndex3.m */; };
+		F2A77080172138D400CCEE55 /* yxtIndex3.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2A7707E172138D400CCEE55 /* yxtIndex3.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F27C00DD1723E5A7006B9DBE /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		F27C00DF1723E753006B9DBE /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
+		F289AE5817219617004156E5 /* yxtInfoList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yxtInfoList.h; sourceTree = "<group>"; };
+		F289AE5917219617004156E5 /* yxtInfoList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = yxtInfoList.m; sourceTree = "<group>"; };
+		F289AE5A17219617004156E5 /* yxtInfoList.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = yxtInfoList.xib; sourceTree = "<group>"; };
+		F28C978E172145B4009D8F1C /* index1BtnGrade.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = index1BtnGrade.png; sourceTree = "<group>"; };
+		F28C978F172145B4009D8F1C /* index1BtnMessage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = index1BtnMessage.png; sourceTree = "<group>"; };
+		F28C9790172145B4009D8F1C /* index1BtnNotice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = index1BtnNotice.png; sourceTree = "<group>"; };
+		F28C9791172145B4009D8F1C /* index1BtnWork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = index1BtnWork.png; sourceTree = "<group>"; };
+		F28C979617214676009D8F1C /* index2Title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = index2Title.png; sourceTree = "<group>"; };
+		F28C979717214676009D8F1C /* index3Title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = index3Title.png; sourceTree = "<group>"; };
+		F28C979817214676009D8F1C /* index1Title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = index1Title.png; sourceTree = "<group>"; };
 		F2A7702B1720F5FD00CCEE55 /* yxt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = yxt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2A7702E1720F5FD00CCEE55 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F2A770301720F5FD00CCEE55 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -34,9 +66,23 @@
 		F2A770401720F5FD00CCEE55 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		F2A770421720F5FD00CCEE55 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		F2A770441720F5FD00CCEE55 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		F2A770461720F5FD00CCEE55 /* yxtViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = yxtViewController.h; sourceTree = "<group>"; };
-		F2A770471720F5FD00CCEE55 /* yxtViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = yxtViewController.m; sourceTree = "<group>"; };
-		F2A7704A1720F5FD00CCEE55 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/yxtViewController.xib; sourceTree = "<group>"; };
+		F2A770461720F5FD00CCEE55 /* yxtLogin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = yxtLogin.h; path = ../yxtLogin.h; sourceTree = "<group>"; };
+		F2A770471720F5FD00CCEE55 /* yxtLogin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = yxtLogin.m; path = ../yxtLogin.m; sourceTree = "<group>"; };
+		F2A7704A1720F5FD00CCEE55 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/yxtLogin.xib; sourceTree = "<group>"; };
+		F2A770571720F80800CCEE55 /* Checkbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Checkbox.m; sourceTree = "<group>"; };
+		F2A770581720F80800CCEE55 /* Checkbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Checkbox.h; sourceTree = "<group>"; };
+		F2A7706D1721303C00CCEE55 /* yxtIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yxtIndex.h; sourceTree = "<group>"; };
+		F2A7706E1721303C00CCEE55 /* yxtIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = yxtIndex.m; sourceTree = "<group>"; };
+		F2A7706F1721303C00CCEE55 /* yxtIndex.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = yxtIndex.xib; sourceTree = "<group>"; };
+		F2A770721721363100CCEE55 /* yxtIndex1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yxtIndex1.h; sourceTree = "<group>"; };
+		F2A770731721363100CCEE55 /* yxtIndex1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = yxtIndex1.m; sourceTree = "<group>"; };
+		F2A770741721363100CCEE55 /* yxtIndex1.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = yxtIndex1.xib; sourceTree = "<group>"; };
+		F2A77077172138BD00CCEE55 /* yxtIndex2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yxtIndex2.h; sourceTree = "<group>"; };
+		F2A77078172138BE00CCEE55 /* yxtIndex2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = yxtIndex2.m; sourceTree = "<group>"; };
+		F2A77079172138BE00CCEE55 /* yxtIndex2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = yxtIndex2.xib; sourceTree = "<group>"; };
+		F2A7707C172138D400CCEE55 /* yxtIndex3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yxtIndex3.h; sourceTree = "<group>"; };
+		F2A7707D172138D400CCEE55 /* yxtIndex3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = yxtIndex3.m; sourceTree = "<group>"; };
+		F2A7707E172138D400CCEE55 /* yxtIndex3.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = yxtIndex3.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,11 +129,11 @@
 		F2A770341720F5FD00CCEE55 /* yxt */ = {
 			isa = PBXGroup;
 			children = (
+				F2A770671720FA6B00CCEE55 /* main */,
+				F2A770541720F7AC00CCEE55 /* utility */,
+				F2A770511720F67500CCEE55 /* res */,
 				F2A7703D1720F5FD00CCEE55 /* yxtAppDelegate.h */,
 				F2A7703E1720F5FD00CCEE55 /* yxtAppDelegate.m */,
-				F2A770461720F5FD00CCEE55 /* yxtViewController.h */,
-				F2A770471720F5FD00CCEE55 /* yxtViewController.m */,
-				F2A770491720F5FD00CCEE55 /* yxtViewController.xib */,
 				F2A770351720F5FD00CCEE55 /* Supporting Files */,
 			);
 			path = yxt;
@@ -105,6 +151,56 @@
 				F2A770441720F5FD00CCEE55 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F2A770511720F67500CCEE55 /* res */ = {
+			isa = PBXGroup;
+			children = (
+				F27C00DF1723E753006B9DBE /* background.png */,
+				F27C00DD1723E5A7006B9DBE /* Icon.png */,
+				F28C979617214676009D8F1C /* index2Title.png */,
+				F28C979717214676009D8F1C /* index3Title.png */,
+				F28C979817214676009D8F1C /* index1Title.png */,
+				F28C978E172145B4009D8F1C /* index1BtnGrade.png */,
+				F28C978F172145B4009D8F1C /* index1BtnMessage.png */,
+				F28C9790172145B4009D8F1C /* index1BtnNotice.png */,
+				F28C9791172145B4009D8F1C /* index1BtnWork.png */,
+			);
+			path = res;
+			sourceTree = "<group>";
+		};
+		F2A770541720F7AC00CCEE55 /* utility */ = {
+			isa = PBXGroup;
+			children = (
+				F2A770571720F80800CCEE55 /* Checkbox.m */,
+				F2A770581720F80800CCEE55 /* Checkbox.h */,
+			);
+			path = utility;
+			sourceTree = "<group>";
+		};
+		F2A770671720FA6B00CCEE55 /* main */ = {
+			isa = PBXGroup;
+			children = (
+				F289AE5817219617004156E5 /* yxtInfoList.h */,
+				F289AE5917219617004156E5 /* yxtInfoList.m */,
+				F289AE5A17219617004156E5 /* yxtInfoList.xib */,
+				F2A770461720F5FD00CCEE55 /* yxtLogin.h */,
+				F2A770471720F5FD00CCEE55 /* yxtLogin.m */,
+				F2A770491720F5FD00CCEE55 /* yxtLogin.xib */,
+				F2A7706D1721303C00CCEE55 /* yxtIndex.h */,
+				F2A7706E1721303C00CCEE55 /* yxtIndex.m */,
+				F2A7706F1721303C00CCEE55 /* yxtIndex.xib */,
+				F2A770721721363100CCEE55 /* yxtIndex1.h */,
+				F2A770731721363100CCEE55 /* yxtIndex1.m */,
+				F2A770741721363100CCEE55 /* yxtIndex1.xib */,
+				F2A77077172138BD00CCEE55 /* yxtIndex2.h */,
+				F2A77078172138BE00CCEE55 /* yxtIndex2.m */,
+				F2A77079172138BE00CCEE55 /* yxtIndex2.xib */,
+				F2A7707C172138D400CCEE55 /* yxtIndex3.h */,
+				F2A7707D172138D400CCEE55 /* yxtIndex3.m */,
+				F2A7707E172138D400CCEE55 /* yxtIndex3.xib */,
+			);
+			path = main;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -163,7 +259,21 @@
 				F2A770411720F5FD00CCEE55 /* Default.png in Resources */,
 				F2A770431720F5FD00CCEE55 /* Default@2x.png in Resources */,
 				F2A770451720F5FD00CCEE55 /* Default-568h@2x.png in Resources */,
-				F2A7704B1720F5FD00CCEE55 /* yxtViewController.xib in Resources */,
+				F2A7704B1720F5FD00CCEE55 /* yxtLogin.xib in Resources */,
+				F2A770711721303C00CCEE55 /* yxtIndex.xib in Resources */,
+				F2A770761721363100CCEE55 /* yxtIndex1.xib in Resources */,
+				F2A7707B172138BE00CCEE55 /* yxtIndex2.xib in Resources */,
+				F2A77080172138D400CCEE55 /* yxtIndex3.xib in Resources */,
+				F28C9792172145B4009D8F1C /* index1BtnGrade.png in Resources */,
+				F28C9793172145B4009D8F1C /* index1BtnMessage.png in Resources */,
+				F28C9794172145B4009D8F1C /* index1BtnNotice.png in Resources */,
+				F28C9795172145B4009D8F1C /* index1BtnWork.png in Resources */,
+				F28C979917214676009D8F1C /* index2Title.png in Resources */,
+				F28C979A17214676009D8F1C /* index3Title.png in Resources */,
+				F28C979B17214676009D8F1C /* index1Title.png in Resources */,
+				F289AE5C17219617004156E5 /* yxtInfoList.xib in Resources */,
+				F27C00DE1723E5A7006B9DBE /* Icon.png in Resources */,
+				F27C00E01723E753006B9DBE /* background.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,7 +286,13 @@
 			files = (
 				F2A7703B1720F5FD00CCEE55 /* main.m in Sources */,
 				F2A7703F1720F5FD00CCEE55 /* yxtAppDelegate.m in Sources */,
-				F2A770481720F5FD00CCEE55 /* yxtViewController.m in Sources */,
+				F2A770481720F5FD00CCEE55 /* yxtLogin.m in Sources */,
+				F2A770591720F80800CCEE55 /* Checkbox.m in Sources */,
+				F2A770701721303C00CCEE55 /* yxtIndex.m in Sources */,
+				F2A770751721363100CCEE55 /* yxtIndex1.m in Sources */,
+				F2A7707A172138BE00CCEE55 /* yxtIndex2.m in Sources */,
+				F2A7707F172138D400CCEE55 /* yxtIndex3.m in Sources */,
+				F289AE5B17219617004156E5 /* yxtInfoList.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,12 +307,13 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		F2A770491720F5FD00CCEE55 /* yxtViewController.xib */ = {
+		F2A770491720F5FD00CCEE55 /* yxtLogin.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				F2A7704A1720F5FD00CCEE55 /* en */,
 			);
-			name = yxtViewController.xib;
+			name = yxtLogin.xib;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -245,7 +362,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Fuzhou Landwing Network Technology Co.,Ltd (BV4PENW86U)";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -253,6 +370,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5DE9658D-2CE3-4E12-91F6-71F26D3A91B5";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -264,7 +382,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "yxt/yxt-Prefix.pch";
 				INFOPLIST_FILE = "yxt/yxt-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -275,7 +395,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "yxt/yxt-Prefix.pch";
 				INFOPLIST_FILE = "yxt/yxt-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -299,6 +421,7 @@
 				F2A770501720F5FD00CCEE55 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
