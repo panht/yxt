@@ -15,11 +15,11 @@
 
 @implementation yxtLogin
 
-//@synthesize imageViewBackground;
-//@synthesize imageViewLogo;
-//@synthesize labelUsername;
+@synthesize imageViewBackground;
+@synthesize imageViewIcon;
+@synthesize labelUsername;
 @synthesize textUsername;
-//@synthesize labelPassword;
+@synthesize labelPassword;
 @synthesize textPassword;
 @synthesize buttonLogin;
 @synthesize labelMessage;
@@ -42,17 +42,25 @@
 - (void) resettle
 {
     // 获得屏幕宽高
-//    int screenWidth = [[UIScreen mainScreen] bounds].size.width;
-//    int screenHeight = [[UIScreen mainScreen] bounds].size.height;
-//
+    int screenWidth = [[UIScreen mainScreen] bounds].size.width;
+    int screenHeight = [[UIScreen mainScreen] bounds].size.height;
+
     // 背景图及Logo
-//    self.imageViewLogo.frame = CGRectMake((screenWidth - imageIcon.size.width) / 2, 40, imageIcon.size.width, imageIcon.size.height);
+//    UIImage *imageBackground = [UIImage imageWithContentsOfFile:@"background"];
+    self.imageViewBackground.frame = CGRectMake(0, 0, screenWidth, screenHeight);
+//    UIImage *imageIcon = [UIImage imageWithContentsOfFile:@"Icon"];
+//    self.imageViewIcon.frame = CGRectMake((screenWidth - imageIcon.size.width) / 2, 40, imageIcon.size.width, imageIcon.size.height);
     
     // 用户名
-    self.buttonLogin.frame = CGRectMake(100, 350, 200, 30);
-    self.labelMessage.frame = CGRectMake(100, 400, 200, 30);
-    [self.textUsername setFrame:CGRectMake(100, 200, 200, 30)];
-    [self.textPassword setFrame:CGRectMake(100, 250, 200, 30)];
+    self.labelUsername.frame  = CGRectMake(30, 190, 60, 30);
+    self.textUsername.frame = CGRectMake(90, self.labelUsername.frame.origin.y, 200, 30);
+    // 密码
+    self.labelPassword.frame = CGRectMake(self.labelUsername.frame.origin.x, self.labelUsername.frame.origin.y + 50, self.labelUsername.frame.size.width, self.labelUsername.frame.size.height);
+    self.textPassword.frame = CGRectMake(self.textUsername.frame.origin.x, self.labelPassword.frame.origin.y, self.textUsername.frame.size.width, self.textUsername.frame.size.height);
+    // 登录按钮，居中，密码框下方
+    self.buttonLogin.frame = CGRectMake((screenWidth - self.buttonLogin.frame.size.width) / 2, self.textPassword.frame.origin.y + 50, self.buttonLogin.frame.size.width, self.buttonLogin.frame.size.height);
+    // 提示框，登录按钮下方，宽高同输入框
+    self.labelMessage.frame = CGRectMake(100, self.buttonLogin.frame.origin.y + 40, self.textUsername.frame.size.width, self.textUsername.frame.size.height);
 }
 
 - (void)didReceiveMemoryWarning
@@ -73,6 +81,10 @@
 
 - (void)viewDidUnload {
 //    [self setButtonLogin:nil];
+    [self setImageViewBackground:nil];
+    [self setImageViewIcon:nil];
+    [self setLabelUsername:nil];
+    [self setLabelPassword:nil];
     [super viewDidUnload];
 }
 
@@ -111,6 +123,8 @@
     // 显示提示信息
     if (flagLogin == NO) {
         labelMessage.text = message;
+        
+        NSLog([NSString stringWithFormat: @"%f", self.labelMessage.frame.origin.y], nil);
     } else {
         labelMessage.text = @"";
         
