@@ -124,7 +124,7 @@
     if (flagLogin == NO) {
         labelMessage.text = message;
         
-        NSLog([NSString stringWithFormat: @"%f", self.labelMessage.frame.origin.y], nil);
+//        NSLog([NSString stringWithFormat: @"%f", self.labelMessage.frame.origin.y], nil);
     } else {
         labelMessage.text = @"";
         

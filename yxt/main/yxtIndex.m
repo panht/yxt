@@ -7,6 +7,7 @@
 //
 
 #import "yxtIndex.h"
+#import "yxtIndex1.h"
 
 @interface yxtIndex ()
 
