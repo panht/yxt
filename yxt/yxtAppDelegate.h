@@ -13,17 +13,16 @@
 @class yxtLogin;
 
 @interface yxtAppDelegate : UIResponder <UIApplicationDelegate>
-//{
-//    UIWindow *window;
-//    yxtLoginSwitch * loginSwitch;
-//}
+
+@property (strong, nonatomic) NSString *userId;
+@property (strong, nonatomic) NSString *schoolNo;
+// 登录类型，1教师，2家长，3，双角色，4学生
+@property (strong, nonatomic) NSString *loginType;
+@property (strong, nonatomic) NSString *token;
+
 
 @property (nonatomic, strong) UIWindow *window;
-//@property (nonatomic, strong) yxtLoginSwitch *loginSwitch;
-//@property (strong, nonatomic) yxtIndex *index;
-
 @property (strong, nonatomic) IBOutlet UIViewController *login;
-
 @property (strong, nonatomic) IBOutlet UITabBarController *index;
 
 -(void)showIndex;
