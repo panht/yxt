@@ -11,5 +11,12 @@
 @interface yxtUtil : NSObject
 
 -(BOOL) checkNetwork;
+-(NSString*) setRequestInfo:(NSString *)action :(NSString *)pageIndex :(NSString *)pageSize;
+-(NSString*) setIdentifyInfo;
+-(NSString*) getResponseInfo;
+-(NSString*) getIdentifyInfo;
+-(NSString*) getData;
+
+-(NSString*) md5:(NSString *) input;
 
 @end
