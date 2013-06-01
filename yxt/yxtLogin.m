@@ -8,6 +8,7 @@
 
 #import "yxtLogin.h"
 #import "yxtAppDelegate.h"
+#import "yxtUtil.h"
 
 @interface yxtLogin ()
 
@@ -48,6 +49,9 @@
     // 背景图及Logo
 //    UIImage *imageBackground = [UIImage imageWithContentsOfFile:@"background"];
     self.imageViewBackground.frame = CGRectMake(0, 0, screenWidth, screenHeight);
+    // 添加点击关闭键盘事件
+    UITapGestureRecognizer *backgroundTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backgroundTap:)];
+    [self.imageViewBackground addGestureRecognizer:backgroundTap];
 //    UIImage *imageIcon = [UIImage imageWithContentsOfFile:@"Icon"];
 //    self.imageViewIcon.frame = CGRectMake((screenWidth - imageIcon.size.width) / 2, 40, imageIcon.size.width, imageIcon.size.height);
     
@@ -74,8 +78,8 @@
 }
 
 - (IBAction)backgroundTap:(id)sender {
-//    [textUsername resignFirstResponder];
-//    [textPassword resignFirstResponder];
+    [textUsername resignFirstResponder];
+    [textPassword resignFirstResponder];
     [self.view endEditing: NO];
 }
 
@@ -93,9 +97,6 @@
     Boolean flagLogin = YES;
     NSString *message;
     
-    // TODO 检查网络连接
-    
-    
     // 检查用户名密码是否为空
     if ([self.textUsername.text isEqualToString:@""])
     {
@@ -107,6 +108,13 @@
         message = @"请输入密码";
         flagLogin = NO;
     }
+    
+    // TODO 检查网络连接
+    yxtUtil *util = [yxtUtil new];
+    [util checkNetwork];
+    
+    // 验证用户名密码
+    
     
     // 检查用户名密码是否正确
     if (flagLogin == YES && ![self.textUsername.text isEqualToString:@"12345"])

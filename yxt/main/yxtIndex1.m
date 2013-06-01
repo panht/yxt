@@ -7,17 +7,19 @@
 //
 
 #import "yxtIndex1.h"
+#import "yxtList1.h"
 
 @interface yxtIndex1 ()
 
 @end
 
 @implementation yxtIndex1
+
 @synthesize button1;
 @synthesize button2;
 @synthesize button3;
 @synthesize button4;
-@synthesize button5;
+@synthesize list1;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -30,21 +32,36 @@
     return self;
 }
 
+- (IBAction)button1Touch:(id)sender {
+    /*
+    self.list1 = [[yxtList1 alloc] initWithNibName:@"yxtList1" bundle:nil];
+    [self addChildViewController:self.list1];
+    [self willMoveToParentViewController:nil];
+    [self transitionFromViewController:self toViewController:self.list1 duration:1 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{} completion:^(BOOL finished){
+        [self removeFromParentViewController];
+        [self.list1 didMoveToParentViewController:self];
+    }];*/
+}
+
+- (IBAction)button2Touch:(id)sender {
+}
+
+- (IBAction)button3Touch:(id)sender {
+}
+
+- (IBAction)button4Touch:(id)sender {
+}
+
 // 创建图标
 - (void) createIcons
 {
-    // 区分中小学版和幼教版
     // 中小学版第一屏【家校互动】：通知公告、家庭作业、成绩信息、日常表现
     // 中小学版第二屏【交流园地】：班级成员、翼聊、爱城市、天翼景象、家校微博、名师大讲堂
     // 中小学版第三屏【特色应用】：集团应用调用
-    // 幼教版第一屏【家校互动】：幼教通知、幼园活动、营养配餐、疫情通知、成长寄语
-    // 幼教版第二屏【交流园地】：班级成员、活动靓照、宝宝视频、家校微博
-    // 幼教版第三屏【特色应用】：集团应用调用
     self.button1.frame = CGRectMake(self.button1.frame.origin.x, self.button1.frame.origin.y, self.button1.frame.size.width, self.button1.frame.size.height);
     self.button2.frame = CGRectMake(self.button1.frame.origin.x + 100, self.button1.frame.origin.y, self.button1.frame.size.width, self.button1.frame.size.height);
     self.button3.frame = CGRectMake(self.button2.frame.origin.x + 100, self.button1.frame.origin.y, self.button1.frame.size.width, self.button1.frame.size.height);
     self.button4.frame = CGRectMake(self.button1.frame.origin.x, self.button1.frame.origin.y + 100, self.button1.frame.size.width, self.button1.frame.size.height);
-    self.button5.hidden = YES;
     
     [self.button1 addTarget:self action:@selector(openList) forControlEvents:UIControlEventTouchUpInside];
 }
@@ -73,7 +90,8 @@
     [self setButton3:nil];
     [self setButton3:nil];
     [self setButton4:nil];
-    [self setButton5:nil];
+    [self setButton3:nil];
+    [self setButton1:nil];
     [super viewDidUnload];
 }
 @end

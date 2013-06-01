@@ -20,15 +20,10 @@
 
 - (IBAction)login:(id)sender;
 - (IBAction)closeKeyboard:(id)sender;
+- (IBAction)backgroundTap:(id)sender;    
 - (void)resettle;
 - (void)readDefaults;
 
 
 @end
-//@property (strong, nonatomic) IBOutlet UIImageView *imageViewBackground;
-//@property (strong, nonatomic) IBOutlet UIImageView *imageViewLogo;
-//@property (strong, nonatomic) IBOutlet UILabel *labelUsername;
-//@property (strong, nonatomic) IBOutlet UILabel *labelPassword;
-
-//- (IBAction)backgroundTap:(id)sender;
 

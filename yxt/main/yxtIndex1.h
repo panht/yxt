@@ -8,14 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
-@interface yxtIndex1 : UIViewController
+@class yxtList1;
 
+@interface yxtIndex1 : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIButton *button1;
 @property (weak, nonatomic) IBOutlet UIButton *button2;
 @property (weak, nonatomic) IBOutlet UIButton *button3;
 @property (weak, nonatomic) IBOutlet UIButton *button4;
-@property (weak, nonatomic) IBOutlet UIButton *button5;
+
+- (IBAction)button1Touch:(id)sender;
+- (IBAction)button2Touch:(id)sender;
+- (IBAction)button3Touch:(id)sender;
+- (IBAction)button4Touch:(id)sender;
+
+@property (strong, nonatomic) IBOutlet UIViewController *list1;
 
 - (void) createIcons;
 - (void) openList;

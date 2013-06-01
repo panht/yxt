@@ -23,6 +23,7 @@
 //@property (strong, nonatomic) yxtIndex *index;
 
 @property (strong, nonatomic) IBOutlet UIViewController *login;
+
 @property (strong, nonatomic) IBOutlet UITabBarController *index;
 
 -(void)showIndex;
