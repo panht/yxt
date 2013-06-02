@@ -70,7 +70,7 @@
 					<object class="IBUIButton" id="926615003">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{30, 84}, {72, 72}}</string>
+						<string key="NSFrame">{{30, 79}, {72, 72}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSNextKeyView" ref="897477363"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -104,7 +104,7 @@
 					<object class="IBUILabel" id="799680765">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{30, 165}, {72, 21}}</string>
+						<string key="NSFrame">{{30, 160}, {72, 21}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSNextKeyView" ref="423811476"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -128,7 +128,7 @@
 					<object class="IBUIButton" id="897477363">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{124, 84}, {72, 72}}</string>
+						<string key="NSFrame">{{124, 79}, {72, 72}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSNextKeyView" ref="957951033"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -153,7 +153,7 @@
 					<object class="IBUILabel" id="423811476">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{140, 165}, {40, 21}}</string>
+						<string key="NSFrame">{{140, 160}, {40, 21}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSNextKeyView" ref="231845443"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -173,7 +173,7 @@
 					<object class="IBUIButton" id="957951033">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{218, 84}, {72, 72}}</string>
+						<string key="NSFrame">{{218, 79}, {72, 72}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSNextKeyView" ref="799680765"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -198,7 +198,7 @@
 					<object class="IBUILabel" id="231845443">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{225, 165}, {58, 21}}</string>
+						<string key="NSFrame">{{225, 160}, {58, 21}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSNextKeyView" ref="282151739"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -218,7 +218,7 @@
 					<object class="IBUIButton" id="282151739">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{30, 199}, {72, 72}}</string>
+						<string key="NSFrame">{{30, 194}, {72, 72}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSNextKeyView" ref="2560360"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -243,7 +243,7 @@
 					<object class="IBUILabel" id="882463900">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{34, 279}, {72, 21}}</string>
+						<string key="NSFrame">{{34, 274}, {72, 21}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSNextKeyView" ref="203681454"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -263,7 +263,7 @@
 					<object class="IBUIButton" id="2560360">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{124, 199}, {72, 72}}</string>
+						<string key="NSFrame">{{124, 194}, {72, 72}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSNextKeyView" ref="648926747"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -288,7 +288,7 @@
 					<object class="IBUILabel" id="203681454">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{128, 279}, {72, 21}}</string>
+						<string key="NSFrame">{{128, 274}, {72, 21}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSNextKeyView" ref="350038065"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -308,7 +308,7 @@
 					<object class="IBUIButton" id="648926747">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{218, 198}, {72, 72}}</string>
+						<string key="NSFrame">{{218, 193}, {72, 72}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSNextKeyView" ref="882463900"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -333,7 +333,7 @@
 					<object class="IBUILabel" id="350038065">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{217, 278}, {85, 21}}</string>
+						<string key="NSFrame">{{217, 273}, {85, 21}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
@@ -352,7 +352,7 @@
 					<object class="IBUIImageView" id="190704190">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{30, 5}, {260, 69}}</string>
+						<string key="NSFrame">{{10, 5}, {301, 58}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSNextKeyView" ref="926615003"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -367,7 +367,6 @@
 				</array>
 				<string key="NSFrame">{{0, 20}, {320, 460}}</string>
 				<reference key="NSSuperview"/>
-				<reference key="NSNextKeyView"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
 					<bytes key="NSWhite">MQA</bytes>

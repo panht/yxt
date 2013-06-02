@@ -19,4 +19,19 @@
 @property (weak, nonatomic) IBOutlet UITabBar *tabBar;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 
+@property (weak, nonatomic) IBOutlet UIButton *button1;
+@property (weak, nonatomic) IBOutlet UIButton *button2;
+@property (weak, nonatomic) IBOutlet UIButton *button3;
+@property (weak, nonatomic) UIBarButtonItem *item1;
+@property (weak, nonatomic) UIBarButtonItem *item2;
+@property (weak, nonatomic) UIBarButtonItem *item3;
+@property (weak, nonatomic) UIImage *image11;
+@property (weak, nonatomic) UIImage *image12;
+@property (weak, nonatomic) UIImage *image21;
+@property (weak, nonatomic) UIImage *image22;
+@property (weak, nonatomic) UIImage *image31;
+@property (weak, nonatomic) UIImage *image32;
+
+-(void) setButton;
+
 @end

@@ -23,6 +23,18 @@
 @synthesize tabCurrent;
 @synthesize navBar;
 @synthesize toolbar;
+@synthesize button1;
+@synthesize button2;
+@synthesize button3;
+@synthesize item1;
+@synthesize item2;
+@synthesize item3;
+@synthesize image11;
+@synthesize image12;
+@synthesize image21;
+@synthesize image22;
+@synthesize image31;
+@synthesize image32;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -51,7 +63,7 @@
     x = 0;
     y = self.navBar.frame.size.height;
     width = self.view.frame.size.width;
-    height = self.view.frame.size.height - y - self.toolbar.frame.size.height;
+    height = self.view.frame.size.height - y - self.navBar.frame.size.height;
     self.tab1.view.frame = CGRectMake(x, y, width, height);
     self.tab2.view.frame = CGRectMake(x, y, width, height);
     self.tab3.view.frame = CGRectMake(x, y, width, height);
@@ -59,22 +71,7 @@
     // 显示第一个视图
     [self.view addSubview:self.tab1.view];
     self.tabCurrent = self.tab1;
-    
-    // 设置工具栏按钮宽度、文字及绑定事件
-    UIBarButtonItem *item1, *item2, *item3;
-    item1 = [self.toolbar.items objectAtIndex:0];
-    item2 = [self.toolbar.items objectAtIndex:1];
-    item3 = [self.toolbar.items objectAtIndex:2];
-    item1.width = self.view.frame.size.width / 3;
-    item2.width = item1.width;
-    item3.width = item1.width;
-    item1.title = @"家校互动";
-    item2.title = @"校园交流";
-    item3.title = @"特色应用";
-    
-    [item1 setAction:@selector(item1Tapped:)];
-    [item2 setAction:@selector(item2Tapped:)];
-    [item3 setAction:@selector(item3Tapped:)];
+    [self setButton];
 }
 
 -(void) item1Tapped:(id)sender
@@ -84,6 +81,9 @@
         }  completion:^(BOOL finished) {
             if (finished) {
                 self.tabCurrent = self.tab1;
+                [self.button1 setBackgroundImage:self.image12 forState:UIControlStateNormal];
+                [self.button2 setBackgroundImage:self.image21 forState:UIControlStateNormal];
+                [self.button3 setBackgroundImage:self.image31 forState:UIControlStateNormal];
             }
         }];
     }
@@ -96,6 +96,9 @@
         }  completion:^(BOOL finished) {
             if (finished) {
                 self.tabCurrent = self.tab2;
+                [self.button1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
+                [self.button2 setBackgroundImage:self.image22 forState:UIControlStateNormal];
+                [self.button3 setBackgroundImage:self.image31 forState:UIControlStateNormal];
             }
         }];
     }
@@ -108,9 +111,109 @@
         }  completion:^(BOOL finished) {
             if (finished) {
                 self.tabCurrent = self.tab3;
+                [self.button1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
+                [self.button2 setBackgroundImage:self.image21 forState:UIControlStateNormal];
+                [self.button3 setBackgroundImage:self.image32 forState:UIControlStateNormal];
             }
         }];
     }
+}
+
+// 设置工具栏按钮宽度、文字及绑定事件
+-(void) setButton {
+    // 设置背景图
+    //    self.item1.title = @"家校互动";
+    //    self.item2.title = @"校园交流";
+    //    self.item3.title = @"特色应用";
+    self.image11 = [UIImage imageNamed:@"indextab11.png"];
+    self.image12 = [UIImage imageNamed:@"indextab12.png"];
+    self.image21 = [UIImage imageNamed:@"indextab21.png"];
+    self.image22 = [UIImage imageNamed:@"indextab22.png"];
+    self.image31 = [UIImage imageNamed:@"indextab31.png"];
+    self.image32 = [UIImage imageNamed:@"indextab32.png"];
+    [self.button1 setBackgroundImage:self.image12 forState:UIControlStateNormal];
+    [self.button2 setBackgroundImage:self.image21 forState:UIControlStateNormal];
+    [self.button3 setBackgroundImage:self.image31 forState:UIControlStateNormal];
+    
+    // 重画按钮
+    int x, y, width, height;
+    x = 0;
+    y = self.view.frame.size.height - self.navBar.frame.size.height;
+    width  = self.view.frame.size.width / 3;
+    height = self.navBar.frame.size.height;
+    self.button1.frame = CGRectMake(x, y, width, height);
+    self.button2.frame = CGRectMake(x + width, y, width, height);
+    self.button3.frame = CGRectMake(x + width * 2, y, width, height);
+    
+    // 点击事件
+    [self.button1 addTarget:self action:@selector(item1Tapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.button2 addTarget:self action:@selector(item2Tapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.button3 addTarget:self action:@selector(item3Tapped:) forControlEvents:UIControlEventTouchUpInside];
+    
+    // 手势事件
+    UISwipeGestureRecognizer *recognizer;
+    recognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeFrom:)];
+    [recognizer setDirection:(UISwipeGestureRecognizerDirectionRight)];
+    [[self view] addGestureRecognizer:recognizer];
+    
+    recognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeFrom:)];
+    [recognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
+    [[self view] addGestureRecognizer:recognizer];
+}
+
+-(void)handleSwipeFrom:(UISwipeGestureRecognizer *)recognizer{
+    if(recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
+        if (self.tabCurrent == self.tab1) {
+            
+        } else if (self.tabCurrent == self.tab2) {
+            [self transitionFromViewController:self.tabCurrent toViewController:self.tab1 duration:1 options:UIViewAnimationOptionTransitionNone animations:^{
+            }  completion:^(BOOL finished) {
+                if (finished) {
+                    self.tabCurrent = self.tab1;
+                    [self.button1 setBackgroundImage:self.image12 forState:UIControlStateNormal];
+                    [self.button2 setBackgroundImage:self.image21 forState:UIControlStateNormal];
+                    [self.button3 setBackgroundImage:self.image31 forState:UIControlStateNormal];
+                }
+            }];
+            
+        } else if (self.tabCurrent == self.tab3) {
+            [self transitionFromViewController:self.tabCurrent toViewController:self.tab2 duration:1 options:UIViewAnimationOptionTransitionNone animations:^{
+            }  completion:^(BOOL finished) {
+                if (finished) {
+                    self.tabCurrent = self.tab2;
+                    [self.button1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
+                    [self.button2 setBackgroundImage:self.image22 forState:UIControlStateNormal];
+                    [self.button3 setBackgroundImage:self.image31 forState:UIControlStateNormal];
+                }
+            }];
+        }
+    }
+    
+    if(recognizer.direction == UISwipeGestureRecognizerDirectionLeft) {
+        if (self.tabCurrent == self.tab1) {
+            [self transitionFromViewController:self.tabCurrent toViewController:self.tab2 duration:1 options:UIViewAnimationOptionTransitionNone animations:^{
+            }  completion:^(BOOL finished) {
+                if (finished) {
+                    self.tabCurrent = self.tab2;
+                    [self.button1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
+                    [self.button2 setBackgroundImage:self.image22 forState:UIControlStateNormal];
+                    [self.button3 setBackgroundImage:self.image31 forState:UIControlStateNormal];
+                }
+            }];
+        } else if (self.tabCurrent == self.tab2) {
+            [self transitionFromViewController:self.tabCurrent toViewController:self.tab3 duration:1 options:UIViewAnimationOptionTransitionNone animations:^{
+            }  completion:^(BOOL finished) {
+                if (finished) {
+                    self.tabCurrent = self.tab3;
+                    [self.button1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
+                    [self.button2 setBackgroundImage:self.image21 forState:UIControlStateNormal];
+                    [self.button3 setBackgroundImage:self.image32 forState:UIControlStateNormal];
+                }
+            }];
+        } else if (self.tabCurrent == self.tab3) {
+        }
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -122,6 +225,9 @@
 - (void)viewDidUnload {
     [self setNavBar:nil];
     [self setToolbar:nil];
+    [self setButton1:nil];
+    [self setButton2:nil];
+    [self setButton3:nil];
     [super viewDidUnload];
 }
 @end
