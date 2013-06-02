@@ -6,12 +6,12 @@
 //  Copyright (c) 2013年 com.landwing.yxt. All rights reserved.
 //
 
-#import "yxtIndex2.h"
+#import "yxtTab2.h"
 
-@interface yxtIndex2()
+@interface yxtTab2()
 @end
 
-@implementation yxtIndex2
+@implementation yxtTab2
 
 @synthesize button1;
 @synthesize button2;

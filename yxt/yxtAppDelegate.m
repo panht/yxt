@@ -7,8 +7,8 @@
 //
 
 #import "yxtAppDelegate.h"
-#import "yxtIndex.h"
 #import "yxtLogin.h"
+#import "yxtWelcome.h"
 
 @implementation yxtAppDelegate
 
@@ -19,15 +19,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
-    // 默认打开tab视图
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-     //Override point for customization after application launch.
-//    [[NSBundle mainBundle] loadNibNamed:@"yxtIndex" owner:self options:nil];
-//    [self.window addSubview:self.index.view];
-//    self.window.rootViewController = self.index;
-//    self.window.backgroundColor = [UIColor whiteColor];
-    
     // 默认打开登录视图
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.login = [[yxtLogin alloc] initWithNibName:@"yxtLogin" bundle:nil];
     self.window.rootViewController = self.login;
     
@@ -65,17 +58,12 @@
 
 - (void) showIndex
 {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    [[NSBundle mainBundle] loadNibNamed:@"yxtIndex" owner:self options:nil];
+//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.index = [[yxtWelcome alloc] initWithNibName:@"yxtWelcome" bundle:nil];
+//    [[NSBundle mainBundle] loadNibNamed:@"yxtWelcome" owner:self options:nil];
     self.window.rootViewController = self.index;
     [self.window addSubview:self.index.view];
     [self.window makeKeyAndVisible];
 }
-
-//- (void)dealloc {
-//    [self.window release];
-//    [self.login release];
-//    [super dealloc];
-//}
 
 @end

@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import "yxtLoginSwitch.h"
 
 @class yxtIndex;
 @class yxtLogin;
@@ -23,7 +22,7 @@
 
 @property (nonatomic, strong) UIWindow *window;
 @property (strong, nonatomic) IBOutlet UIViewController *login;
-@property (strong, nonatomic) IBOutlet UITabBarController *index;
+@property (strong, nonatomic) IBOutlet UIViewController *index;
 
 -(void)showIndex;
 

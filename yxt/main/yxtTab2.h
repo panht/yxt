@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface yxtIndex2 : UIViewController
+@interface yxtTab2 : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIButton *button1;
 @property (weak, nonatomic) IBOutlet UIButton *button2;

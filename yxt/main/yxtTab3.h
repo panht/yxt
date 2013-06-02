@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface yxtIndex3 : UIViewController
+@interface yxtTab3 : UIViewController
 
 @end

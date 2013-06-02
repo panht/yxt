@@ -1,13 +1,13 @@
 //
-//  yxtInfoList.h
+//  yxtForm1.h
 //  yxt
 //
-//  Created by pht on 13-4-19.
+//  Created by world ask on 13-6-1.
 //  Copyright (c) 2013年 com.landwing.yxt. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface yxtInfoList : UIViewController
+@interface yxtForm1 : UIViewController
 
 @end

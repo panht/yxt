@@ -1,18 +1,18 @@
 //
-//  yxtInfoList.m
+//  yxtForm1.m
 //  yxt
 //
-//  Created by pht on 13-4-19.
+//  Created by world ask on 13-6-1.
 //  Copyright (c) 2013年 com.landwing.yxt. All rights reserved.
 //
 
-#import "yxtInfoList.h"
+#import "yxtForm1.h"
 
-@interface yxtInfoList ()
+@interface yxtForm1 ()
 
 @end
 
-@implementation yxtInfoList
+@implementation yxtForm1
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -26,6 +26,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view from its nib.
 }
 

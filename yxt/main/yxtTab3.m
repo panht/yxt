@@ -6,13 +6,13 @@
 //  Copyright (c) 2013年 com.landwing.yxt. All rights reserved.
 //
 
-#import "yxtIndex3.h"
+#import "yxtTab3.h"
 
-@interface yxtIndex3 ()
+@interface yxtTab3 ()
 
 @end
 
-@implementation yxtIndex3
+@implementation yxtTab3
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
