@@ -12,12 +12,31 @@
 
 @implementation yxtAppDelegate
 
+@synthesize urlService;
+@synthesize urlHead;
+@synthesize urlFile;
+@synthesize ThreeDesKey;
+@synthesize userId;
+@synthesize schoolNo;
+@synthesize loginType;
+@synthesize token;
+@synthesize headerimg;
+
 @synthesize window;
 @synthesize index;
 @synthesize login;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    self.urlService = @"http://218.66.79.162:20083/yxtandroidservice/iphoneservice.aspx";
+    self.urlHead = @"http://218.66.79.162:20083/Files/HeadImage/";
+    self.urlFile = @"http://218.66.79.162:20083/Files/homework/";
+    self.ThreeDesKey = @"FC64332F412EAA1BA8E98011C06504C19B9C5BCEB94DB708";
+    
+    self.userId = @"";
+    self.schoolNo = @"";
+    self.loginType = @"";
+    self.token = @"";
     
     // 默认打开登录视图
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

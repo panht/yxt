@@ -5,7 +5,7 @@
 //  Created by world ask on 13-6-2.
 //  Copyright (c) 2013年 com.landwing.yxt. All rights reserved.
 //
-
+#import "yxtAppDelegate.h"
 #import "yxtWelcome.h"
 #import "yxtTab1.h"
 #import "yxtTab2.h"
@@ -22,19 +22,16 @@
 @synthesize tab3;
 @synthesize tabCurrent;
 @synthesize navBar;
-@synthesize toolbar;
 @synthesize button1;
 @synthesize button2;
 @synthesize button3;
-@synthesize item1;
-@synthesize item2;
-@synthesize item3;
 @synthesize image11;
 @synthesize image12;
 @synthesize image21;
 @synthesize image22;
 @synthesize image31;
 @synthesize image32;
+@synthesize imageHead;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -72,6 +69,17 @@
     [self.view addSubview:self.tab1.view];
     self.tabCurrent = self.tab1;
     [self setButton];
+    
+    // 设置头像
+    yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
+    NSURL *url = [NSURL URLWithString:[[NSString alloc] initWithFormat:@"%@%@", app.urlHead, app.headerimg]];
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    if (data != NULL) {
+        // 要判断头像图片是否存在
+        UIImage *aimage = [[UIImage alloc] initWithData:data];
+        self.imageHead.image = aimage;
+        [self.imageHead setNeedsDisplay];
+    }
 }
 
 -(void) item1Tapped:(id)sender
@@ -122,9 +130,9 @@
 // 设置工具栏按钮宽度、文字及绑定事件
 -(void) setButton {
     // 设置背景图
-    //    self.item1.title = @"家校互动";
-    //    self.item2.title = @"校园交流";
-    //    self.item3.title = @"特色应用";
+    //    self.button1.title = @"家校互动";
+    //    self.button2.title = @"校园交流";
+    //    self.button3.title = @"特色应用";
     self.image11 = [UIImage imageNamed:@"indextab11.png"];
     self.image12 = [UIImage imageNamed:@"indextab12.png"];
     self.image21 = [UIImage imageNamed:@"indextab21.png"];
@@ -223,11 +231,20 @@
 }
 
 - (void)viewDidUnload {
+    [self setTab1:nil];
+    [self setTab2:nil];
+    [self setTab3:nil];
     [self setNavBar:nil];
-    [self setToolbar:nil];
     [self setButton1:nil];
     [self setButton2:nil];
     [self setButton3:nil];
+    [self setImage11:nil];
+    [self setImage12:nil];
+    [self setImage21:nil];
+    [self setImage22:nil];
+    [self setImage31:nil];
+    [self setImage32:nil];
+    [self setImageHead:nil];
     [super viewDidUnload];
 }
 @end

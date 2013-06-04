@@ -9,6 +9,8 @@
 #import "yxtLogin.h"
 #import "yxtAppDelegate.h"
 #import "yxtUtil.h"
+#import "ThreeDES.h"
+#import "MBProgressHUD.h"
 
 @interface yxtLogin ()
 
@@ -35,6 +37,7 @@
     
     // 重新排放控件
     [self resettle];
+    
     
 //    [self.view endEditing:YES];
 }
@@ -94,6 +97,13 @@
 
 // 登录事件
 - (IBAction)login:(id)sender {
+    // loading
+    MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view addSubview:HUD];
+    [HUD show:YES];
+//    sleep(1);
+    
+//    yxtAppDelegate *app = [[UIApplication sharedApplication] delegate];
     Boolean flagLogin = YES;
     NSString *message;
     
@@ -110,42 +120,81 @@
     }
     
     // TODO 检查网络连接
-    yxtUtil *util = [yxtUtil new];
-    [util checkNetwork];
+    [yxtUtil checkNetwork];
+    
+    
+    NSString *identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
+    // TODO 检查版本
+//    NSString *dataVer = @"";
+//    NSString *requestInfoVer = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"ver" :@"0" :@"0" :identityInfo :dataVer]];
+//    NSDictionary *dataResponseVer = [yxtUtil getResponse:requestInfoVer :identityInfo :dataVer];
     
     // 验证用户名密码
+    // TODO 3DES加密，
+//    NSString *pwd = [ThreeDES encrypt:self.textPassword.text withKey:app.ThreeDesKey];
+    NSString *pwd = @"/uNkSKHfSh8=";
+//    NSString *pwd = self.textPassword.text;
+    NSString *data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"logintype\":\"\", \"account\":\"%@\", \"pwd\":\"%@\"}]", self.textUsername.text, pwd]];
+    NSString *requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"login" :@"0" :@"0" :identityInfo :data]];
+    NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
     
-    
-    // 检查用户名密码是否正确
-    if (flagLogin == YES && ![self.textUsername.text isEqualToString:@"12345"])
-    {
-        message = @"用户名不存在";
-        flagLogin = NO;
-    }
-    if (flagLogin == YES && ![self.textPassword.text isEqualToString:@"1"])
-    {
-        message = @"密码错误";
-        flagLogin = NO;
-    }
-    
-    // 显示提示信息
-    if (flagLogin == NO) {
-        labelMessage.text = message;
+    // 如果返回成功代码
+    NSError *error;
+    NSDictionary* jsonResult;
+    if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"1"]) {
+        yxtAppDelegate *app = (yxtAppDelegate *)[[UIApplication sharedApplication] delegate];
         
-//        NSLog([NSString stringWithFormat: @"%f", self.labelMessage.frame.origin.y], nil);
-    } else {
-        labelMessage.text = @"";
+        NSString *result = [dataResponse objectForKey:@"data"];
+        NSData *dataResult = [result dataUsingEncoding:NSUTF8StringEncoding];
+        jsonResult = [NSJSONSerialization JSONObjectWithData:dataResult
+                                                     options:kNilOptions
+                                                       error:&error];
+        
+        
+        
+        // 保存全局变量
+        [app setLoginType:[jsonResult objectForKey:@"logintype"]];
+        
+        // TODO 登录类型为3，暂时自动重新登录，要改为弹出选择角色界面
+        if ([[jsonResult objectForKey:@"logintype"] isEqualToString: @"3"]) {
+            [app setLoginType:@"1"];
+            identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
+            data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"logintype\":\"\", \"account\":\"%@\", \"pwd\":\"%@\"}]", self.textUsername.text, pwd]];
+            requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"login" :@"0" :@"0" :identityInfo :data]];
+            dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
+
+            if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"1"]) {
+                result = [dataResponse objectForKey:@"data"];
+                dataResult = [result dataUsingEncoding:NSUTF8StringEncoding];
+                jsonResult = [NSJSONSerialization JSONObjectWithData:dataResult
+                                                             options:kNilOptions
+                                                               error:&error];
+//                NSLog(@"result=%@", identityInfo);
+            }
+        }
+        
+        // 保存全局变量
+        [app setHeaderimg:[jsonResult objectForKey:@"headerimg"]];
+        [app setUserId:[jsonResult objectForKey:@"userid"]];
+        [app setSchoolNo:[jsonResult objectForKey:@"schoolserno"]];
+        [app setToken:[jsonResult objectForKey:@"token"]];
         
         // 保存用户名密码
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults setValue:self.textUsername.text forKey: @"username"];
         [userDefaults setValue:self.textPassword.text forKey: @"password"];
-
+        
         // 跳转到入口界面
         [self.view removeFromSuperview];
-        yxtAppDelegate *app = (yxtAppDelegate *)[[UIApplication sharedApplication] delegate];
         [app showIndex];
+        //        NSLog(@"resultdata: %@", [jsonResult objectForKey:@"logintype"]);
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:[dataResponse objectForKey:@"resultdes"] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
     }
+    
+    [HUD hide:YES];
+//    [HUD removeFromSuperview];
 }
 
 // 从本地存储读取用户名密码

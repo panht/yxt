@@ -5,7 +5,6 @@
 //  Created by world ask on 13-5-31.
 //  Copyright (c) 2013年 com.landwing.yxt. All rights reserved.
 //
-
 #import "yxtTab1.h"
 #import "yxtList1.h"
 
@@ -46,6 +45,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
 }
 
 - (void)didReceiveMemoryWarning

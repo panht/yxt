@@ -8,79 +8,50 @@
 
 #import "yxtUtil.h"
 #import "yxtAppDelegate.h"
+//#import "GTMBase64.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <netdb.h>
 #import <CommonCrypto/CommonDigest.h>
+#import <Security/Security.h>
+
+//#define kChosenDigestLength     CC_SHA1_DIGEST_LENGTH
+//
+//#define DESKEY @"D6D2402F1C98E208FF2E863AA29334BD65AE1932A821502D9E5673CDE3C713ACFE53E2103CD40ED6BEBB101B484CAE83D537806C6CB611AEE86ED2CA8C97BBE95CF8476066D419E8E833376B850172107844D394016715B2E47E0A6EECB3E83A361FA75FA44693F90D38C6F62029FCD8EA395ED868F9D718293E9C0E63194E87"
 
 
 @implementation yxtUtil
 
--(NSString*) setRequestInfo: (NSString *)action :(NSString *)pageIndex :(NSString *)pageSize
+// 请求参数requestinfo
++(NSString*) setRequestInfo: (NSString *)action :(NSString *)pageIndex :(NSString *)pageSize :(NSString *)identityInfo :(NSString *)data
 {
+    
     NSDateFormatter *nsdf2 = [[NSDateFormatter alloc] init];
     [nsdf2 setDateStyle:NSDateFormatterShortStyle];
     [nsdf2 setDateFormat:@"YYYYMMddHHmmssSSS"];
     NSString *serialnum = [nsdf2 stringFromDate:[NSDate date]];
-//    long serialnum = [t2 longLongValue];    
+    
     
     long long timestamp = [[[NSDate alloc] init] timeIntervalSince1970];
     NSString *strTimestamp = [NSString stringWithFormat:@"%lld", timestamp];
     
-    NSString *authentication = [[NSString alloc] init];
-    authentication = [self md5:[action stringByAppendingString: [serialnum stringByAppendingString: [pageIndex stringByAppendingString: [pageSize stringByAppendingString: strTimestamp]]]]];
+    NSString *authentication = [[NSString alloc] initWithString:[self md5:[NSString stringWithFormat:@"%@%@%@%@%@%@%@", action, serialnum, pageIndex, pageSize, strTimestamp, identityInfo, data]]];
     
-    NSString *result = [[NSString alloc] init];
-    result = @"{\"action\":\"";
-    [result stringByAppendingString: action];
-    [result stringByAppendingString: @"\",\"serialnum\":\""];
-    [result stringByAppendingString: serialnum];
-    [result stringByAppendingString: @"\",\"pageindex\":\""];
-    [result stringByAppendingString: pageIndex];
-    [result stringByAppendingString: @"\",\"pagesize\":\""];
-    [result stringByAppendingString: pageSize];
-    [result stringByAppendingString: @"\",\"timestamp\":\""];
-    [result stringByAppendingString: strTimestamp];
-    [result stringByAppendingString: @"\",\"authentication\":\""];
-    [result stringByAppendingString: authentication];
-    [result stringByAppendingString: @"\"}"];
+    NSString *result = [[NSString alloc] initWithString:[NSString stringWithFormat:@"{\"action\":\"%@\",\"serialnum\":\"%@\",\"pageindex\":\"%@\",\"pagesize\":\"%@\",\"timestamp\":\"%@\",\"authentication\":\"%@\"}", action, serialnum, pageIndex, pageSize, strTimestamp, authentication]];
     
-    NSLog(result);
     return result;
 }
--(NSString*) setIdentifyInfo
+
+// 请求参数identityInfo
++(NSString*) setIdentityInfo
 {
     yxtAppDelegate *app = [[UIApplication sharedApplication] delegate];
     
-    NSString *result = [[NSString alloc] init];
-    result = @"{\"curruserid\":\"";
-    [result stringByAppendingString: app.userId];
-    [result stringByAppendingString: @"\",\"schoolserno\":\""];
-    [result stringByAppendingString: app.schoolNo];
-    [result stringByAppendingString: @"\",\"logintype\":\""];
-    [result stringByAppendingString: app.loginType];
-    [result stringByAppendingString: @"\",\"token\":\""];
-    [result stringByAppendingString: app.token];
-    [result stringByAppendingString: @"\"}"];
+    NSString *result = [[NSString alloc] initWithString: [NSString stringWithFormat:@"{\"curruserid\":\"%@\",\"schoolserno\":\"%@\",\"logintype\":\"%@\",\"token\":\"%@\"}", app.userId, app.schoolNo, app.loginType, app.token]];
     
     return result;
 }
 
--(NSString*) getResponseInfo
-{
-    return @"111";
-}
-
--(NSString*) getIdentifyInfo
-{
-    return @"111";
-}
-
--(NSString*) getData
-{
-    return @"111";
-}
-
-- (NSString *) md5:(NSString *) input
++(NSString *) md5:(NSString *) input
 {
     const char *cStr = [input UTF8String];
     unsigned char digest[16];
@@ -94,8 +65,52 @@
     return  output;
 }
 
+// 从服务器返回结果数据集
++(NSDictionary*) getResponse:(NSString *)requestInfo :(NSString *)identityInfo :(NSString *)data {
+    yxtAppDelegate *app = [[UIApplication sharedApplication] delegate];
+    
+    requestInfo = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) requestInfo, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
+    identityInfo = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) identityInfo, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
+    data = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) data, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
+    NSString *postURL = [[NSString alloc] initWithFormat:@"RequestInfo=%@&IdentityInfo=%@&data=%@", requestInfo, identityInfo, data];
+    
+//    NSLog(@"postURL: %@", postURL);
+    // 向服务器提交请求，并得到返回数据
+    NSData *postData = [postURL dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:app.urlService]];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:postData];
+    //[NSURLConnection connectionWithRequest:request delegate:self ];
+    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    
+    // 返回数据转json
+    NSError* error;
+    NSDictionary* json = [NSJSONSerialization JSONObjectWithData:responseData 
+                                                         options:kNilOptions
+                                                           error:&error];
+    // responseinfo段再转json
+//    NSString* responseinfo = [json objectForKey:@"responseinfo"];
+//    NSData *dataResponseinfo = [responseinfo dataUsingEncoding:NSUTF8StringEncoding];
+//    NSDictionary* jsonResponseinfo = [NSJSONSerialization JSONObjectWithData:dataResponseinfo
+//                                                         options:kNilOptions
+//                                                           error:&error];
+    
+    // 返回数据
+    NSString *resultData = [json objectForKey:@"resultdata"];
+    NSData *dataResultData = [resultData dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary* jsonResultData = [NSJSONSerialization JSONObjectWithData:dataResultData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+    NSLog(@"resultdata = %@", resultData);
+    return jsonResultData;
+}
+
 // 检查网络连接
--(BOOL) checkNetwork
++(BOOL) checkNetwork
 {
     struct sockaddr_in zeroAddress;
     bzero(&zeroAddress, sizeof(zeroAddress));
