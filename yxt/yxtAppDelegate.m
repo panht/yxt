@@ -16,7 +16,10 @@
 @synthesize urlHead;
 @synthesize urlFile;
 @synthesize ThreeDesKey;
+
+@synthesize action;
 @synthesize userId;
+@synthesize username;
 @synthesize schoolNo;
 @synthesize loginType;
 @synthesize token;

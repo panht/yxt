@@ -13,7 +13,7 @@
 
 
 @property (nonatomic, strong) UIWindow *window;
-@property (strong, nonatomic) IBOutlet UIViewController *list1;
+@property (strong, nonatomic) IBOutlet yxtList1 *list1;
 
 - (IBAction)btn1Tapped:(id)sender;
 - (IBAction)btn2Tapped:(id)sender;

@@ -176,6 +176,7 @@
         // 保存全局变量
         [app setHeaderimg:[jsonResult objectForKey:@"headerimg"]];
         [app setUserId:[jsonResult objectForKey:@"userid"]];
+        [app setUsername:[jsonResult objectForKey:@"username"]];
         [app setSchoolNo:[jsonResult objectForKey:@"schoolserno"]];
         [app setToken:[jsonResult objectForKey:@"token"]];
         

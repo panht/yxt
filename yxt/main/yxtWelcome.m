@@ -32,6 +32,7 @@
 @synthesize image31;
 @synthesize image32;
 @synthesize imageHead;
+@synthesize username;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -70,7 +71,7 @@
     self.tabCurrent = self.tab1;
     [self setButton];
     
-    // 设置头像
+    // 设置头像、名字
     yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
     NSURL *url = [NSURL URLWithString:[[NSString alloc] initWithFormat:@"%@%@", app.urlHead, app.headerimg]];
     NSData *data = [NSData dataWithContentsOfURL:url];
@@ -80,6 +81,7 @@
         self.imageHead.image = aimage;
         [self.imageHead setNeedsDisplay];
     }
+    self.username.text = app.username;
 }
 
 -(void) item1Tapped:(id)sender
@@ -245,6 +247,7 @@
     [self setImage31:nil];
     [self setImage32:nil];
     [self setImageHead:nil];
+    [self setUsername:nil];
     [super viewDidUnload];
 }
 @end

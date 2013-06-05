@@ -18,7 +18,9 @@
 @property (strong, nonatomic) NSString *urlFile;
 @property (strong, nonatomic) NSString *ThreeDesKey;
 
+@property (strong, nonatomic) NSString *action;
 @property (strong, nonatomic) NSString *userId;
+@property (strong, nonatomic) NSString *username;
 @property (strong, nonatomic) NSString *schoolNo;
 // 登录类型，1教师，2家长，3，双角色，4学生
 @property (strong, nonatomic) NSString *loginType;

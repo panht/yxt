@@ -7,6 +7,7 @@
 //
 
 #import "yxtList1.h"
+#import "yxtDetail1.h"
 #import "yxtAppDelegate.h"
 #import "yxtUtil.h"
 
@@ -16,7 +17,11 @@
 
 @implementation yxtList1
 
+@synthesize action;
+@synthesize pageIndex;
+@synthesize pageSize;
 @synthesize tableView1;
+@synthesize navTitle;
 @synthesize dataSource;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -24,45 +29,69 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        [self loadData];
     }
+    
     return self;
+}
+
+- (IBAction)homeTapped:(id)sender {
+    [self.view removeFromSuperview];
+}
+
+- (IBAction)backTapped:(id)sender {
+    [self.view removeFromSuperview];
 }
 
 - (void) loadData {
     yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
+    self.pageIndex = @"1";
+    self.pageSize = @"8";
+    
+    // 判断action
+    NSString *requestInfo;
+    NSString *identityInfo;
+    NSString *data;
+    
+//    self.action = @"bulletin";
+    identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
+    if ([self.action isEqualToString:@"bulletin"]) {
+        self.navTitle.text = @"|通知公告|列表信息";
+        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.userId]];
+        requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:self.action :self.pageIndex :self.pageSize :identityInfo :data]];
+    } else if ([self.action isEqualToString:@"homework"]) {
+        self.navTitle.text = @"|家庭作业|列表信息";
+        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.userId]];
+        requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:self.action :self.pageIndex :self.pageSize :identityInfo :data]];
+    } else if ([self.action isEqualToString:@"selectExam"]) {
+        self.navTitle.text = @"|成绩信息|列表信息";
+        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"examType\":\"0\"}]"]];
+        requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:self.action :self.pageIndex :self.pageSize :identityInfo :data]];
+    } else if ([self.action isEqualToString:@"reviews"]) {
+        self.navTitle.text = @"|日常表现|列表信息";
+        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userid\":\"%@\", \"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.loginType, app.userId]];
+        requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:self.action :self.pageIndex :self.pageSize :identityInfo :data]];
+    }
     
     // 从服务端获取数据
-    NSString *identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-    NSString *data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.userId]];
-    NSString *requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"bulletin" :@"0" :@"5" :identityInfo :data]];
+//    NSLog(@"%@", requestInfo);
+//        NSLog(@"%@", identityInfo);
+//        NSLog(@"%@", data);
     NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
     
-//    NSLog(@"%@", requestInfo);
-//    NSLog(@"%@", identityInfo);
-//    NSLog(@"%@", data);
-    // 如果返回成功代码
-//    NSError *error;
-//    NSDictionary* jsonResult;
     if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
-        NSString *list = @"{\"list\":[{\"msg_title\":\"测试通知11111111\",\"rec_date\":\"2012-11-28 11:10:35\"},{\"msg_title\":\"学校通知学生\",\"rec_date\":\"2012-11-28 10:23:09\"},{\"msg_title\":\"学校通知家长\",\"rec_date\":\"2012-11-28 10:22:52\"},{\"msg_title\":\"教师通知班级通知\",\"rec_date\":\"2012-11-7 15:27:15\"},{\"msg_title\":\"测试通知\",\"rec_date\":\"2012-11-1 10:55:18\"},{\"msg_title\":\"学校通知学生\",\"rec_date\":\"2012-11-28 10:23:09\"},{\"msg_title\":\"学校通知家长\",\"rec_date\":\"2012-11-28 10:22:52\"},{\"msg_title\":\"教师通知班级通知\",\"rec_date\":\"2012-11-7 15:27:15\"},{\"msg_title\":\"测试通知\",\"rec_date\":\"2012-11-1 10:55:18\"},{\"msg_title\":\"学校通知学生\",\"rec_date\":\"2012-11-28 10:23:09\"},{\"msg_title\":\"学校通知家长\",\"rec_date\":\"2012-11-28 10:22:52\"},{\"msg_title\":\"教师通知班级通知\",\"rec_date\":\"2012-11-7 15:27:15\"},{\"msg_title\":\"测试通知\",\"rec_date\":\"2012-11-1 10:55:18\"},{\"msg_title\":\"学校通知学生\",\"rec_date\":\"2012-11-28 10:23:09\"},{\"msg_title\":\"学校通知家长\",\"rec_date\":\"2012-11-28 10:22:52\"},{\"msg_title\":\"教师通知班级通知\",\"rec_date\":\"2012-11-7 15:27:15\"},{\"msg_title\":\"测试通知\",\"rec_date\":\"2012-11-1 10:55:18\"},{\"msg_title\":\"学校通知学生\",\"rec_date\":\"2012-11-28 10:23:09\"},{\"msg_title\":\"学校通知家长\",\"rec_date\":\"2012-11-28 10:22:52\"},{\"msg_title\":\"教师通知班级通知\",\"rec_date\":\"2012-11-7 15:27:15\"},{\"msg_title\":\"测试通知\",\"rec_date\":\"2012-11-1 10:55:18\"}]}";
-//        
-        
-        NSData *dataList = [list dataUsingEncoding:NSUTF8StringEncoding];
+        NSData *dataList = [[dataResponse objectForKey:@"data"] dataUsingEncoding:NSUTF8StringEncoding];
         NSError *error;
         NSDictionary *jsonList = [NSJSONSerialization JSONObjectWithData:dataList
                                                                    options:kNilOptions
                                                                      error:&error];
         
         NSArray *data = [jsonList objectForKey:@"list"];
+        self.dataSource = data;
 
 //        for(int i=0; i < [data count]; i++) {
 //            NSLog(@"value%d : %@", i, [data objectAtIndex:i]);
 //        }
         
-        self.dataSource = data;
-//        NSLog(@"data: %@", self.dataSource);
-
     }
 }
 
@@ -71,29 +100,74 @@
 //}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return [self.pageSize intValue];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {    
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                       reuseIdentifier:CellIdentifier];
+//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+//                                       reuseIdentifier:CellIdentifier];
+        cell=[[UITableViewCell alloc] initWithFrame: CGRectMake(0, 0, 300, 65)];
     }
     
-//    NSLog(@"%i", indexPath.row);
-//    NSLog(@"%@", [self.dataSource objectAtIndex:indexPath.row]);
-    NSDictionary *row = [self.dataSource objectAtIndex:indexPath.row];
-    cell.textLabel.text = [row objectForKey:@"msg_title"];
+    if (indexPath.row < [self.dataSource count]) {
+        NSString *title1, *title2;
+        if ([self.action isEqualToString:@"bulletin"]) {
+            title1 = @"msg_title";
+            title2 = @"rec_date";
+        } else if ([self.action isEqualToString:@"homework"]) {
+            title1 = @"course_name";
+            title2 = @"rec_date";
+        } else if ([self.action isEqualToString:@"selectExam"]) {
+            title1 = @"msg_title";
+            title2 = @"rec_date";
+        } else if ([self.action isEqualToString:@"reviews"]) {
+            title1 = @"title";
+            title2 = @"announce_date";
+        }
+
+        
+        // 显示标题
+        NSDictionary *row = [self.dataSource objectAtIndex:indexPath.row];  
+        UILabel *title = [[UILabel alloc] initWithFrame: CGRectMake(5, 5, 250, 15)];
+        title.text = [row objectForKey:title1];
+        [cell.contentView addSubview:title];
+    
+        // 显示时间
+        UILabel *date = [[UILabel alloc] initWithFrame: CGRectMake(5, 26, 200, 15)];
+        date.text = [row objectForKey:title2];
+        date.font = [UIFont boldSystemFontOfSize:12];
+        [cell.contentView addSubview:date];
+    }
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row < [self.dataSource count]) {
+        yxtDetail1 *detail1 = [[yxtDetail1 alloc] initWithNibName:@"yxtDetail1" bundle:[NSBundle mainBundle]];
+        detail1.pageIndex = [NSString stringWithFormat:@"%d", indexPath.row + 1];
+        detail1.pageSize = @"1";
+        detail1.action = [NSString stringWithFormat:@"%@Content", self.action];
+        //    [self.navigationController pushViewController:detail1 animated:YES];
+        
+        //    UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+        [topWindow addSubview: detail1.view];
+        [topWindow makeKeyAndVisible];
+    }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.tableView1.sectionFooterHeight = 0;
+    self.tableView1.sectionHeaderHeight = 0;
     // Do any additional setup after loading the view from its nib.
+    
+    [self loadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -104,6 +178,8 @@
 
 - (void)viewDidUnload {
     [self setTableView1:nil];
+    [self setTitle:nil];
+    [self setNavTitle:nil];
     [super viewDidUnload];
 }
 @end

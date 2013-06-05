@@ -26,6 +26,7 @@
 @property (weak, nonatomic) UIImage *image31;
 @property (weak, nonatomic) UIImage *image32;
 @property (weak, nonatomic) IBOutlet UIImageView *imageHead;
+@property (weak, nonatomic) IBOutlet UILabel *username;
 
 -(void) setButton;
 

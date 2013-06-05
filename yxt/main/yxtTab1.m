@@ -7,6 +7,7 @@
 //
 #import "yxtTab1.h"
 #import "yxtList1.h"
+#import "yxtAppDelegate.h"
 
 @interface yxtTab1 ()
 
@@ -58,22 +59,74 @@
     [super viewDidUnload];
 }
 
-- (IBAction)btn1Tapped:(id)sender {
-    self.list1 = [[yxtList1 alloc] initWithNibName:@"yxtList1" bundle:nil];
+- (IBAction)btn1Tapped:(id)sender {    
+    // 设置action
+//    yxtAppDelegate *app = (yxtAppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    //[[NSBundle mainBundle] loadNibNamed:@"yxtIndex" owner:self options:nil];
-    //window.rootViewController = self.index;
-    [self.window addSubview:self.list1.view];
-    [self.window makeKeyAndVisible];
+    self.list1 = [[yxtList1 alloc] initWithNibName:@"yxtList1" bundle:[NSBundle mainBundle]];
+    [self.list1 setAction:@"bulletin"];
+    
+    // 设置子视图高度
+    int x, y, width, height;
+    x = 0;
+    y = 0;
+    width = self.parentViewController.view.frame.size.width;
+    height = self.parentViewController.view.frame.size.height;
+    self.list1.view.frame = CGRectMake(x, y, width, height);
+    
+    UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+    [topWindow addSubview:self.list1.view];
+    [topWindow makeKeyAndVisible];
 }
 
 - (IBAction)btn2Tapped:(id)sender {
+    self.list1 = [[yxtList1 alloc] initWithNibName:@"yxtList1" bundle:[NSBundle mainBundle]];
+    [self.list1 setAction:@"homework"];
+    
+    // 设置子视图高度
+    int x, y, width, height;
+    x = 0;
+    y = 0;
+    width = self.parentViewController.view.frame.size.width;
+    height = self.parentViewController.view.frame.size.height;
+    self.list1.view.frame = CGRectMake(x, y, width, height);
+    
+    UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+    [topWindow addSubview:self.list1.view];
+    [topWindow makeKeyAndVisible];
 }
 
 - (IBAction)btn3Tapped:(id)sender {
+    self.list1 = [[yxtList1 alloc] initWithNibName:@"yxtList1" bundle:[NSBundle mainBundle]];
+    [self.list1 setAction:@"selectExam"];
+    
+    // 设置子视图高度
+    int x, y, width, height;
+    x = 0;
+    y = 0;
+    width = self.parentViewController.view.frame.size.width;
+    height = self.parentViewController.view.frame.size.height;
+    self.list1.view.frame = CGRectMake(x, y, width, height);
+    
+    UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+    [topWindow addSubview:self.list1.view];
+    [topWindow makeKeyAndVisible];
 }
 
 - (IBAction)btn4Tapped:(id)sender {
+    self.list1 = [[yxtList1 alloc] initWithNibName:@"yxtList1" bundle:[NSBundle mainBundle]];
+    [self.list1 setAction:@"reviews"];
+    
+    // 设置子视图高度
+    int x, y, width, height;
+    x = 0;
+    y = 0;
+    width = self.parentViewController.view.frame.size.width;
+    height = self.parentViewController.view.frame.size.height;
+    self.list1.view.frame = CGRectMake(x, y, width, height);
+    
+    UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+    [topWindow addSubview:self.list1.view];
+    [topWindow makeKeyAndVisible];
 }
 @end
