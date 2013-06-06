@@ -22,7 +22,6 @@
 - (IBAction)homeTapped:(id)sender;
 - (IBAction)backTapped:(id)sender;
 
-
 -(void) loadData;
 
 @end

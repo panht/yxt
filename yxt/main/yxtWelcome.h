@@ -29,5 +29,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *username;
 
 -(void) setButton;
+-(void) openFormUser;
 
 @end

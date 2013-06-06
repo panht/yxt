@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @class yxtList1;
-@interface yxtTab1 : UIViewController
 
+@interface yxtTab1 : UIViewController
 
 @property (nonatomic, strong) UIWindow *window;
 @property (strong, nonatomic) IBOutlet yxtList1 *list1;

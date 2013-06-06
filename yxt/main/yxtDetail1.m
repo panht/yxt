@@ -28,9 +28,13 @@
     }
     return self;
 }
+
+
 - (IBAction)homeTapped:(id)sender {
+    UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+    UIView *list1View = [topWindow viewWithTag:300];
     [self.view removeFromSuperview];
-    
+    [list1View removeFromSuperview];
 }
 
 - (IBAction)backTapped:(id)sender {
@@ -97,7 +101,6 @@
     [self setLabelTitle:nil];
     [self setLabelTime:nil];
     [self setLabelContent:nil];
-    [self setNavTitle:nil];
     [self setNavTitle:nil];
     [super viewDidUnload];
 }

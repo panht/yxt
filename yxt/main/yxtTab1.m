@@ -75,6 +75,7 @@
     self.list1.view.frame = CGRectMake(x, y, width, height);
     
     UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+    self.list1.view.tag = 300;
     [topWindow addSubview:self.list1.view];
     [topWindow makeKeyAndVisible];
 }
@@ -92,6 +93,7 @@
     self.list1.view.frame = CGRectMake(x, y, width, height);
     
     UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+    self.list1.view.tag = 300;
     [topWindow addSubview:self.list1.view];
     [topWindow makeKeyAndVisible];
 }
@@ -109,6 +111,7 @@
     self.list1.view.frame = CGRectMake(x, y, width, height);
     
     UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+    self.list1.view.tag = 300;
     [topWindow addSubview:self.list1.view];
     [topWindow makeKeyAndVisible];
 }
@@ -126,6 +129,7 @@
     self.list1.view.frame = CGRectMake(x, y, width, height);
     
     UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+    self.list1.view.tag = 300;
     [topWindow addSubview:self.list1.view];
     [topWindow makeKeyAndVisible];
 }

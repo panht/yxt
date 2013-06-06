@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class yxtDetail1;
+
 @interface yxtList1 : UIViewController <UITableViewDelegate, UITableViewDataSource>
+
+@property (strong, nonatomic) IBOutlet yxtDetail1 *detail1;
 
 @property (strong, nonatomic) NSString *action;
 @property (strong, nonatomic) NSString *pageSize;

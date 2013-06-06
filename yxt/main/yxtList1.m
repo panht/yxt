@@ -20,7 +20,7 @@
 @synthesize action;
 @synthesize pageIndex;
 @synthesize pageSize;
-@synthesize tableView1;
+//@synthesize tableView1;
 @synthesize navTitle;
 @synthesize dataSource;
 
@@ -147,16 +147,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row < [self.dataSource count]) {
-        yxtDetail1 *detail1 = [[yxtDetail1 alloc] initWithNibName:@"yxtDetail1" bundle:[NSBundle mainBundle]];
-        detail1.pageIndex = [NSString stringWithFormat:@"%d", indexPath.row + 1];
-        detail1.pageSize = @"1";
-        detail1.action = [NSString stringWithFormat:@"%@Content", self.action];
-        //    [self.navigationController pushViewController:detail1 animated:YES];
-        
-        //    UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        self.detail1 = [[yxtDetail1 alloc] initWithNibName:@"yxtDetail1" bundle:[NSBundle mainBundle]];
+        self.detail1.pageIndex = [NSString stringWithFormat:@"%d", indexPath.row + 1];
+        self.detail1.pageSize = @"1";
+        self.detail1.action = [NSString stringWithFormat:@"%@Content", self.action];
         UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
-        [topWindow addSubview: detail1.view];
-        [topWindow makeKeyAndVisible];
+        self.detail1.view.tag = 400;
+        [topWindow addSubview: self.detail1.view];
     }
 }
 
@@ -177,8 +174,9 @@
 }
 
 - (void)viewDidUnload {
+    NSLog(@"aaaaa bbbbb");
     [self setTableView1:nil];
-    [self setTitle:nil];
+//    [self setTitle:nil];
     [self setNavTitle:nil];
     [super viewDidUnload];
 }

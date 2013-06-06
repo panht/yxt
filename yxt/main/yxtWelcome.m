@@ -10,6 +10,7 @@
 #import "yxtTab1.h"
 #import "yxtTab2.h"
 #import "yxtTab3.h"
+#import "yxtFormUser.h"
 
 @interface yxtWelcome ()
 
@@ -82,6 +83,26 @@
         [self.imageHead setNeedsDisplay];
     }
     self.username.text = app.username;
+    
+    // 点击头像打开更新用户信息界面
+    UITapGestureRecognizer *headTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(openFormUser)];
+    [self.imageHead addGestureRecognizer:headTap];
+}
+
+-(void) openFormUser{
+    yxtFormUser *formUser = [[yxtFormUser alloc] initWithNibName:@"yxtFormUser" bundle:[NSBundle mainBundle]];
+    
+    // 设置子视图高度
+//    int x, y, width, height;
+//    x = 0;
+//    y = 0;
+//    width = self.parentViewController.view.frame.size.width;
+//    height = self.parentViewController.view.frame.size.height;
+//    self.list1.view.frame = CGRectMake(x, y, width, height);
+    
+    UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+    [topWindow addSubview: formUser.view];
+    [topWindow makeKeyAndVisible];
 }
 
 -(void) item1Tapped:(id)sender
@@ -171,6 +192,7 @@
     [[self view] addGestureRecognizer:recognizer];
 }
 
+// 左右滑动手势
 -(void)handleSwipeFrom:(UISwipeGestureRecognizer *)recognizer{
     if(recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
         if (self.tabCurrent == self.tab1) {

@@ -34,6 +34,8 @@
 		F289AA98175EEE1D000A0556 /* yxtDetail1.xib in Resources */ = {isa = PBXBuildFile; fileRef = F289AA96175EEE1D000A0556 /* yxtDetail1.xib */; };
 		F289AA9B175F0A8E000A0556 /* back1.png in Resources */ = {isa = PBXBuildFile; fileRef = F289AA99175F0A8E000A0556 /* back1.png */; };
 		F289AA9C175F0A8E000A0556 /* home1.png in Resources */ = {isa = PBXBuildFile; fileRef = F289AA9A175F0A8E000A0556 /* home1.png */; };
+		F289AAA0175F3609000A0556 /* yxtFormUser.m in Sources */ = {isa = PBXBuildFile; fileRef = F289AA9E175F3607000A0556 /* yxtFormUser.m */; };
+		F289AAA1175F3609000A0556 /* yxtFormUser.xib in Resources */ = {isa = PBXBuildFile; fileRef = F289AA9F175F3608000A0556 /* yxtFormUser.xib */; };
 		F28C9792172145B4009D8F1C /* index1BtnGrade.png in Resources */ = {isa = PBXBuildFile; fileRef = F28C978E172145B4009D8F1C /* index1BtnGrade.png */; };
 		F28C9793172145B4009D8F1C /* index1BtnMessage.png in Resources */ = {isa = PBXBuildFile; fileRef = F28C978F172145B4009D8F1C /* index1BtnMessage.png */; };
 		F28C9794172145B4009D8F1C /* index1BtnNotice.png in Resources */ = {isa = PBXBuildFile; fileRef = F28C9790172145B4009D8F1C /* index1BtnNotice.png */; };
@@ -103,6 +105,9 @@
 		F289AA96175EEE1D000A0556 /* yxtDetail1.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = yxtDetail1.xib; sourceTree = "<group>"; };
 		F289AA99175F0A8E000A0556 /* back1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back1.png; sourceTree = "<group>"; };
 		F289AA9A175F0A8E000A0556 /* home1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home1.png; sourceTree = "<group>"; };
+		F289AA9D175F3606000A0556 /* yxtFormUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yxtFormUser.h; sourceTree = "<group>"; };
+		F289AA9E175F3607000A0556 /* yxtFormUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = yxtFormUser.m; sourceTree = "<group>"; };
+		F289AA9F175F3608000A0556 /* yxtFormUser.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = yxtFormUser.xib; sourceTree = "<group>"; };
 		F28C978E172145B4009D8F1C /* index1BtnGrade.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = index1BtnGrade.png; sourceTree = "<group>"; };
 		F28C978F172145B4009D8F1C /* index1BtnMessage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = index1BtnMessage.png; sourceTree = "<group>"; };
 		F28C9790172145B4009D8F1C /* index1BtnNotice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = index1BtnNotice.png; sourceTree = "<group>"; };
@@ -295,6 +300,9 @@
 				F2FC66CE175B264C0076F50E /* yxtWelcome.h */,
 				F2FC66CF175B264C0076F50E /* yxtWelcome.m */,
 				F2FC66D0175B264C0076F50E /* yxtWelcome.xib */,
+				F289AA9D175F3606000A0556 /* yxtFormUser.h */,
+				F289AA9E175F3607000A0556 /* yxtFormUser.m */,
+				F289AA9F175F3608000A0556 /* yxtFormUser.xib */,
 			);
 			path = main;
 			sourceTree = "<group>";
@@ -388,6 +396,7 @@
 				F289AA98175EEE1D000A0556 /* yxtDetail1.xib in Resources */,
 				F289AA9B175F0A8E000A0556 /* back1.png in Resources */,
 				F289AA9C175F0A8E000A0556 /* home1.png in Resources */,
+				F289AAA1175F3609000A0556 /* yxtFormUser.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -413,6 +422,7 @@
 				F2788ABC175A4FFF001AD094 /* yxtForm1.m in Sources */,
 				F2FC66D1175B264D0076F50E /* yxtWelcome.m in Sources */,
 				F289AA97175EEE1D000A0556 /* yxtDetail1.m in Sources */,
+				F289AAA0175F3609000A0556 /* yxtFormUser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
