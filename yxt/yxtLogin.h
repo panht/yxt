@@ -20,9 +20,11 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonLogin;
 @property (weak, nonatomic) IBOutlet UILabel *labelMessage;
 
-- (IBAction)login:(id)sender;
+- (IBAction)loginTapped:(id)sender;
 - (IBAction)closeKeyboard:(id)sender;
-//- (IBAction)backgroundTap:(id)sender;    
+//- (IBAction)backgroundTap:(id)sender;
+- (void) login:(NSString *)requestInfo :(NSString *)identityInfo :(NSString *)data;
+- (void) checkVersion;
 - (void)resettle;
 - (void)readDefaults;
 

@@ -183,8 +183,15 @@
     requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"logout" :@"0" :@"0" :identityInfo :data]];
     [yxtUtil getResponse:requestInfo :identityInfo :data];
     
-    // 跳转到登录界面
     yxtAppDelegate *app = [[UIApplication sharedApplication] delegate];
+    [app setLoginType:@""];
+    [app setHeaderimg:@""];
+    [app setUserId:@""];
+    [app setUsername:@""];
+    [app setSchoolNo:@""];
+    [app setToken:@""];
+    
+    // 跳转到登录界面
     [app showLogin];
     [self.view removeFromSuperview];
 }
