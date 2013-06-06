@@ -17,7 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *navTitle;
 @property (weak, nonatomic) IBOutlet UILabel *labelTitle;
 @property (weak, nonatomic) IBOutlet UILabel *labelTime;
-@property (weak, nonatomic) IBOutlet UILabel *labelContent;
+@property (weak, nonatomic) IBOutlet UITextView *labelContent;
 
 - (IBAction)homeTapped:(id)sender;
 - (IBAction)backTapped:(id)sender;

@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "yxtViewControllerBase.h"
 
-@interface yxtForm1 : UIViewController
+@interface yxtForm1 : yxtViewControllerBase
 
 @end

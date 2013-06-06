@@ -60,9 +60,6 @@
     }
     
     // 从服务端获取数据
-//    NSLog(@"%@", requestInfo);
-//    NSLog(@"%@", identityInfo);
-//    NSLog(@"%@", data);
     NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
     
     if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {

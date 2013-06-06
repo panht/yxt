@@ -45,6 +45,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.login = [[yxtLogin alloc] initWithNibName:@"yxtLogin" bundle:nil];
     self.window.rootViewController = self.login;
+    self.login.view.tag = 100;
     
     [self.window makeKeyAndVisible];
     
@@ -78,12 +79,22 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+- (void) showLogin
+{
+    self.login = [[yxtLogin alloc] initWithNibName:@"yxtLogin" bundle:nil];
+    self.window.rootViewController = self.login;
+    self.login.view.tag = 100;
+    [self.window addSubview:self.login.view];
+    [self.window makeKeyAndVisible];
+}
+
 - (void) showIndex
 {
 //    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.index = [[yxtWelcome alloc] initWithNibName:@"yxtWelcome" bundle:nil];
 //    [[NSBundle mainBundle] loadNibNamed:@"yxtWelcome" owner:self options:nil];
     self.window.rootViewController = self.index;
+    self.index.view.tag = 200;
     [self.window addSubview:self.index.view];
     [self.window makeKeyAndVisible];
 }

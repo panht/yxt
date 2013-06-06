@@ -8,8 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@class yxtForm;
+@class yxtFormUser;
+
 @interface yxtWelcome : UIViewController
 
+@property (strong, nonatomic) yxtForm *form;
+@property (strong, nonatomic) yxtFormUser *formUser;
 @property (strong, nonatomic) UIViewController *tab1;
 @property (strong, nonatomic) UIViewController *tab2;
 @property (strong, nonatomic) UIViewController *tab3;
@@ -28,7 +33,10 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageHead;
 @property (weak, nonatomic) IBOutlet UILabel *username;
 
+- (IBAction)logout:(id)sender;
+
 -(void) setButton;
+-(void) openForm: (NSString *)nibName;
 -(void) openFormUser;
 
 @end

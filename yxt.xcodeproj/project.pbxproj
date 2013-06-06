@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F27499BC17608374008F62A7 /* yxtViewControllerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = F27499BB17608374008F62A7 /* yxtViewControllerBase.m */; };
+		F27499C1176085E8008F62A7 /* back1.png in Resources */ = {isa = PBXBuildFile; fileRef = F27499BF176085E8008F62A7 /* back1.png */; };
+		F27499C2176085E8008F62A7 /* home1.png in Resources */ = {isa = PBXBuildFile; fileRef = F27499C0176085E8008F62A7 /* home1.png */; };
+		F27499C41760862E008F62A7 /* iconLogin.png in Resources */ = {isa = PBXBuildFile; fileRef = F27499C31760862E008F62A7 /* iconLogin.png */; };
+		F27499C817609106008F62A7 /* yxtForm.m in Sources */ = {isa = PBXBuildFile; fileRef = F27499C617609106008F62A7 /* yxtForm.m */; };
+		F27499C917609106008F62A7 /* yxtForm.xib in Resources */ = {isa = PBXBuildFile; fileRef = F27499C717609106008F62A7 /* yxtForm.xib */; };
+		F27499CD1760CFA8008F62A7 /* backgroundLogin.png in Resources */ = {isa = PBXBuildFile; fileRef = F27499CC1760CFA8008F62A7 /* backgroundLogin.png */; };
+		F27499CF1760CFB3008F62A7 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = F27499CE1760CFB3008F62A7 /* background.png */; };
 		F2781F5C17572A6200E1CEAF /* index2BtnYiliao.png in Resources */ = {isa = PBXBuildFile; fileRef = F2781F5B17572A6200E1CEAF /* index2BtnYiliao.png */; };
 		F2781F6117572ACC00E1CEAF /* index2BtnAcity.png in Resources */ = {isa = PBXBuildFile; fileRef = F2781F5D17572ACC00E1CEAF /* index2BtnAcity.png */; };
 		F2781F6217572ACC00E1CEAF /* index2BtnJxwb.png in Resources */ = {isa = PBXBuildFile; fileRef = F2781F5E17572ACC00E1CEAF /* index2BtnJxwb.png */; };
@@ -28,12 +36,9 @@
 		F27A3222175C85CC003CD57F /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = F27A31EF175C5276003CD57F /* GTMBase64.m */; };
 		F27A3223175C85CC003CD57F /* ThreeDES.m in Sources */ = {isa = PBXBuildFile; fileRef = F27A3221175C6B2F003CD57F /* ThreeDES.m */; };
 		F27C00DE1723E5A7006B9DBE /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F27C00DD1723E5A7006B9DBE /* Icon.png */; };
-		F27C00E01723E753006B9DBE /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = F27C00DF1723E753006B9DBE /* background.png */; };
 		F282CCAE175DC3AC00478EB3 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = F282CCAD175DBF4A00478EB3 /* MBProgressHUD.m */; };
 		F289AA97175EEE1D000A0556 /* yxtDetail1.m in Sources */ = {isa = PBXBuildFile; fileRef = F289AA95175EEE1D000A0556 /* yxtDetail1.m */; };
 		F289AA98175EEE1D000A0556 /* yxtDetail1.xib in Resources */ = {isa = PBXBuildFile; fileRef = F289AA96175EEE1D000A0556 /* yxtDetail1.xib */; };
-		F289AA9B175F0A8E000A0556 /* back1.png in Resources */ = {isa = PBXBuildFile; fileRef = F289AA99175F0A8E000A0556 /* back1.png */; };
-		F289AA9C175F0A8E000A0556 /* home1.png in Resources */ = {isa = PBXBuildFile; fileRef = F289AA9A175F0A8E000A0556 /* home1.png */; };
 		F289AAA0175F3609000A0556 /* yxtFormUser.m in Sources */ = {isa = PBXBuildFile; fileRef = F289AA9E175F3607000A0556 /* yxtFormUser.m */; };
 		F289AAA1175F3609000A0556 /* yxtFormUser.xib in Resources */ = {isa = PBXBuildFile; fileRef = F289AA9F175F3608000A0556 /* yxtFormUser.xib */; };
 		F28C9792172145B4009D8F1C /* index1BtnGrade.png in Resources */ = {isa = PBXBuildFile; fileRef = F28C978E172145B4009D8F1C /* index1BtnGrade.png */; };
@@ -69,6 +74,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F27499BA17608374008F62A7 /* yxtViewControllerBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yxtViewControllerBase.h; sourceTree = "<group>"; };
+		F27499BB17608374008F62A7 /* yxtViewControllerBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = yxtViewControllerBase.m; sourceTree = "<group>"; };
+		F27499BF176085E8008F62A7 /* back1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back1.png; sourceTree = "<group>"; };
+		F27499C0176085E8008F62A7 /* home1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home1.png; sourceTree = "<group>"; };
+		F27499C31760862E008F62A7 /* iconLogin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconLogin.png; sourceTree = "<group>"; };
+		F27499C517609105008F62A7 /* yxtForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yxtForm.h; sourceTree = "<group>"; };
+		F27499C617609106008F62A7 /* yxtForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = yxtForm.m; sourceTree = "<group>"; };
+		F27499C717609106008F62A7 /* yxtForm.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = yxtForm.xib; sourceTree = "<group>"; };
+		F27499CC1760CFA8008F62A7 /* backgroundLogin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backgroundLogin.png; sourceTree = "<group>"; };
+		F27499CE1760CFB3008F62A7 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		F2781F5B17572A6200E1CEAF /* index2BtnYiliao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = index2BtnYiliao.png; sourceTree = "<group>"; };
 		F2781F5D17572ACC00E1CEAF /* index2BtnAcity.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = index2BtnAcity.png; sourceTree = "<group>"; };
 		F2781F5E17572ACC00E1CEAF /* index2BtnJxwb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = index2BtnJxwb.png; sourceTree = "<group>"; };
@@ -97,14 +112,11 @@
 		F27A3220175C6B2F003CD57F /* ThreeDES.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ThreeDES.h; path = ../../../../../Downloads/3DE/3DE/ThreeDES.h; sourceTree = "<group>"; };
 		F27A3221175C6B2F003CD57F /* ThreeDES.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ThreeDES.m; path = ../../../../../Downloads/3DE/3DE/ThreeDES.m; sourceTree = "<group>"; };
 		F27C00DD1723E5A7006B9DBE /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
-		F27C00DF1723E753006B9DBE /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		F282CCAC175DBF4A00478EB3 /* MBProgressHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		F282CCAD175DBF4A00478EB3 /* MBProgressHUD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		F289AA94175EEE1C000A0556 /* yxtDetail1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yxtDetail1.h; sourceTree = "<group>"; };
 		F289AA95175EEE1D000A0556 /* yxtDetail1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = yxtDetail1.m; sourceTree = "<group>"; };
 		F289AA96175EEE1D000A0556 /* yxtDetail1.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = yxtDetail1.xib; sourceTree = "<group>"; };
-		F289AA99175F0A8E000A0556 /* back1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back1.png; sourceTree = "<group>"; };
-		F289AA9A175F0A8E000A0556 /* home1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home1.png; sourceTree = "<group>"; };
 		F289AA9D175F3606000A0556 /* yxtFormUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yxtFormUser.h; sourceTree = "<group>"; };
 		F289AA9E175F3607000A0556 /* yxtFormUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = yxtFormUser.m; sourceTree = "<group>"; };
 		F289AA9F175F3608000A0556 /* yxtFormUser.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = yxtFormUser.xib; sourceTree = "<group>"; };
@@ -226,8 +238,10 @@
 		F2A770511720F67500CCEE55 /* res */ = {
 			isa = PBXGroup;
 			children = (
-				F289AA99175F0A8E000A0556 /* back1.png */,
-				F289AA9A175F0A8E000A0556 /* home1.png */,
+				F27499BF176085E8008F62A7 /* back1.png */,
+				F27499CE1760CFB3008F62A7 /* background.png */,
+				F27499CC1760CFA8008F62A7 /* backgroundLogin.png */,
+				F27499C0176085E8008F62A7 /* home1.png */,
 				F2BF8927175AF62C0046FF56 /* arrow_down.png */,
 				F2BF8928175AF62C0046FF56 /* arrow_up.png */,
 				F2FC66CC175B23460076F50E /* account_ico.png */,
@@ -237,8 +251,8 @@
 				F2781F6817572F0000E1CEAF /* indextab22.png */,
 				F2781F6917572F0000E1CEAF /* indextab31.png */,
 				F2781F6A17572F0000E1CEAF /* indextab32.png */,
-				F27C00DF1723E753006B9DBE /* background.png */,
 				F27C00DD1723E5A7006B9DBE /* Icon.png */,
+				F27499C31760862E008F62A7 /* iconLogin.png */,
 				F28C979617214676009D8F1C /* index2Title.png */,
 				F28C979717214676009D8F1C /* index3Title.png */,
 				F28C979817214676009D8F1C /* index1Title.png */,
@@ -267,6 +281,8 @@
 				F282CCAD175DBF4A00478EB3 /* MBProgressHUD.m */,
 				F27A3220175C6B2F003CD57F /* ThreeDES.h */,
 				F27A3221175C6B2F003CD57F /* ThreeDES.m */,
+				F27499BA17608374008F62A7 /* yxtViewControllerBase.h */,
+				F27499BB17608374008F62A7 /* yxtViewControllerBase.m */,
 			);
 			path = utility;
 			sourceTree = "<group>";
@@ -303,6 +319,9 @@
 				F289AA9D175F3606000A0556 /* yxtFormUser.h */,
 				F289AA9E175F3607000A0556 /* yxtFormUser.m */,
 				F289AA9F175F3608000A0556 /* yxtFormUser.xib */,
+				F27499C517609105008F62A7 /* yxtForm.h */,
+				F27499C617609106008F62A7 /* yxtForm.m */,
+				F27499C717609106008F62A7 /* yxtForm.xib */,
 			);
 			path = main;
 			sourceTree = "<group>";
@@ -374,7 +393,6 @@
 				F28C979A17214676009D8F1C /* index3Title.png in Resources */,
 				F28C979B17214676009D8F1C /* index1Title.png in Resources */,
 				F27C00DE1723E5A7006B9DBE /* Icon.png in Resources */,
-				F27C00E01723E753006B9DBE /* background.png in Resources */,
 				F2B6BCA21756029300C3D37F /* yxtList1.xib in Resources */,
 				F2781F5C17572A6200E1CEAF /* index2BtnYiliao.png in Resources */,
 				F2781F6117572ACC00E1CEAF /* index2BtnAcity.png in Resources */,
@@ -394,9 +412,13 @@
 				F2FC66CD175B23460076F50E /* account_ico.png in Resources */,
 				F2FC66D2175B264D0076F50E /* yxtWelcome.xib in Resources */,
 				F289AA98175EEE1D000A0556 /* yxtDetail1.xib in Resources */,
-				F289AA9B175F0A8E000A0556 /* back1.png in Resources */,
-				F289AA9C175F0A8E000A0556 /* home1.png in Resources */,
 				F289AAA1175F3609000A0556 /* yxtFormUser.xib in Resources */,
+				F27499C1176085E8008F62A7 /* back1.png in Resources */,
+				F27499C2176085E8008F62A7 /* home1.png in Resources */,
+				F27499C41760862E008F62A7 /* iconLogin.png in Resources */,
+				F27499C917609106008F62A7 /* yxtForm.xib in Resources */,
+				F27499CD1760CFA8008F62A7 /* backgroundLogin.png in Resources */,
+				F27499CF1760CFB3008F62A7 /* background.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,6 +445,8 @@
 				F2FC66D1175B264D0076F50E /* yxtWelcome.m in Sources */,
 				F289AA97175EEE1D000A0556 /* yxtDetail1.m in Sources */,
 				F289AAA0175F3609000A0556 /* yxtFormUser.m in Sources */,
+				F27499BC17608374008F62A7 /* yxtViewControllerBase.m in Sources */,
+				F27499C817609106008F62A7 /* yxtForm.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

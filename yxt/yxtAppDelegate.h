@@ -32,6 +32,7 @@
 @property (strong, nonatomic) IBOutlet UIViewController *login;
 @property (strong, nonatomic) IBOutlet UIViewController *index;
 
+- (void) showLogin;
 -(void)showIndex;
 
 

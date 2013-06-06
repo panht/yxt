@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "yxtViewControllerBase.h"
 
-@interface yxtLogin : UIViewController
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewBackground;
+@interface yxtLogin : yxtViewControllerBase
+
+@property (weak, nonatomic) IBOutlet UIImageView *imageBackground;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewIcon;
 @property (weak, nonatomic) IBOutlet UILabel *labelUsername;
 @property (weak, nonatomic) IBOutlet UILabel *labelPassword;
@@ -20,7 +22,7 @@
 
 - (IBAction)login:(id)sender;
 - (IBAction)closeKeyboard:(id)sender;
-- (IBAction)backgroundTap:(id)sender;    
+//- (IBAction)backgroundTap:(id)sender;    
 - (void)resettle;
 - (void)readDefaults;
 

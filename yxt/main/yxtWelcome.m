@@ -6,10 +6,12 @@
 //  Copyright (c) 2013年 com.landwing.yxt. All rights reserved.
 //
 #import "yxtAppDelegate.h"
+#import "yxtUtil.h"
 #import "yxtWelcome.h"
 #import "yxtTab1.h"
 #import "yxtTab2.h"
 #import "yxtTab3.h"
+#import "yxtForm.h"
 #import "yxtFormUser.h"
 
 @interface yxtWelcome ()
@@ -85,12 +87,32 @@
     self.username.text = app.username;
     
     // 点击头像打开更新用户信息界面
-    UITapGestureRecognizer *headTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(openFormUser)];
+    UITapGestureRecognizer *headTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(openForm:)];
     [self.imageHead addGestureRecognizer:headTap];
 }
 
+// 打开通用表单
+-(void) openForm: (NSString*) nibName {
+    self.form = [[yxtForm alloc] initWithNibName:@"yxtForm" bundle:[NSBundle mainBundle]];
+    
+    self.form.xibName = @"yxtFormUser";
+    
+    // 设置子视图高度
+    int x, y, width, height;
+    x = 0;
+    y = 20;
+    width = self.view.frame.size.width;
+    height = self.view.frame.size.height;
+    self.form.view.frame = CGRectMake(x, y, width, height);
+    
+    UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+    [topWindow addSubview: self.form.view];
+    [topWindow makeKeyAndVisible];
+}
+
+// 打开用户信息编辑页
 -(void) openFormUser{
-    yxtFormUser *formUser = [[yxtFormUser alloc] initWithNibName:@"yxtFormUser" bundle:[NSBundle mainBundle]];
+    self.formUser = [[yxtFormUser alloc] initWithNibName:@"yxtFormUser" bundle:nil];
     
     // 设置子视图高度
 //    int x, y, width, height;
@@ -101,7 +123,7 @@
 //    self.list1.view.frame = CGRectMake(x, y, width, height);
     
     UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
-    [topWindow addSubview: formUser.view];
+    [topWindow addSubview: self.formUser.view];
     [topWindow makeKeyAndVisible];
 }
 
@@ -151,6 +173,22 @@
 }
 
 // 设置工具栏按钮宽度、文字及绑定事件
+- (IBAction)logout:(id)sender {
+    // 向服务器注销
+    NSString *requestInfo;
+    NSString *identityInfo;
+    NSString *data;
+    identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
+    data = [[NSString alloc] initWithString:[NSString stringWithFormat:@""]];
+    requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"logout" :@"0" :@"0" :identityInfo :data]];
+    [yxtUtil getResponse:requestInfo :identityInfo :data];
+    
+    // 跳转到登录界面
+    yxtAppDelegate *app = [[UIApplication sharedApplication] delegate];
+    [app showLogin];
+    [self.view removeFromSuperview];
+}
+
 -(void) setButton {
     // 设置背景图
     //    self.button1.title = @"家校互动";

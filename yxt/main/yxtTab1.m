@@ -69,7 +69,7 @@
     // 设置子视图高度
     int x, y, width, height;
     x = 0;
-    y = 0;
+    y = 20;
     width = self.parentViewController.view.frame.size.width;
     height = self.parentViewController.view.frame.size.height;
     self.list1.view.frame = CGRectMake(x, y, width, height);
@@ -87,7 +87,7 @@
     // 设置子视图高度
     int x, y, width, height;
     x = 0;
-    y = 0;
+    y = 20;
     width = self.parentViewController.view.frame.size.width;
     height = self.parentViewController.view.frame.size.height;
     self.list1.view.frame = CGRectMake(x, y, width, height);
@@ -105,7 +105,7 @@
     // 设置子视图高度
     int x, y, width, height;
     x = 0;
-    y = 0;
+    y = 20;
     width = self.parentViewController.view.frame.size.width;
     height = self.parentViewController.view.frame.size.height;
     self.list1.view.frame = CGRectMake(x, y, width, height);
@@ -123,7 +123,7 @@
     // 设置子视图高度
     int x, y, width, height;
     x = 0;
-    y = 0;
+    y = 20;
     width = self.parentViewController.view.frame.size.width;
     height = self.parentViewController.view.frame.size.height;
     self.list1.view.frame = CGRectMake(x, y, width, height);

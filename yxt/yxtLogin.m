@@ -18,7 +18,7 @@
 
 @implementation yxtLogin
 
-@synthesize imageViewBackground;
+//@synthesize imageBackground;
 @synthesize imageViewIcon;
 @synthesize labelUsername;
 @synthesize textUsername;
@@ -51,10 +51,10 @@
 
     // 背景图及Logo
 //    UIImage *imageBackground = [UIImage imageWithContentsOfFile:@"background"];
-    self.imageViewBackground.frame = CGRectMake(0, 0, screenWidth, screenHeight);
+    self.imageBackground.frame = CGRectMake(0, 0, screenWidth, screenHeight);
     // 添加点击关闭键盘事件
-    UITapGestureRecognizer *backgroundTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backgroundTap:)];
-    [self.imageViewBackground addGestureRecognizer:backgroundTap];
+//    UITapGestureRecognizer *backgroundTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backgroundTap:)];
+//    [self.imageViewBackground addGestureRecognizer:backgroundTap];
 //    UIImage *imageIcon = [UIImage imageWithContentsOfFile:@"Icon"];
 //    self.imageViewIcon.frame = CGRectMake((screenWidth - imageIcon.size.width) / 2, 40, imageIcon.size.width, imageIcon.size.height);
     
@@ -68,6 +68,9 @@
     self.buttonLogin.frame = CGRectMake((screenWidth - self.buttonLogin.frame.size.width) / 2, self.textPassword.frame.origin.y + 50, self.buttonLogin.frame.size.width, self.buttonLogin.frame.size.height);
     // 提示框，登录按钮下方，宽高同输入框
     self.labelMessage.frame = CGRectMake(100, self.buttonLogin.frame.origin.y + 40, self.textUsername.frame.size.width, self.textUsername.frame.size.height);
+    
+    self.textUsername.delegate = self;
+    self.textPassword.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -80,15 +83,15 @@
     [sender resignFirstResponder];
 }
 
-- (IBAction)backgroundTap:(id)sender {
-    [textUsername resignFirstResponder];
-    [textPassword resignFirstResponder];
-    [self.view endEditing: NO];
-}
+//- (IBAction)backgroundTap:(id)sender {
+////    [textUsername resignFirstResponder];
+////    [textPassword resignFirstResponder];
+//    [self.view endEditing: YES];
+//}
 
 - (void)viewDidUnload {
 //    [self setButtonLogin:nil];
-    [self setImageViewBackground:nil];
+//    [self setImageBackground:nil];
     [self setImageViewIcon:nil];
     [self setLabelUsername:nil];
     [self setLabelPassword:nil];
@@ -101,7 +104,7 @@
     MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:self.view];
     [self.view addSubview:HUD];
     [HUD show:YES];
-//    sleep(1);
+    sleep(1);
     
 //    yxtAppDelegate *app = [[UIApplication sharedApplication] delegate];
     Boolean flagLogin = YES;
@@ -150,8 +153,6 @@
                                                      options:kNilOptions
                                                        error:&error];
         
-        
-        
         // 保存全局变量
         [app setLoginType:[jsonResult objectForKey:@"logintype"]];
         
@@ -186,8 +187,8 @@
         [userDefaults setValue:self.textPassword.text forKey: @"password"];
         
         // 跳转到入口界面
-        [self.view removeFromSuperview];
         [app showIndex];
+        [self.view removeFromSuperview];
         //        NSLog(@"resultdata: %@", [jsonResult objectForKey:@"logintype"]);
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:[dataResponse objectForKey:@"resultdes"] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
@@ -195,7 +196,7 @@
     }
     
     [HUD hide:YES];
-//    [HUD removeFromSuperview];
+    [HUD removeFromSuperview];
 }
 
 // 从本地存储读取用户名密码

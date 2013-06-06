@@ -151,6 +151,15 @@
         self.detail1.pageIndex = [NSString stringWithFormat:@"%d", indexPath.row + 1];
         self.detail1.pageSize = @"1";
         self.detail1.action = [NSString stringWithFormat:@"%@Content", self.action];
+        
+        // 设置子视图高度
+        int x, y, width, height;
+        x = 0;
+        y = 20;
+        width = self.detail1.view.frame.size.width;
+        height = self.detail1.view.frame.size.height;
+        self.detail1.view.frame = CGRectMake(x, y, width, height);
+
         UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
         self.detail1.view.tag = 400;
         [topWindow addSubview: self.detail1.view];
@@ -174,7 +183,6 @@
 }
 
 - (void)viewDidUnload {
-    NSLog(@"aaaaa bbbbb");
     [self setTableView1:nil];
 //    [self setTitle:nil];
     [self setNavTitle:nil];

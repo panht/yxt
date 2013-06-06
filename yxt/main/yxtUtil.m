@@ -67,8 +67,10 @@
 
 // 从服务器返回结果数据集
 +(NSDictionary*) getResponse:(NSString *)requestInfo :(NSString *)identityInfo :(NSString *)data {
+    
     yxtAppDelegate *app = [[UIApplication sharedApplication] delegate];
     
+
     requestInfo = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) requestInfo, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
     identityInfo = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) identityInfo, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
     data = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) data, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
