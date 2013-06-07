@@ -14,6 +14,7 @@
 
 @property (nonatomic, strong) UIWindow *window;
 @property (strong, nonatomic) IBOutlet yxtList1 *list1;
+@property (weak, nonatomic) IBOutlet UIImageView *imageBackground;
 
 - (IBAction)btn1Tapped:(id)sender;
 - (IBAction)btn2Tapped:(id)sender;
@@ -22,5 +23,6 @@
 
 
 - (void) createIcons;
+- (void) showList1: (NSString *)action;
 
 @end

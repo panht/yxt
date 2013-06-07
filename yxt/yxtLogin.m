@@ -161,7 +161,7 @@
                                                        error:&error];
         
         
-        // TODO 登录类型为3，暂时自动重新登录，要改为弹出选择角色界面
+        // 登录类型为3，弹出选择角色界面
         if ([app.loginType isEqualToString:@""] && [[jsonResult objectForKey:@"logintype"] isEqualToString: @"3"]) {
             // 保存全局变量
             [app setLoginType:[jsonResult objectForKey:@"logintype"]];
@@ -184,9 +184,8 @@
             [userDefaults setValue:self.textPassword.text forKey: @"password"];
             
             // 跳转到入口界面
-            [app showIndex];
+            [app showWelcome];
             [self.view removeFromSuperview];
-            //        NSLog(@"resultdata: %@", [jsonResult objectForKey:@"logintype"]);
         }
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:[dataResponse objectForKey:@"resultdes"] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
@@ -197,20 +196,23 @@
 //定义的委托，buttonindex就是按下的按钮的index值
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     yxtAppDelegate *app = (yxtAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        if (buttonIndex == 0) {
+            [app setLoginType:@"1"];
+        } else if (buttonIndex == 1) {
+            [app setLoginType:@"2"];
+        }
+        
+        NSString *pwd = @"/uNkSKHfSh8=";
+        NSString *identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
+        NSString *data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"logintype\":\"\", \"account\":\"%@\", \"pwd\":\"%@\"}]", self.textUsername.text, pwd]];
+        NSString *requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"login" :@"0" :@"0" :identityInfo :data]];
     
-    if (buttonIndex == 0) {
-        [app setLoginType:@"1"];
-    } else if (buttonIndex == 1) {
-        [app setLoginType:@"2"];
-    }
-    
-    NSString *pwd = @"/uNkSKHfSh8=";
-    NSString *identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-    NSString *data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"logintype\":\"\", \"account\":\"%@\", \"pwd\":\"%@\"}]", self.textUsername.text, pwd]];
-    NSString *requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"login" :@"0" :@"0" :identityInfo :data]];
-    
-    NSLog(@"id: %@", identityInfo);
-    [self login: requestInfo :identityInfo : data];
+        [self login: requestInfo :identityInfo : data];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    });
 }
 
 // 版本检查

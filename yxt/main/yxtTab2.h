@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface yxtTab2 : UIViewController
+@property (weak, nonatomic) IBOutlet UIImageView *imageBackground;
 
 @property (weak, nonatomic) IBOutlet UIButton *button1;
 @property (weak, nonatomic) IBOutlet UIButton *button2;

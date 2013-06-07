@@ -68,6 +68,9 @@
     self.tab1.view.frame = CGRectMake(x, y, width, height);
     self.tab2.view.frame = CGRectMake(x, y, width, height);
     self.tab3.view.frame = CGRectMake(x, y, width, height);
+    self.tab1.imageBackground.frame = CGRectMake(x, y, width, height);
+    self.tab2.imageBackground.frame = CGRectMake(x, y, width, height);
+    
     
     // 显示第一个视图
     [self.view addSubview:self.tab1.view];

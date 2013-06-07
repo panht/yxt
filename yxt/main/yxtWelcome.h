@@ -10,14 +10,17 @@
 
 @class yxtForm;
 @class yxtFormUser;
+@class yxtTab1;
+@class yxtTab2;
+@class yxtTab3;
 
 @interface yxtWelcome : UIViewController
 
 @property (strong, nonatomic) yxtForm *form;
 @property (strong, nonatomic) yxtFormUser *formUser;
-@property (strong, nonatomic) UIViewController *tab1;
-@property (strong, nonatomic) UIViewController *tab2;
-@property (strong, nonatomic) UIViewController *tab3;
+@property (strong, nonatomic) yxtTab1 *tab1;
+@property (strong, nonatomic) yxtTab2 *tab2;
+@property (strong, nonatomic) yxtTab3 *tab3;
 @property (strong, nonatomic) UIViewController *tabCurrent;
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navBar;

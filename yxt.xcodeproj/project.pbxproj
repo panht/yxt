@@ -180,23 +180,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F2824E121761A1EC00D76C48 /* framework */ = {
-			isa = PBXGroup;
-			children = (
-				F27A31F2175C5551003CD57F /* Security.framework */,
-				F2788AB71759ABCC001AD094 /* SystemConfiguration.framework */,
-				F2788AB11759A8EB001AD094 /* QuartzCore.framework */,
-			);
-			name = framework;
-			sourceTree = "<group>";
-		};
 		F2A770221720F5FD00CCEE55 = {
 			isa = PBXGroup;
 			children = (
-				F2A770671720FA6B00CCEE55 /* main */,
-				F2824E121761A1EC00D76C48 /* framework */,
+				F2A770671720FA6B00CCEE55 /* Classes */,
 				F2A7702D1720F5FD00CCEE55 /* Frameworks */,
 				F2A7702C1720F5FD00CCEE55 /* Products */,
+				F2A770511720F67500CCEE55 /* Resouces */,
 			);
 			sourceTree = "<group>";
 		};
@@ -211,6 +201,9 @@
 		F2A7702D1720F5FD00CCEE55 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F27A31F2175C5551003CD57F /* Security.framework */,
+				F2788AB71759ABCC001AD094 /* SystemConfiguration.framework */,
+				F2788AB11759A8EB001AD094 /* QuartzCore.framework */,
 				F2A7702E1720F5FD00CCEE55 /* UIKit.framework */,
 				F2A770301720F5FD00CCEE55 /* Foundation.framework */,
 				F2A770321720F5FD00CCEE55 /* CoreGraphics.framework */,
@@ -233,9 +226,10 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
-		F2A770511720F67500CCEE55 /* res */ = {
+		F2A770511720F67500CCEE55 /* Resouces */ = {
 			isa = PBXGroup;
 			children = (
+				F2A770351720F5FD00CCEE55 /* Supporting Files */,
 				F2FC66CC175B23460076F50E /* account_ico.png */,
 				F2BF8927175AF62C0046FF56 /* arrow_down.png */,
 				F2BF8928175AF62C0046FF56 /* arrow_up.png */,
@@ -265,8 +259,8 @@
 				F2781F6917572F0000E1CEAF /* indextab31.png */,
 				F2781F6A17572F0000E1CEAF /* indextab32.png */,
 			);
-			name = res;
-			path = ../res;
+			name = Resouces;
+			path = yxt/res;
 			sourceTree = "<group>";
 		};
 		F2A770541720F7AC00CCEE55 /* utility */ = {
@@ -288,14 +282,12 @@
 			path = ../utility;
 			sourceTree = "<group>";
 		};
-		F2A770671720FA6B00CCEE55 /* main */ = {
+		F2A770671720FA6B00CCEE55 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
 				F2A770541720F7AC00CCEE55 /* utility */,
-				F2A770511720F67500CCEE55 /* res */,
 				F2A7703D1720F5FD00CCEE55 /* yxtAppDelegate.h */,
 				F2A7703E1720F5FD00CCEE55 /* yxtAppDelegate.m */,
-				F2A770351720F5FD00CCEE55 /* Supporting Files */,
 				F289AA94175EEE1C000A0556 /* yxtDetail1.h */,
 				F289AA95175EEE1D000A0556 /* yxtDetail1.m */,
 				F289AA96175EEE1D000A0556 /* yxtDetail1.xib */,
@@ -329,7 +321,7 @@
 				F2FC66CF175B264C0076F50E /* yxtWelcome.m */,
 				F2FC66D0175B264C0076F50E /* yxtWelcome.xib */,
 			);
-			name = main;
+			name = Classes;
 			path = yxt/main;
 			sourceTree = "<group>";
 		};

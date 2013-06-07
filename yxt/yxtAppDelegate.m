@@ -26,7 +26,7 @@
 @synthesize headerimg;
 
 @synthesize window;
-@synthesize index;
+@synthesize welcome;
 @synthesize login;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -88,14 +88,13 @@
     [self.window makeKeyAndVisible];
 }
 
-- (void) showIndex
+- (void) showWelcome
 {
 //    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.index = [[yxtWelcome alloc] initWithNibName:@"yxtWelcome" bundle:nil];
-//    [[NSBundle mainBundle] loadNibNamed:@"yxtWelcome" owner:self options:nil];
-    self.window.rootViewController = self.index;
-    self.index.view.tag = 200;
-    [self.window addSubview:self.index.view];
+    self.welcome = [[yxtWelcome alloc] initWithNibName:@"yxtWelcome" bundle:nil];
+    self.welcome.view.tag = 200;
+    self.window.rootViewController = self.welcome;
+    [self.window addSubview:self.welcome.view];
     [self.window makeKeyAndVisible];
 }
 

@@ -15,6 +15,10 @@
 @property (strong, nonatomic) IBOutlet yxtDetail1 *detail1;
 
 @property (strong, nonatomic) NSString *action;
+@property (strong, nonatomic) NSString *title1;
+@property (strong, nonatomic) NSString *title2;
+@property (strong, nonatomic) NSString *data;
+@property (strong, nonatomic) NSString *actionDetail;
 @property (strong, nonatomic) NSString *pageSize;
 @property (strong, nonatomic) NSString *pageIndex;
 @property (strong, nonatomic) NSArray *dataSource;
@@ -24,6 +28,7 @@
 - (IBAction)homeTapped:(id)sender;
 - (IBAction)backTapped:(id)sender;
 
--(void) loadData;
+- (void) loadData;
+- (void) setByAction: (NSString *) action;
 
 @end

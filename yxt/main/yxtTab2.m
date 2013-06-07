@@ -86,6 +86,7 @@
     [self setButton4:nil];
     [self setButton5:nil];
     [self setButton6:nil];
+    [self setImageBackground:nil];
     [super viewDidUnload];
 }
 

@@ -21,7 +21,7 @@
 //+(NSString*) getIdentityInfo;
 //+(NSString*) getData;
 +(NSDictionary*) getResponse:(NSString *)requestInfo :(NSString *)identityInfo :(NSString *)data;
-+(NSString *) createPostURL:(NSMutableDictionary *)params;
+//+(NSString *) createPostURL:(NSMutableDictionary *)params;
 //+(NSData *) getResultData: (NSMutableDictionary *)params;
 
 +(NSString*) md5:(NSString *) input;

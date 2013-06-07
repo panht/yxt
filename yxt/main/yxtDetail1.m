@@ -53,10 +53,26 @@
         NSString *identityInfo;
         NSString *data;
         
-        self.action = @"bulletinContent";
+//        self.action = @"bulletinContent";
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
         if ([self.action isEqualToString:@"bulletinContent"]) {
             self.navTitle.text = @"|通知公告|详细内容";
+            data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.userId]];
+            requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:self.action :self.pageIndex :self.pageSize :identityInfo :data]];
+        } else if ([self.action isEqualToString:@"homeworkContent"]) {
+            self.navTitle.text = @"|家庭作业|详细内容";
+            data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.userId]];
+            requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:self.action :self.pageIndex :self.pageSize :identityInfo :data]];
+        } else if ([self.action isEqualToString:@"selectExamSendMsg"]) {
+            self.navTitle.text = @"|成绩信息|详细内容";
+            data = [[NSString alloc] initWithString:[NSString stringWithFormat:@""]];
+            requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:self.action :self.pageIndex :self.pageSize :identityInfo :data]];
+        } else if ([self.action isEqualToString:@"selectExamReceiveMsg"]) {
+            self.navTitle.text = @"|成绩信息|详细内容";
+            data = [[NSString alloc] initWithString:[NSString stringWithFormat:@""]];
+            requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:self.action :self.pageIndex :self.pageSize :identityInfo :data]];
+        } else if ([self.action isEqualToString:@"reviewsContent"]) {
+            self.navTitle.text = @"|日常表现|详细内容";
             data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.userId]];
             requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:self.action :self.pageIndex :self.pageSize :identityInfo :data]];
         }
@@ -75,9 +91,27 @@
             NSDictionary *row = [data objectAtIndex:0];
             
             // 数据绑定到控件
-            self.labelTitle.text = [row objectForKey:@"msg_title"];
-            self.labelTime.text = [NSString stringWithFormat:@"发件人：%@ 时间：%@", [row objectForKey:@"user_name"], [row objectForKey:@"rec_date"]];
-            self.labelContent.text = [row objectForKey:@"bulletin_content"];
+            if ([self.action isEqualToString:@"bulletin"]) {
+                self.labelTitle.text = [row objectForKey:@"msg_title"];
+                self.labelTime.text = [NSString stringWithFormat:@"发件人：%@ 时间：%@", [row objectForKey:@"user_name"], [row objectForKey:@"rec_date"]];
+                self.labelContent.text = [row objectForKey:@"bulletin_content"];
+            } else if ([self.action isEqualToString:@"homework"]) {
+                self.labelTitle.text = [row objectForKey:@"msg_title"];
+                self.labelTime.text = [NSString stringWithFormat:@"发件人：%@ 时间：%@", [row objectForKey:@"user_name"], [row objectForKey:@"rec_date"]];
+                self.labelContent.text = [row objectForKey:@"bulletin_content"];
+            } else if ([self.action isEqualToString:@"selectExamSendMsg"]) {
+                self.labelTitle.text = [row objectForKey:@"msg_title"];
+                self.labelTime.text = [NSString stringWithFormat:@"发件人：%@ 时间：%@", [row objectForKey:@"user_name"], [row objectForKey:@"rec_date"]];
+                self.labelContent.text = [row objectForKey:@"bulletin_content"];
+            }  else if ([self.action isEqualToString:@"selectExamReceiveMsg"]) {
+                self.labelTitle.text = [row objectForKey:@"msg_title"];
+                self.labelTime.text = [NSString stringWithFormat:@"发件人：%@ 时间：%@", [row objectForKey:@"user_name"], [row objectForKey:@"rec_date"]];
+                self.labelContent.text = [row objectForKey:@"bulletin_content"];
+            } else if ([self.action isEqualToString:@"reviews"]) {
+                self.labelTitle.text = [row objectForKey:@"msg_title"];
+                self.labelTime.text = [NSString stringWithFormat:@"发件人：%@ 时间：%@", [row objectForKey:@"user_name"], [row objectForKey:@"rec_date"]];
+                self.labelContent.text = [row objectForKey:@"bulletin_content"];
+            }
         }
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];

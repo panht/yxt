@@ -91,6 +91,7 @@
 								<string key="IBUITitle"/>
 								<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="473924149">
 									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+									<int key="IBUIStyle">1</int>
 									<reference key="IBUICustomView" ref="402877445"/>
 									<reference key="IBUINavigationItem" ref="406038395"/>
 								</object>

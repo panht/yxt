@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class yxtIndex;
+@class yxtWelcome;
 @class yxtLogin;
 
 @interface yxtAppDelegate : UIResponder <UIApplicationDelegate>
@@ -29,11 +29,11 @@
 
 
 @property (nonatomic, strong) UIWindow *window;
-@property (strong, nonatomic) IBOutlet UIViewController *login;
-@property (strong, nonatomic) IBOutlet UIViewController *index;
+@property (strong, nonatomic) IBOutlet yxtLogin *login;
+@property (strong, nonatomic) IBOutlet yxtWelcome *welcome;
 
 - (void) showLogin;
--(void)showIndex;
+-(void) showWelcome;
 
 
 @end
