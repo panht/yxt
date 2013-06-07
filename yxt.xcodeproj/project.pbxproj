@@ -137,8 +137,8 @@
 		F2A770381720F5FD00CCEE55 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F2A7703A1720F5FD00CCEE55 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F2A7703C1720F5FD00CCEE55 /* yxt-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "yxt-Prefix.pch"; sourceTree = "<group>"; };
-		F2A7703D1720F5FD00CCEE55 /* yxtAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = yxtAppDelegate.h; sourceTree = "<group>"; };
-		F2A7703E1720F5FD00CCEE55 /* yxtAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = yxtAppDelegate.m; sourceTree = "<group>"; };
+		F2A7703D1720F5FD00CCEE55 /* yxtAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = yxtAppDelegate.h; path = ../yxtAppDelegate.h; sourceTree = "<group>"; };
+		F2A7703E1720F5FD00CCEE55 /* yxtAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = yxtAppDelegate.m; path = ../yxtAppDelegate.m; sourceTree = "<group>"; };
 		F2A770401720F5FD00CCEE55 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		F2A770421720F5FD00CCEE55 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		F2A770441720F5FD00CCEE55 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -180,13 +180,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F2A770221720F5FD00CCEE55 = {
+		F2824E121761A1EC00D76C48 /* framework */ = {
 			isa = PBXGroup;
 			children = (
 				F27A31F2175C5551003CD57F /* Security.framework */,
 				F2788AB71759ABCC001AD094 /* SystemConfiguration.framework */,
 				F2788AB11759A8EB001AD094 /* QuartzCore.framework */,
-				F2A770341720F5FD00CCEE55 /* yxt */,
+			);
+			name = framework;
+			sourceTree = "<group>";
+		};
+		F2A770221720F5FD00CCEE55 = {
+			isa = PBXGroup;
+			children = (
+				F2A770671720FA6B00CCEE55 /* main */,
+				F2824E121761A1EC00D76C48 /* framework */,
 				F2A7702D1720F5FD00CCEE55 /* Frameworks */,
 				F2A7702C1720F5FD00CCEE55 /* Products */,
 			);
@@ -210,19 +218,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F2A770341720F5FD00CCEE55 /* yxt */ = {
-			isa = PBXGroup;
-			children = (
-				F2A770671720FA6B00CCEE55 /* main */,
-				F2A770541720F7AC00CCEE55 /* utility */,
-				F2A770511720F67500CCEE55 /* res */,
-				F2A7703D1720F5FD00CCEE55 /* yxtAppDelegate.h */,
-				F2A7703E1720F5FD00CCEE55 /* yxtAppDelegate.m */,
-				F2A770351720F5FD00CCEE55 /* Supporting Files */,
-			);
-			path = yxt;
-			sourceTree = "<group>";
-		};
 		F2A770351720F5FD00CCEE55 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -235,41 +230,43 @@
 				F2A770441720F5FD00CCEE55 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			path = ..;
 			sourceTree = "<group>";
 		};
 		F2A770511720F67500CCEE55 /* res */ = {
 			isa = PBXGroup;
 			children = (
-				F2824E101761A16500D76C48 /* index2BtnMember.png */,
+				F2FC66CC175B23460076F50E /* account_ico.png */,
+				F2BF8927175AF62C0046FF56 /* arrow_down.png */,
+				F2BF8928175AF62C0046FF56 /* arrow_up.png */,
 				F27499BF176085E8008F62A7 /* back1.png */,
 				F27499CE1760CFB3008F62A7 /* background.png */,
 				F27499CC1760CFA8008F62A7 /* backgroundLogin.png */,
 				F27499C0176085E8008F62A7 /* home1.png */,
-				F2BF8927175AF62C0046FF56 /* arrow_down.png */,
-				F2BF8928175AF62C0046FF56 /* arrow_up.png */,
-				F2FC66CC175B23460076F50E /* account_ico.png */,
+				F27C00DD1723E5A7006B9DBE /* Icon.png */,
+				F27499C31760862E008F62A7 /* iconLogin.png */,
+				F28C978E172145B4009D8F1C /* index1BtnGrade.png */,
+				F28C978F172145B4009D8F1C /* index1BtnMessage.png */,
+				F28C9790172145B4009D8F1C /* index1BtnNotice.png */,
+				F28C9791172145B4009D8F1C /* index1BtnWork.png */,
+				F28C979817214676009D8F1C /* index1Title.png */,
+				F2781F5D17572ACC00E1CEAF /* index2BtnAcity.png */,
+				F2781F5E17572ACC00E1CEAF /* index2BtnJxwb.png */,
+				F2824E101761A16500D76C48 /* index2BtnMember.png */,
+				F2781F5F17572ACC00E1CEAF /* index2BtnMsdjt.png */,
+				F2781F6017572ACC00E1CEAF /* index2BtnTyjx.png */,
+				F2781F5B17572A6200E1CEAF /* index2BtnYiliao.png */,
+				F28C979617214676009D8F1C /* index2Title.png */,
+				F28C979717214676009D8F1C /* index3Title.png */,
 				F2781F6517572F0000E1CEAF /* indextab11.png */,
 				F2781F6617572F0000E1CEAF /* indextab12.png */,
 				F2781F6717572F0000E1CEAF /* indextab21.png */,
 				F2781F6817572F0000E1CEAF /* indextab22.png */,
 				F2781F6917572F0000E1CEAF /* indextab31.png */,
 				F2781F6A17572F0000E1CEAF /* indextab32.png */,
-				F27C00DD1723E5A7006B9DBE /* Icon.png */,
-				F27499C31760862E008F62A7 /* iconLogin.png */,
-				F28C979617214676009D8F1C /* index2Title.png */,
-				F28C979717214676009D8F1C /* index3Title.png */,
-				F28C979817214676009D8F1C /* index1Title.png */,
-				F28C978E172145B4009D8F1C /* index1BtnGrade.png */,
-				F28C978F172145B4009D8F1C /* index1BtnMessage.png */,
-				F28C9790172145B4009D8F1C /* index1BtnNotice.png */,
-				F28C9791172145B4009D8F1C /* index1BtnWork.png */,
-				F2781F5D17572ACC00E1CEAF /* index2BtnAcity.png */,
-				F2781F5E17572ACC00E1CEAF /* index2BtnJxwb.png */,
-				F2781F5F17572ACC00E1CEAF /* index2BtnMsdjt.png */,
-				F2781F6017572ACC00E1CEAF /* index2BtnTyjx.png */,
-				F2781F5B17572A6200E1CEAF /* index2BtnYiliao.png */,
 			);
-			path = res;
+			name = res;
+			path = ../res;
 			sourceTree = "<group>";
 		};
 		F2A770541720F7AC00CCEE55 /* utility */ = {
@@ -287,15 +284,30 @@
 				F27499BA17608374008F62A7 /* yxtViewControllerBase.h */,
 				F27499BB17608374008F62A7 /* yxtViewControllerBase.m */,
 			);
-			path = utility;
+			name = utility;
+			path = ../utility;
 			sourceTree = "<group>";
 		};
 		F2A770671720FA6B00CCEE55 /* main */ = {
 			isa = PBXGroup;
 			children = (
+				F2A770541720F7AC00CCEE55 /* utility */,
+				F2A770511720F67500CCEE55 /* res */,
+				F2A7703D1720F5FD00CCEE55 /* yxtAppDelegate.h */,
+				F2A7703E1720F5FD00CCEE55 /* yxtAppDelegate.m */,
+				F2A770351720F5FD00CCEE55 /* Supporting Files */,
 				F289AA94175EEE1C000A0556 /* yxtDetail1.h */,
 				F289AA95175EEE1D000A0556 /* yxtDetail1.m */,
 				F289AA96175EEE1D000A0556 /* yxtDetail1.xib */,
+				F27499C517609105008F62A7 /* yxtForm.h */,
+				F27499C617609106008F62A7 /* yxtForm.m */,
+				F27499C717609106008F62A7 /* yxtForm.xib */,
+				F2788AB9175A4FF8001AD094 /* yxtForm1.h */,
+				F2788ABA175A4FFA001AD094 /* yxtForm1.m */,
+				F2788ABB175A4FFB001AD094 /* yxtForm1.xib */,
+				F289AA9D175F3606000A0556 /* yxtFormUser.h */,
+				F289AA9E175F3607000A0556 /* yxtFormUser.m */,
+				F289AA9F175F3608000A0556 /* yxtFormUser.xib */,
 				F2B6BC9E1756029300C3D37F /* yxtList1.h */,
 				F2B6BC9F1756029300C3D37F /* yxtList1.m */,
 				F2B6BCA01756029300C3D37F /* yxtList1.xib */,
@@ -313,20 +325,12 @@
 				F2A7707E172138D400CCEE55 /* yxtTab3.xib */,
 				F2781F7C17574AB200E1CEAF /* yxtUtil.h */,
 				F2781F7D17574AB300E1CEAF /* yxtUtil.m */,
-				F2788AB9175A4FF8001AD094 /* yxtForm1.h */,
-				F2788ABA175A4FFA001AD094 /* yxtForm1.m */,
-				F2788ABB175A4FFB001AD094 /* yxtForm1.xib */,
 				F2FC66CE175B264C0076F50E /* yxtWelcome.h */,
 				F2FC66CF175B264C0076F50E /* yxtWelcome.m */,
 				F2FC66D0175B264C0076F50E /* yxtWelcome.xib */,
-				F289AA9D175F3606000A0556 /* yxtFormUser.h */,
-				F289AA9E175F3607000A0556 /* yxtFormUser.m */,
-				F289AA9F175F3608000A0556 /* yxtFormUser.xib */,
-				F27499C517609105008F62A7 /* yxtForm.h */,
-				F27499C617609106008F62A7 /* yxtForm.m */,
-				F27499C717609106008F62A7 /* yxtForm.xib */,
 			);
-			path = main;
+			name = main;
+			path = yxt/main;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
