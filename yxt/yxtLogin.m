@@ -37,9 +37,6 @@
     
     // 重新排放控件
     [self resettle];
-    
-    
-//    [self.view endEditing:YES];
 }
 
 // 重新排放控件
@@ -100,13 +97,6 @@
 
 // 登录事件
 - (IBAction)loginTapped:(id)sender {
-    // loading
-    MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:self.view];
-    [self.view addSubview:HUD];
-    [HUD show:YES];
-    sleep(1);
-    
-    yxtAppDelegate *app = [[UIApplication sharedApplication] delegate];
     Boolean flagLogin = YES;
     NSString *message;
     
@@ -115,35 +105,43 @@
     {
         message = @"请输入用户名";
         flagLogin = NO;
+        
     }
     if (flagLogin == YES && [self.textPassword.text isEqualToString:@""])
     {
         message = @"请输入密码";
         flagLogin = NO;
     }
+    if (flagLogin == NO) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:message delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
+        return;
+    }
     
-    // TODO 检查网络连接
-    [yxtUtil checkNetwork];
-    
-    
-    NSString *identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-    // TODO 检查版本
-//    NSString *dataVer = @"";
-//    NSString *requestInfoVer = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"ver" :@"0" :@"0" :identityInfo :dataVer]];
-//    NSDictionary *dataResponseVer = [yxtUtil getResponse:requestInfoVer :identityInfo :dataVer];
-    
-    // 验证用户名密码
-    // TODO 3DES加密，双角色那里还有一处也要改
-//    NSString *pwd = [ThreeDES encrypt:self.textPassword.text withKey:app.ThreeDesKey];
-    NSString *pwd = @"/uNkSKHfSh8=";
-//    NSString *pwd = self.textPassword.text;
-    NSString *data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"logintype\":\"\", \"account\":\"%@\", \"pwd\":\"%@\"}]", self.textUsername.text, pwd]];
-    NSString *requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"login" :@"0" :@"0" :identityInfo :data]];
-    
-    [self login: requestInfo :identityInfo : data];
-    
-    [HUD hide:YES];
-    [HUD removeFromSuperview];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        // TODO 检查网络连接
+        [yxtUtil checkNetwork];
+        
+        // 检查版本
+        BOOL flagVersionNew = [self checkVersion];
+        
+        if (flagVersionNew == NO) {
+            NSString *identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
+            // 验证用户名密码
+            // TODO 3DES加密，双角色那里还有一处也要改
+            //    NSString *pwd = [ThreeDES encrypt:self.textPassword.text withKey:app.ThreeDesKey];
+            NSString *pwd = @"/uNkSKHfSh8=";
+            //    NSString *pwd = self.textPassword.text;
+            NSString *data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"logintype\":\"\", \"account\":\"%@\", \"pwd\":\"%@\"}]", self.textUsername.text, pwd]];
+            NSString *requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"login" :@"0" :@"0" :identityInfo :data]];
+            
+            [self login: requestInfo :identityInfo : data];
+        }
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    });
 }
 
 - (void) login:(NSString *)requestInfo :(NSString *)identityInfo :(NSString *)data
@@ -213,21 +211,42 @@
     
     NSLog(@"id: %@", identityInfo);
     [self login: requestInfo :identityInfo : data];
-    
-//    dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
-//
-//    if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"1"]) {
-//        result = [dataResponse objectForKey:@"data"];
-//        dataResult = [result dataUsingEncoding:NSUTF8StringEncoding];
-//        jsonResult = [NSJSONSerialization JSONObjectWithData:dataResult
-//                                                     options:kNilOptions
-//                                                       error:&error];
-//    }
 }
 
 // 版本检查
-- (void) checkVersion {
+- (BOOL) checkVersion {
+    // 从plist读取当前版本号
+    NSString *plist = [[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"];
+    NSMutableDictionary *dataPlist = [[NSMutableDictionary alloc] initWithContentsOfFile:plist];
+    NSInteger version = [[dataPlist objectForKey:@"Version"] integerValue];
     
+    // 从服务器获取最新版本号
+    NSString *identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
+    NSString *data = @"";
+    NSString *requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"ver" :@"0" :@"0" :identityInfo :data]];
+    NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
+    
+    if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
+        NSData *dataList = [[dataResponse objectForKey:@"data"] dataUsingEncoding:NSUTF8StringEncoding];
+        NSError *error;
+        NSDictionary *jsonList = [NSJSONSerialization JSONObjectWithData:dataList
+                                                                 options:kNilOptions
+                                                                   error:&error];
+        NSArray *data = [jsonList objectForKey:@"list"];
+        NSDictionary *row = [data objectAtIndex:0];
+        
+        NSInteger dataver = [[row objectForKey:@"ver"] integerValue];
+        NSLog(@"old:%d   new:%d", version, dataver);
+        // 比较版本号
+        if (dataver > version) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"有新版本，请更新" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            [alert show];
+            
+            return YES;
+        }
+    }
+    
+    return NO;
 }
 
 // 从本地存储读取用户名密码

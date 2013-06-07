@@ -108,6 +108,7 @@ float prewMoveY; //编辑的时候移动的高度
     // 添加点击关闭键盘事件
     UITapGestureRecognizer *backgroundTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backgroundTap:)];
     if (self.imageBackground) {
+        self.imageBackground.userInteractionEnabled = YES;
         [self.imageBackground addGestureRecognizer:backgroundTap];
     }
 }

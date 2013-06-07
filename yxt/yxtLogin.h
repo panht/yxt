@@ -24,7 +24,7 @@
 - (IBAction)closeKeyboard:(id)sender;
 //- (IBAction)backgroundTap:(id)sender;
 - (void) login:(NSString *)requestInfo :(NSString *)identityInfo :(NSString *)data;
-- (void) checkVersion;
+- (BOOL) checkVersion;
 - (void)resettle;
 - (void)readDefaults;
 

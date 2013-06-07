@@ -33,6 +33,6 @@
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>Version</key>
-	<string>1</string>
+	<integer>7</integer>
 </dict>
 </plist>
