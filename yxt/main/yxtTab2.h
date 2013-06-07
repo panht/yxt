@@ -8,7 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class yxtList1;
+
 @interface yxtTab2 : UIViewController
+
+@property (nonatomic, strong) UIWindow *window;
+@property (strong, nonatomic) IBOutlet yxtList1 *list1;
 @property (weak, nonatomic) IBOutlet UIImageView *imageBackground;
 
 @property (weak, nonatomic) IBOutlet UIButton *button1;

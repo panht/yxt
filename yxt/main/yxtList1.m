@@ -53,7 +53,7 @@
     } else if ([self.action isEqualToString:@"homework"]) {
         self.navTitle.text = @"|家庭作业|列表信息";
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.userId]];
-        self.title1 = @"ass_title";
+        self.title1 = @"course_name";
         self.title2 = @"rec_date";
         self.actionDetail = @"homeworkContent";
     } else if ([self.action isEqualToString:@"selectExamSendMsg"]) {
@@ -146,6 +146,7 @@
         UILabel *date = [[UILabel alloc] initWithFrame: CGRectMake(5, 26, 200, 15)];
         date.text = [row objectForKey:self.title2];
         date.font = [UIFont boldSystemFontOfSize:12];
+        date.textColor = [UIColor grayColor];
         [cell.contentView addSubview:date];
     }
     

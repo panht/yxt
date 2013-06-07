@@ -7,18 +7,14 @@
 //
 
 #import "yxtTab2.h"
+#import "yxtList1.h"
+#import "yxtAppDelegate.h"
 
 @interface yxtTab2()
 @end
 
 @implementation yxtTab2
 
-@synthesize button1;
-@synthesize button2;
-@synthesize button3;
-@synthesize button4;
-@synthesize button5;
-@synthesize button6;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -31,8 +27,30 @@
     return self;
 }
 
-// 创建图标
+// 显示列表页
+- (void) showList1:(NSString *)action {
+    // 设置action
+    //    yxtAppDelegate *app = (yxtAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    self.list1 = [[yxtList1 alloc] initWithNibName:@"yxtList1" bundle:[NSBundle mainBundle]];
+    [self.list1 setAction:action];
+    
+    // 设置子视图高度
+    int x, y, width, height;
+    x = 0;
+    y = 20;
+    width = self.parentViewController.view.frame.size.width;
+    height = self.parentViewController.view.frame.size.height;
+    self.list1.view.frame = CGRectMake(x, y, width, height);
+    
+    UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+    self.list1.view.tag = 300;
+    [topWindow addSubview:self.list1.view];
+    [topWindow makeKeyAndVisible];
+}
+
 - (IBAction)button1Touch:(id)sender {
+    [self showList1:@"members"];
 }
 
 - (IBAction)button2Touch:(id)sender {
