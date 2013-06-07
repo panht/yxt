@@ -10,6 +10,7 @@
 #import "yxtDetail1.h"
 #import "yxtAppDelegate.h"
 #import "yxtUtil.h"
+#import "MBProgressHUD.h"
 
 @interface yxtList1 ()
 
@@ -47,53 +48,54 @@
     self.pageIndex = @"1";
     self.pageSize = @"8";
     
-    // 判断action
-    NSString *requestInfo;
-    NSString *identityInfo;
-    NSString *data;
-    
-//    self.action = @"bulletin";
-    identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-    if ([self.action isEqualToString:@"bulletin"]) {
-        self.navTitle.text = @"|通知公告|列表信息";
-        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.userId]];
-        requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:self.action :self.pageIndex :self.pageSize :identityInfo :data]];
-    } else if ([self.action isEqualToString:@"homework"]) {
-        self.navTitle.text = @"|家庭作业|列表信息";
-        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.userId]];
-        requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:self.action :self.pageIndex :self.pageSize :identityInfo :data]];
-    } else if ([self.action isEqualToString:@"selectExam"]) {
-        self.navTitle.text = @"|成绩信息|列表信息";
-        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"examType\":\"0\"}]"]];
-        requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:self.action :self.pageIndex :self.pageSize :identityInfo :data]];
-    } else if ([self.action isEqualToString:@"reviews"]) {
-        self.navTitle.text = @"|日常表现|列表信息";
-        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userid\":\"%@\", \"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.loginType, app.userId]];
-        requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:self.action :self.pageIndex :self.pageSize :identityInfo :data]];
-    }
-    
-    // 从服务端获取数据
-//    NSLog(@"%@", requestInfo);
-//        NSLog(@"%@", identityInfo);
-//        NSLog(@"%@", data);
-    NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
-    
-    if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
-        NSData *dataList = [[dataResponse objectForKey:@"data"] dataUsingEncoding:NSUTF8StringEncoding];
-        NSError *error;
-        NSDictionary *jsonList = [NSJSONSerialization JSONObjectWithData:dataList
-                                                                   options:kNilOptions
-                                                                     error:&error];
+//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+//    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        // 判断action
+        NSString *requestInfo;
+        NSString *identityInfo;
+        NSString *data;
         
-        NSArray *data = [jsonList objectForKey:@"list"];
-        self.dataSource = data;
-
-//        for(int i=0; i < [data count]; i++) {
-//            NSLog(@"value%d : %@", i, [data objectAtIndex:i]);
-//        }
+        identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
+        if ([self.action isEqualToString:@"bulletin"]) {
+            self.navTitle.text = @"|通知公告|列表信息";
+            data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.userId]];
+            requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:self.action :self.pageIndex :self.pageSize :identityInfo :data]];
+        } else if ([self.action isEqualToString:@"homework"]) {
+            self.navTitle.text = @"|家庭作业|列表信息";
+            data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.userId]];
+            requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:self.action :self.pageIndex :self.pageSize :identityInfo :data]];
+        } else if ([self.action isEqualToString:@"selectExam"]) {
+            self.navTitle.text = @"|成绩信息|列表信息";
+            data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"examType\":\"0\"}]"]];
+            requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:self.action :self.pageIndex :self.pageSize :identityInfo :data]];
+        } else if ([self.action isEqualToString:@"reviews"]) {
+            self.navTitle.text = @"|日常表现|列表信息";
+            data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userid\":\"%@\", \"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.loginType, app.userId]];
+            requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:self.action :self.pageIndex :self.pageSize :identityInfo :data]];
+        }
         
+        // 从服务端获取数据
+        NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
+        
+        if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
+            NSData *dataList = [[dataResponse objectForKey:@"data"] dataUsingEncoding:NSUTF8StringEncoding];
+            NSError *error;
+            NSDictionary *jsonList = [NSJSONSerialization JSONObjectWithData:dataList
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            
+            NSArray *data = [jsonList objectForKey:@"list"];
+            self.dataSource = data;
+            
+            //        for(int i=0; i < [data count]; i++) {
+            //            NSLog(@"value%d : %@", i, [data objectAtIndex:i]);
+            //        }
+        }
+//        [MBProgressHUD hideHUDForView:self.view animated:YES];
+//    });
+    
     }
-}
 
 //- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 //    return 1; 
@@ -127,7 +129,6 @@
             title1 = @"title";
             title2 = @"announce_date";
         }
-
         
         // 显示标题
         NSDictionary *row = [self.dataSource objectAtIndex:indexPath.row];  

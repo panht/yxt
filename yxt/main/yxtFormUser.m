@@ -11,6 +11,7 @@
 #import "yxtUtil.h"
 #import "GTMBase64.h"
 #import "yxtWelcome.h"
+#import "MBProgressHUD.h"
 
 @interface yxtFormUser ()
 
@@ -135,43 +136,50 @@
         }
     }
     
-    NSString *bytesImage;
-    if (self.imageOld != self.imageNew && self.imageNew != NULL) {
-        NSData *dataImage = UIImagePNGRepresentation(self.imageHead.image);
-        bytesImage = [GTMBase64 stringByEncodingData:dataImage];
-    } else {
-        bytesImage = @"";
-    }
-    
-    // 提交表单
-    NSString *requestInfo;
-    NSString *identityInfo;
-    NSString *data;
-    identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-    data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"picstream\":\"%@\", \"oldPass\":\"%@\", \"newPass\":\"%@\"}]", bytesImage, self.oldpwd.text, self.newpwd1.text]];
-    requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"updateUserInfo" :@"0" :@"0" :identityInfo :data]];
-    NSLog(@"%@", data);
-    
-    NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
-    
-    if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
-        self.imageOld = self.imageNew;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        NSString *bytesImage;
+        if (self.imageOld != self.imageNew && self.imageNew != NULL) {
+            NSData *dataImage = UIImagePNGRepresentation(self.imageHead.image);
+            bytesImage = [GTMBase64 stringByEncodingData:dataImage];
+        } else {
+            bytesImage = @"";
+        }
         
-        // TODO 保存成功，更新主界面的头像
-//        UIResponder *responder = self;
-//        while ((responder = [responder nextResponder])) {
-//            if ([responder isKindOfClass:[yxtWelcome class]]) {
-//                yxtWelcome *welcome = (yxtWelcome*)responder;
-//                welcome.imageHead.image = self.imageHead.image;
-//                [welcome.imageHead setNeedsDisplay];
-//            }
-//        }
+        // 提交表单
+        NSString *requestInfo;
+        NSString *identityInfo;
+        NSString *data;
+        identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
+        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"picstream\":\"%@\", \"oldPass\":\"%@\", \"newPass\":\"%@\"}]", bytesImage, self.oldpwd.text, self.newpwd1.text]];
+        requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"updateUserInfo" :@"0" :@"0" :identityInfo :data]];
+        NSLog(@"%@", data);
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"保存成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-        [alert show];
-    } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:[dataResponse objectForKey:@"resultdes"] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-        [alert show];
-    }
+        NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
+        
+        if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
+            self.imageOld = self.imageNew;
+            
+            // TODO 保存成功，更新主界面的头像
+            //        UIResponder *responder = self;
+            //        while ((responder = [responder nextResponder])) {
+            //            if ([responder isKindOfClass:[yxtWelcome class]]) {
+            //                yxtWelcome *welcome = (yxtWelcome*)responder;
+            //                welcome.imageHead.image = self.imageHead.image;
+            //                [welcome.imageHead setNeedsDisplay];
+            //            }
+            //        }
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"保存成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            [alert show];
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:[dataResponse objectForKey:@"resultdes"] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            [alert show];
+        }
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    });
+    
 }
 @end

@@ -36,6 +36,7 @@
 		F27A3222175C85CC003CD57F /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = F27A31EF175C5276003CD57F /* GTMBase64.m */; };
 		F27A3223175C85CC003CD57F /* ThreeDES.m in Sources */ = {isa = PBXBuildFile; fileRef = F27A3221175C6B2F003CD57F /* ThreeDES.m */; };
 		F27C00DE1723E5A7006B9DBE /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F27C00DD1723E5A7006B9DBE /* Icon.png */; };
+		F2824E111761A16500D76C48 /* index2BtnMember.png in Resources */ = {isa = PBXBuildFile; fileRef = F2824E101761A16500D76C48 /* index2BtnMember.png */; };
 		F282CCAE175DC3AC00478EB3 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = F282CCAD175DBF4A00478EB3 /* MBProgressHUD.m */; };
 		F289AA97175EEE1D000A0556 /* yxtDetail1.m in Sources */ = {isa = PBXBuildFile; fileRef = F289AA95175EEE1D000A0556 /* yxtDetail1.m */; };
 		F289AA98175EEE1D000A0556 /* yxtDetail1.xib in Resources */ = {isa = PBXBuildFile; fileRef = F289AA96175EEE1D000A0556 /* yxtDetail1.xib */; };
@@ -112,6 +113,7 @@
 		F27A3220175C6B2F003CD57F /* ThreeDES.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ThreeDES.h; path = ../../../../../Downloads/3DE/3DE/ThreeDES.h; sourceTree = "<group>"; };
 		F27A3221175C6B2F003CD57F /* ThreeDES.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ThreeDES.m; path = ../../../../../Downloads/3DE/3DE/ThreeDES.m; sourceTree = "<group>"; };
 		F27C00DD1723E5A7006B9DBE /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		F2824E101761A16500D76C48 /* index2BtnMember.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = index2BtnMember.png; sourceTree = "<group>"; };
 		F282CCAC175DBF4A00478EB3 /* MBProgressHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		F282CCAD175DBF4A00478EB3 /* MBProgressHUD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		F289AA94175EEE1C000A0556 /* yxtDetail1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yxtDetail1.h; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 		F2A770511720F67500CCEE55 /* res */ = {
 			isa = PBXGroup;
 			children = (
+				F2824E101761A16500D76C48 /* index2BtnMember.png */,
 				F27499BF176085E8008F62A7 /* back1.png */,
 				F27499CE1760CFB3008F62A7 /* background.png */,
 				F27499CC1760CFA8008F62A7 /* backgroundLogin.png */,
@@ -419,6 +422,7 @@
 				F27499C917609106008F62A7 /* yxtForm.xib in Resources */,
 				F27499CD1760CFA8008F62A7 /* backgroundLogin.png in Resources */,
 				F27499CF1760CFB3008F62A7 /* background.png in Resources */,
+				F2824E111761A16500D76C48 /* index2BtnMember.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
