@@ -93,7 +93,7 @@
 -(void) loadForm2 {
     self.navTitle.title = @"通知公告 >> 添加内容";
     self.form2 = [[yxtForm2 alloc] initWithNibName:@"yxtForm2" bundle:nil];
-    [self addChildViewController:self.form1];
+    [self addChildViewController:self.form2];
     [self settleForm:self.form2];
     
     // 显示表单视图

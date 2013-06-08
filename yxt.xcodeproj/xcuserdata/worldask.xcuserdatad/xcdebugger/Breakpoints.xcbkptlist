@@ -8,12 +8,25 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "yxt/main/yxtForm.m"
-         timestampString = "392358582.362625"
+         timestampString = "392362803.706637"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "105"
          endingLineNumber = "105"
          landmarkName = "-loadForm3"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "yxt/main/yxtForm1.m"
+         timestampString = "392365380.101685"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "156"
+         endingLineNumber = "156"
+         landmarkName = "-send:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

@@ -73,7 +73,7 @@
         
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
         data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userid\":\"%@\"}]", app.userId]];
-        requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"eduClass" :@"1" :@"10" :identityInfo :data]];
+        requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"eduClass" :@"1" :@"100" :identityInfo :data]];
         // 从服务端获取数据
         NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
         
@@ -131,6 +131,14 @@
         NSString *classid = [NSString stringWithFormat:@"%d", self.inputScope.tag];
         NSString *chksms = self.inputSMS.on ? @"1" : @"0";
         NSString *blocflag = self.inputWeibo.on ? @"1" : @"0";
+        NSString *target = @"";
+        if ([self.inputTarget.currentTitle isEqualToString:@"家长"]) {
+            target = @"0";
+        } else if ([self.inputTarget.currentTitle isEqualToString:@"学生"]) {
+            target = @"1";
+        } else if ([self.inputTarget.currentTitle isEqualToString:@"老师"]) {
+           target = @"2"; 
+        }
         
 
         NSString *requestInfo;
@@ -138,7 +146,7 @@
         NSString *identityInfo;
         
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userid\":\"%@\", \"title\":\"%@\", \"content\":\"%@\", \"classid\":\"%@\", \"selectuser\":\"%@\", \"chksms\":\"%@\", \"useraccount\":\"%@\", \"bloctoken\":\"%@\", \"blocflag\":\"%@\"}]", app.userId, self.inputTitle.text, self.inputContent.text, classid, self.inputTarget.currentTitle, chksms, app.userId, app.token, blocflag]];
+        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userid\":\"%@\", \"title\":\"%@\", \"content\":\"%@\", \"classid\":\"%@\", \"selectuser\":\"%@\", \"chksms\":\"%@\", \"useraccount\":\"%@\", \"bloctoken\":\"%@\", \"blocflag\":\"%@\"}]", app.userId, self.inputTitle.text, self.inputContent.text, classid, target, chksms, app.userId, app.token, blocflag]];
         requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"addBulletin" :@"0" :@"0" :identityInfo :data]];
         NSLog(@"requestInfo   %@", requestInfo);
         NSLog(@"identityInfo   %@", identityInfo);

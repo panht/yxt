@@ -19,8 +19,6 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageBackground;
 @property (weak, nonatomic) IBOutlet UITextField *inputTitle;
-//@property (weak, nonatomic) IBOutlet UILabel *inputScope;
-//@property (weak, nonatomic) IBOutlet UILabel *inputTarget;
 @property (weak, nonatomic) IBOutlet UIButton *inputScope;
 @property (weak, nonatomic) IBOutlet UIButton *inputTarget;
 @property (weak, nonatomic) IBOutlet UISwitch *inputSMS;
