@@ -2,7 +2,7 @@
 //  yxtLogin.m
 //  yxt
 //
-//  Created by pht on 13-4-19.
+//  Created by panht on 13-4-19.
 //  Copyright (c) 2013年 com.landwing.yxt. All rights reserved.
 //
 
@@ -171,7 +171,9 @@
             return;
         } else {
             // 保存全局变量
-            [app setLoginType:[jsonResult objectForKey:@"logintype"]];
+            if (![[jsonResult objectForKey:@"logintype"] isEqualToString:@"3"]) {
+                [app setLoginType:[jsonResult objectForKey:@"logintype"]];
+            }
             [app setHeaderimg:[jsonResult objectForKey:@"headerimg"]];
             [app setUserId:[jsonResult objectForKey:@"userid"]];
             [app setUsername:[jsonResult objectForKey:@"username"]];
@@ -238,7 +240,7 @@
         NSDictionary *row = [data objectAtIndex:0];
         
         NSInteger dataver = [[row objectForKey:@"ver"] integerValue];
-        NSLog(@"old:%d   new:%d", version, dataver);
+//        NSLog(@"old:%d   new:%d", version, dataver);
         // 比较版本号
         if (dataver > version) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"有新版本，请更新" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];

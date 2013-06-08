@@ -2,7 +2,7 @@
 //  yxtUtil.m
 //  yxt
 //
-//  Created by world ask on 13-5-30.
+//  Created by panht on 13-5-30.
 //  Copyright (c) 2013年 com.landwing.yxt. All rights reserved.
 //
 
@@ -67,13 +67,16 @@
 
 // 从服务器返回结果数据集
 +(NSDictionary*) getResponse:(NSString *)requestInfo :(NSString *)identityInfo :(NSString *)data {
-    
     yxtAppDelegate *app = [[UIApplication sharedApplication] delegate];
     
-
-    requestInfo = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) requestInfo, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
-    identityInfo = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) identityInfo, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
-    data = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) data, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
+    // 特殊字符urlencode
+//    requestInfo = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) requestInfo, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
+//    identityInfo = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) identityInfo, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
+//    data = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) data, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
+    requestInfo = [self urlEncode:requestInfo];
+    identityInfo = [self urlEncode:identityInfo];
+    data = [self urlEncode:data];
+    
     NSString *postURL = [[NSString alloc] initWithFormat:@"RequestInfo=%@&IdentityInfo=%@&data=%@", requestInfo, identityInfo, data];
     
 //    NSLog(@"postURL: %@", postURL);
@@ -109,6 +112,14 @@
                                                                        error:&error];
     NSLog(@"resultdata = %@", resultData);
     return jsonResultData;
+}
+
++ (NSString*) urlEncode:(NSString *) input{    
+    NSString *data = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)input, nil, nil, kCFStringEncodingUTF8));
+
+    //    data = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)data, nil, nil, kCFStringEncodingUTF8);
+    
+    return data;
 }
 
 // 检查网络连接

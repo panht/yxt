@@ -1,18 +1,18 @@
 //
-//  yxtIndex3.m
+//  yxtForm4.m
 //  yxt
 //
-//  Created by panht on 13-4-19.
+//  Created by panht on 13-6-8.
 //  Copyright (c) 2013年 com.landwing.yxt. All rights reserved.
 //
 
-#import "yxtTab3.h"
+#import "yxtForm4.h"
 
-@interface yxtTab3 ()
+@interface yxtForm4 ()
 
 @end
 
-@implementation yxtTab3
+@implementation yxtForm4
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

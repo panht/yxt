@@ -2,7 +2,7 @@
 //  yxtDetail1.m
 //  yxt
 //
-//  Created by world ask on 13-6-5.
+//  Created by panht on 13-6-5.
 //  Copyright (c) 2013年 com.landwing.yxt. All rights reserved.
 //
 
@@ -71,7 +71,6 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        // 判断action
         NSString *requestInfo;
         NSString *identityInfo;
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];

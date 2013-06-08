@@ -7,13 +7,13 @@
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "yxt/yxtAppDelegate.m"
-         timestampString = "392279676.744131"
+         filePath = "yxt/main/yxtForm.m"
+         timestampString = "392358582.362625"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "97"
-         endingLineNumber = "97"
-         landmarkName = "-showIndex"
+         startingLineNumber = "105"
+         endingLineNumber = "105"
+         landmarkName = "-loadForm3"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

@@ -2,7 +2,7 @@
 //  yxtList1.m
 //  yxt
 //
-//  Created by world ask on 13-5-29.
+//  Created by panht on 13-5-29.
 //  Copyright (c) 2013年 com.landwing.yxt. All rights reserved.
 //
 
@@ -11,6 +11,8 @@
 #import "yxtAppDelegate.h"
 #import "yxtUtil.h"
 #import "MBProgressHUD.h"
+#import "yxtForm.h"
+#import "yxtForm1.h"
 
 @interface yxtList1 ()
 
@@ -31,8 +33,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
-        
         self.pageIndex = @"1";
         self.pageSize = @"8";
     }
@@ -43,50 +43,77 @@
 - (void) setByAction: (NSString *) action {
     yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
     
+    [self.btn1 setHidden:YES];
+    [self.btn2 setHidden:YES];
+    
+    // 如果是教师，显示发送按钮
+    if ([app.loginType isEqualToString:@"1"]) {
+        [self.btn3 setHidden:NO];
+    } else {
+        [self.btn3 setHidden:YES];
+    }
+    
     // 设置标题栏、请求数据、表格行文本、详细页action名称
     if ([self.action isEqualToString:@"bulletin"]) {
-        self.navTitle.text = @"|通知公告|列表信息";
+        // 通知公告
+        self.navTitle.text = @"通知公告 >> 列表信息";
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.userId]];
         self.title1 = @"msg_title";
         self.title2 = @"rec_date";
         self.actionDetail = @"bulletinContent";
+        
+        // 收、发件箱按钮调整
+        int x, y, width, height;
+        x = 0;
+        y = self.view.frame.size.height - 50;
+        width = self.view.frame.size.width / 2;
+        height = 50;
+        self.btn1.frame = CGRectMake(x, y, width, height);
+        self.btn2.frame = CGRectMake(x, y, width, height);
+        //        [self.btn1 setBackgroundImage:self.image32 forState:UIControlStateNormal];
+        [self.btn2 setHidden:NO];
+        [self.btn3 setHidden:NO];
+        
+        // 表格位置及大小调整
+        x = 0;
+        y = self.navBar.frame.size.height + self.btn3.frame.size.height;
+        width = self.view.frame.size.width;
+        height = self.view.frame.size.height - self.navBar.frame.size.height - self.btn3.frame.size.height - self.btn1.frame.size.height;
+        self.tableView1.frame = CGRectMake(x, y, width, height);
     } else if ([self.action isEqualToString:@"homework"]) {
-        self.navTitle.text = @"|家庭作业|列表信息";
+        self.navTitle.text = @"家庭作业 >> 列表信息";
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.userId]];
         self.title1 = @"course_name";
         self.title2 = @"rec_date";
         self.actionDetail = @"homeworkContent";
     } else if ([self.action isEqualToString:@"selectExamSendMsg"]) {
-        self.navTitle.text = @"|成绩信息|列表信息";
+        self.navTitle.text = @"成绩信息 >> 列表信息";
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@""]];
         self.title1 = @"msg_title";
         self.title2 = @"op_date";
         self.actionDetail = @"selectExamSendMsg";
     } else if ([self.action isEqualToString:@"selectExamReceiveMsg"]) {
-        self.navTitle.text = @"|成绩信息|列表信息";
+        self.navTitle.text = @"成绩信息 >> 列表信息";
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"examType\":\"0\"}]"]];
         self.title1 = @"msg_content";
         self.title2 = @"rec_date";
         self.actionDetail = @"selectExamReceiveMsgDetail";
     }  else if ([self.action isEqualToString:@"reviews"]) {
-        self.navTitle.text = @"|日常表现|列表信息";
-        self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userid\":\"%@\", \"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.loginType, app.userId]];
+        self.navTitle.text = @"日常表现 >> 列表信息";
+        self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"logintype\":\"%@\", \"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.loginType, app.userId]];
         self.title1 = @"title";
         self.title2 = @"announce_date";
         self.actionDetail = @"reviewsContent";
+    }  else if ([self.action isEqualToString:@"members"]) {
+        self.navTitle.text = @"班级成员 >> 班级选择";
+        self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userid\":\"%@\"}]", app.userId]];
+        self.title1 = @"name";
+        self.title2 = @"";
+//        self.actionDetail = @"reviewsContent";
     }
 }
 
-- (IBAction)homeTapped:(id)sender {
-    [self.view removeFromSuperview];
-}
-
-- (IBAction)backTapped:(id)sender {
-    [self.view removeFromSuperview];
-}
-
 - (void) loadData {
-    
 //    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 //    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
 //    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
@@ -143,11 +170,13 @@
         [cell.contentView addSubview:title];
     
         // 显示时间
-        UILabel *date = [[UILabel alloc] initWithFrame: CGRectMake(5, 26, 200, 15)];
-        date.text = [row objectForKey:self.title2];
-        date.font = [UIFont boldSystemFontOfSize:12];
-        date.textColor = [UIColor grayColor];
-        [cell.contentView addSubview:date];
+        if (![self.title2 isEqualToString:@""]) {
+            UILabel *date = [[UILabel alloc] initWithFrame: CGRectMake(5, 26, 200, 15)];
+            date.text = [row objectForKey:self.title2];
+            date.font = [UIFont boldSystemFontOfSize:12];
+            date.textColor = [UIColor grayColor];
+            [cell.contentView addSubview:date];
+        }
     }
     
     return cell;
@@ -222,6 +251,48 @@
     [self.tableView1 reloadData];
 }
 
+- (IBAction)homeTapped:(id)sender {
+    [self.view removeFromSuperview];
+}
+
+- (IBAction)backTapped:(id)sender {
+    [self.view removeFromSuperview];
+}
+
+- (IBAction)btn1Tapped:(id)sender {
+}
+
+- (IBAction)btn2Tapped:(id)sender {
+}
+
+// 发送通知公告
+- (IBAction)btn3Tapped:(id)sender {
+    // 打开通用表单
+    self.form = [[yxtForm alloc] initWithNibName:@"yxtForm" bundle:[NSBundle mainBundle]];
+    
+    if ([self.action isEqualToString:@"bulletin"]) {
+        self.form.xibName = @"yxtForm1";
+    } else if ([self.action isEqualToString:@"homework"]) {
+        self.form.xibName = @"yxtForm2";
+    } else if ([self.action isEqualToString:@"selectExamSendMsg"]) {
+        self.form.xibName = @"yxtForm3";
+    } else if ([self.action isEqualToString:@"reviews"]) {
+        self.form.xibName = @"yxtForm4";
+    }
+
+    // 设置子视图高度
+    int x, y, width, height;
+    x = 0;
+    y = 20;
+    width = self.view.frame.size.width;
+    height = self.view.frame.size.height;
+    self.form.view.frame = CGRectMake(x, y, width, height);
+    
+    UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+    [topWindow addSubview: self.form.view];
+    [topWindow makeKeyAndVisible];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -231,6 +302,10 @@
 - (void)viewDidUnload {
     [self setTableView1:nil];
     [self setNavTitle:nil];
+    [self setBtn1:nil];
+    [self setBtn2:nil];
+    [self setBtn3:nil];
+    [self setNavBar:nil];
     [super viewDidUnload];
 }
 @end

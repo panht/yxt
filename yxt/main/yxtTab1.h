@@ -2,7 +2,7 @@
 //  yxtTab1.h
 //  yxt
 //
-//  Created by world ask on 13-5-31.
+//  Created by panht on 13-5-31.
 //  Copyright (c) 2013年 com.landwing.yxt. All rights reserved.
 //
 
