@@ -94,22 +94,30 @@
     
     // 返回数据转json
     NSError* error;
-    NSDictionary* json = [NSJSONSerialization JSONObjectWithData:responseData 
+    NSDictionary* json = [NSJSONSerialization JSONObjectWithData:responseData
                                                          options:kNilOptions
                                                            error:&error];
     // responseinfo段再转json
-//    NSString* responseinfo = [json objectForKey:@"responseinfo"];
-//    NSData *dataResponseinfo = [responseinfo dataUsingEncoding:NSUTF8StringEncoding];
-//    NSDictionary* jsonResponseinfo = [NSJSONSerialization JSONObjectWithData:dataResponseinfo
-//                                                         options:kNilOptions
-//                                                           error:&error];
+    NSString* responseinfo = [json objectForKey:@"responseinfo"];
+    NSData *dataResponseinfo = [responseinfo dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary* jsonResponseinfo = [NSJSONSerialization JSONObjectWithData:dataResponseinfo
+                                                         options:kNilOptions
+                                                           error:&error];
     
     // 返回数据
     NSString *resultData = [json objectForKey:@"resultdata"];
     NSData *dataResultData = [resultData dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary* jsonResultData = [NSJSONSerialization JSONObjectWithData:dataResultData
+    NSDictionary *jsonResultData = [NSJSONSerialization JSONObjectWithData:dataResultData
                                                                      options:kNilOptions
                                                                        error:&error];
+    
+    
+    // 将responseinfo中的recordcount附加到data
+    NSMutableDictionary *jsonResultData1 = [jsonResultData mutableCopy];
+    [jsonResultData1 setObject:[jsonResponseinfo objectForKey:@"recordcount"] forKey:@"recordcount"];
+    jsonResultData = [NSDictionary dictionaryWithDictionary:jsonResultData1];
+    
+    
     NSLog(@"resultdata = %@", resultData);
     return jsonResultData;
 }

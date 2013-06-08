@@ -36,6 +36,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    // 导航栏背景图
+    [self.navBar setBackgroundImage:[UIImage imageNamed:@"backgroundNav.png"] forBarMetrics:UIBarMetricsDefault];
     
     // 设置表单
     if ([self.xibName isEqualToString:@"yxtFormUser"]) {

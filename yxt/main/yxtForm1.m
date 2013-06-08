@@ -45,11 +45,11 @@
 
 - (void) resettle {
     // 通知范围、对象边框
-    self.inputScope.layer.borderColor = [UIColor blackColor].CGColor;
+    self.inputScope.layer.borderColor = [UIColor grayColor].CGColor;
     self.inputScope.layer.borderWidth = 1.0;
-    self.inputTarget.layer.borderColor = [UIColor blackColor].CGColor;
+    self.inputTarget.layer.borderColor = [UIColor grayColor].CGColor;
     self.inputTarget.layer.borderWidth = 1.0;
-    self.inputContent.layer.borderColor = [UIColor blackColor].CGColor;
+    self.inputContent.layer.borderColor = [UIColor grayColor].CGColor;
     self.inputContent.layer.borderWidth = 1.0;
     
     // picker添加点击事件

@@ -49,6 +49,7 @@
 		F2824E2A1762419B00D76C48 /* yxtForm4.m in Sources */ = {isa = PBXBuildFile; fileRef = F2824E281762419900D76C48 /* yxtForm4.m */; };
 		F2824E2B1762419B00D76C48 /* yxtForm4.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2824E291762419A00D76C48 /* yxtForm4.xib */; };
 		F282CCAE175DC3AC00478EB3 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = F282CCAD175DBF4A00478EB3 /* MBProgressHUD.m */; };
+		F287B054176313200068FAEB /* backgroundNav.png in Resources */ = {isa = PBXBuildFile; fileRef = F287B053176313200068FAEB /* backgroundNav.png */; };
 		F289AA97175EEE1D000A0556 /* yxtDetail1.m in Sources */ = {isa = PBXBuildFile; fileRef = F289AA95175EEE1D000A0556 /* yxtDetail1.m */; };
 		F289AA98175EEE1D000A0556 /* yxtDetail1.xib in Resources */ = {isa = PBXBuildFile; fileRef = F289AA96175EEE1D000A0556 /* yxtDetail1.xib */; };
 		F289AAA0175F3609000A0556 /* yxtFormUser.m in Sources */ = {isa = PBXBuildFile; fileRef = F289AA9E175F3607000A0556 /* yxtFormUser.m */; };
@@ -141,6 +142,7 @@
 		F2824E291762419A00D76C48 /* yxtForm4.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = yxtForm4.xib; sourceTree = "<group>"; };
 		F282CCAC175DBF4A00478EB3 /* MBProgressHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		F282CCAD175DBF4A00478EB3 /* MBProgressHUD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		F287B053176313200068FAEB /* backgroundNav.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backgroundNav.png; sourceTree = "<group>"; };
 		F289AA94175EEE1C000A0556 /* yxtDetail1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yxtDetail1.h; sourceTree = "<group>"; };
 		F289AA95175EEE1D000A0556 /* yxtDetail1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = yxtDetail1.m; sourceTree = "<group>"; };
 		F289AA96175EEE1D000A0556 /* yxtDetail1.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = yxtDetail1.xib; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 		F2A770511720F67500CCEE55 /* Resouces */ = {
 			isa = PBXGroup;
 			children = (
+				F287B053176313200068FAEB /* backgroundNav.png */,
 				F2824E1B17620A4100D76C48 /* list1Bulletin31.png */,
 				F2824E13176209AB00D76C48 /* list1Bulletin11.png */,
 				F2824E14176209AB00D76C48 /* list1Bulletin12.png */,
@@ -466,6 +469,7 @@
 				F2824E2117623EAD00D76C48 /* yxtForm3.xib in Resources */,
 				F2824E261762418100D76C48 /* yxtForm2.xib in Resources */,
 				F2824E2B1762419B00D76C48 /* yxtForm4.xib in Resources */,
+				F287B054176313200068FAEB /* backgroundNav.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

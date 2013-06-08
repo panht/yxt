@@ -18,12 +18,14 @@
 @implementation yxtDetail1
 
 @synthesize action;
+@synthesize type;
 @synthesize title1;
 @synthesize title2;
 @synthesize content;
 @synthesize data;
 @synthesize pageIndex;
 @synthesize pageSize;
+@synthesize recordCount;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,21 +41,56 @@
     yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
     
     if ([self.action isEqualToString:@"bulletinContent"]) {
-        self.navTitle.text = @"|通知公告|详细内容";
-        self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.userId]];
+        self.navTitle.title = @"|通知公告|详细内容";
+        self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"%@\", \"userid\":\"%@\"}]", self.type, app.userId]];
     } else if ([self.action isEqualToString:@"homeworkContent"]) {
-        self.navTitle.text = @"|家庭作业|详细内容";
+        self.navTitle.title = @"|家庭作业|详细内容";
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.userId]];
     } else if ([self.action isEqualToString:@"selectExamSendMsg"]) {
-        self.navTitle.text = @"|成绩信息|详细内容";
+        self.navTitle.title = @"|成绩信息|详细内容";
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@""]];
     } else if ([self.action isEqualToString:@"selectExamReceiveMsgDetail"]) {
-        self.navTitle.text = @"|成绩信息|详细内容";
+        self.navTitle.title = @"|成绩信息|详细内容";
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@""]];
     } else if ([self.action isEqualToString:@"reviewsContent"]) {
-        self.navTitle.text = @"|日常表现|详细内容";
+        self.navTitle.title = @"|日常表现|详细内容";
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.userId]];
     }
+}
+
+- (IBAction)btn1Tapped:(id)sender {
+    [self setPageIndex:@"1"];
+    [self loadData];
+}
+
+- (IBAction)btn2Tapped:(id)sender {
+    NSInteger intPageIndex = [self.pageIndex integerValue];
+    
+    intPageIndex--;
+    if (intPageIndex < 1) {
+        intPageIndex = 1;
+    }
+    
+    [self setPageIndex:[NSString stringWithFormat:@"%d", intPageIndex]];
+    [self loadData];
+}
+
+- (IBAction)btn3Tapped:(id)sender {
+    NSInteger intPageIndex = [self.pageIndex integerValue];
+    NSInteger recordcount = [self.recordCount integerValue];
+    
+    intPageIndex++;
+    if (intPageIndex > recordcount) {
+        intPageIndex = recordcount;
+    }
+    
+    [self setPageIndex:[NSString stringWithFormat:@"%d", intPageIndex]];
+    [self loadData];
+}
+
+- (IBAction)btn4Tapped:(id)sender {
+    [self setPageIndex:self.recordCount];
+    [self loadData];
 }
 
 - (IBAction)homeTapped:(id)sender {
@@ -80,6 +117,9 @@
         NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :self.data];
         
         if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
+            // 总记录数，用于翻页
+            self.recordCount = [dataResponse objectForKey:@"recordcount"];
+            
             NSData *dataList = [[dataResponse objectForKey:@"data"] dataUsingEncoding:NSUTF8StringEncoding];
             NSError *error;
             NSDictionary *jsonList = [NSJSONSerialization JSONObjectWithData:dataList
@@ -88,7 +128,6 @@
             
             NSArray *dataListArray = [jsonList objectForKey:@"list"];
             NSDictionary *row = [dataListArray objectAtIndex:0];
-            
             
             int x, y, width, height;
             x = 5;
@@ -153,22 +192,35 @@
                 self.labelContent.frame = CGRectMake(x, y + height * 3, width, self.labelContent.frame.size.height);
             }
             
-//            [self.label1 sizeToFit];
-//            [self.label2 sizeToFit];
-//            [self.label3 sizeToFit];
-//            [self.label4 sizeToFit];
-//            [self.label5 sizeToFit];
-            [self.labelContent sizeToFit];
+//            [self.labelContent sizeToFit];
         }
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     });
 }
 
+- (void) resettle {
+    // 导航栏背景图
+    [self.navBar setBackgroundImage:[UIImage imageNamed:@"backgroundNav.png"] forBarMetrics:UIBarMetricsDefault];
+    
+    // 底部按钮
+    int x, y, width, height;
+    x = 0;
+    y = self.view.frame.size.height - self.navBar.frame.size.height;
+    width = self.view.frame.size.width / 4 - 2;
+    height = self.navBar.frame.size.height;
+    self.btn1.frame = CGRectMake(x, y, width, height);
+    self.btn2.frame = CGRectMake(x + width + 2, y, width, height);
+    self.btn3.frame = CGRectMake(x + width * 2 + 4, y, width, height);
+    self.btn4.frame = CGRectMake(x + width * 3 + 6, y, width + 2, height);
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    [self resettle];
+    
     [self setByAction:self.action];
     
     [self loadData];
@@ -190,6 +242,10 @@
     [self setLabel4:nil];
     [self setLabel5:nil];
     [self setNavBar:nil];
+    [self setBtn1:nil];
+    [self setBtn2:nil];
+    [self setBtn3:nil];
+    [self setBtn4:nil];
     [super viewDidUnload];
 }
 @end

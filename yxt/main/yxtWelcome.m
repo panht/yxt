@@ -49,7 +49,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    // 导航栏背景图
+    [self.navBar setBackgroundImage:[UIImage imageNamed:@"backgroundNav.png"] forBarMetrics:UIBarMetricsDefault];
     
     // 添加子视图
     self.tab1 = [[yxtTab1 alloc] initWithNibName:@"yxtTab1" bundle:nil];
@@ -64,13 +65,13 @@
     x = 0;
     y = self.navBar.frame.size.height;
     width = self.view.frame.size.width;
-    height = self.view.frame.size.height - y - self.navBar.frame.size.height;
+    height = self.view.frame.size.height - y - self.navBar.frame.size.height * 2;
     self.tab1.view.frame = CGRectMake(x, y, width, height);
     self.tab2.view.frame = CGRectMake(x, y, width, height);
     self.tab3.view.frame = CGRectMake(x, y, width, height);
     self.tab1.imageBackground.frame = CGRectMake(x, y, width, height);
     self.tab2.imageBackground.frame = CGRectMake(x, y, width, height);
-    
+    self.tab3.imageBackground.frame = CGRectMake(x, y, width, height);
     
     // 显示第一个视图
     [self.view addSubview:self.tab1.view];

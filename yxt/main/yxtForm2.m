@@ -45,9 +45,9 @@
 
 - (void) resettle {
     // 作业课程、内容边框
-    self.inputCourse.layer.borderColor = [UIColor blackColor].CGColor;
+    self.inputCourse.layer.borderColor = [UIColor grayColor].CGColor;
     self.inputCourse.layer.borderWidth = 1.0;
-    self.inputContent.layer.borderColor = [UIColor blackColor].CGColor;
+    self.inputContent.layer.borderColor = [UIColor grayColor].CGColor;
     self.inputContent.layer.borderWidth = 1.0;
     
     // picker添加点击事件

@@ -11,25 +11,37 @@
 @interface yxtDetail1 : UIViewController
 
 @property (strong, nonatomic) NSString *action;
+@property (strong, nonatomic) NSString *type;
 @property (strong, nonatomic) NSString *title1;
 @property (strong, nonatomic) NSString *title2;
 @property (strong, nonatomic) NSString *content;
 @property (strong, nonatomic) NSString *data;
 @property (strong, nonatomic) NSString *pageSize;
 @property (strong, nonatomic) NSString *pageIndex;
+@property (strong, nonatomic) NSString *recordCount;
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navBar;
-@property (weak, nonatomic) IBOutlet UILabel *navTitle;
+@property (weak, nonatomic) IBOutlet UINavigationItem *navTitle;
 @property (weak, nonatomic) IBOutlet UILabel *label1;
 @property (weak, nonatomic) IBOutlet UILabel *label2;
 @property (weak, nonatomic) IBOutlet UILabel *label3;
 @property (weak, nonatomic) IBOutlet UILabel *label4;
 @property (weak, nonatomic) IBOutlet UILabel *label5;
 @property (weak, nonatomic) IBOutlet UITextView *labelContent;
+@property (weak, nonatomic) IBOutlet UIButton *btn1;
+@property (weak, nonatomic) IBOutlet UIButton *btn2;
+@property (weak, nonatomic) IBOutlet UIButton *btn3;
+@property (weak, nonatomic) IBOutlet UIButton *btn4;
+
+- (IBAction)btn1Tapped:(id)sender;
+- (IBAction)btn2Tapped:(id)sender;
+- (IBAction)btn3Tapped:(id)sender;
+- (IBAction)btn4Tapped:(id)sender;
 
 - (IBAction)homeTapped:(id)sender;
 - (IBAction)backTapped:(id)sender;
 
+-(void) resettle;
 -(void) loadData;
 -(void) setByAction: (NSString *)action;
 

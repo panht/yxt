@@ -55,12 +55,12 @@
     [self.list1 setAction:action];
     
     // 设置子视图高度
-//    int x, y, width, height;
-//    x = 0;
-//    y = 20;
-//    width = self.parentViewController.view.frame.size.width;
-//    height = self.parentViewController.view.frame.size.height;
-//    self.list1.view.frame = CGRectMake(x, y, width, height);
+    int x, y, width, height;
+    x = 0;
+    y = 20;
+    width = self.parentViewController.view.frame.size.width;
+    height = self.parentViewController.view.frame.size.height;
+    self.list1.view.frame = CGRectMake(x, y, width, height);
     
     UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
     self.list1.view.tag = 300;

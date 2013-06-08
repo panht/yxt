@@ -10,5 +10,6 @@
 
 @interface yxtTab3 : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIImageView *imageBackground;
 
 @end
