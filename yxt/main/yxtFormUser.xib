@@ -399,6 +399,14 @@
 					<int key="connectionID">51</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">btnSave</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="301204311"/>
+					</object>
+					<int key="connectionID">58</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">chooseHead:</string>
 						<reference key="source" ref="859201281"/>
@@ -409,21 +417,39 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">closeKeyboard:</string>
+						<reference key="source" ref="1004310309"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">20</int>
+					</object>
+					<int key="connectionID">57</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">closeKeyboard:</string>
+						<reference key="source" ref="933187243"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">20</int>
+					</object>
+					<int key="connectionID">56</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">closeKeyboard:</string>
+						<reference key="source" ref="972737894"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">20</int>
+					</object>
+					<int key="connectionID">55</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">save:</string>
 						<reference key="source" ref="301204311"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
 					<int key="connectionID">41</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">closeKeyboard:</string>
-						<reference key="source" ref="301204311"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">20</int>
-					</object>
-					<int key="connectionID">53</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -542,7 +568,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">53</int>
+			<int key="maxID">58</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -552,6 +578,7 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="backTapped:">id</string>
 						<string key="chooseHead:">id</string>
+						<string key="closeKeyboard:">id</string>
 						<string key="homeTapped:">id</string>
 						<string key="save:">id</string>
 					</dictionary>
@@ -564,6 +591,10 @@
 							<string key="name">chooseHead:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="closeKeyboard:">
+							<string key="name">closeKeyboard:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="homeTapped:">
 							<string key="name">homeTapped:</string>
 							<string key="candidateClassName">id</string>
@@ -574,14 +605,20 @@
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="btnSave">UIButton</string>
 						<string key="imageBackground">UIImageView</string>
 						<string key="imageHead">UIImageView</string>
 						<string key="newpwd1">UITextField</string>
 						<string key="newpwd2">UITextField</string>
 						<string key="oldpwd">UITextField</string>
+						<string key="parentImageHead">UIImageView</string>
 						<string key="scrollView">UIScrollView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="btnSave">
+							<string key="name">btnSave</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="imageBackground">
 							<string key="name">imageBackground</string>
 							<string key="candidateClassName">UIImageView</string>
@@ -601,6 +638,10 @@
 						<object class="IBToOneOutletInfo" key="oldpwd">
 							<string key="name">oldpwd</string>
 							<string key="candidateClassName">UITextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="parentImageHead">
+							<string key="name">parentImageHead</string>
+							<string key="candidateClassName">UIImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="scrollView">
 							<string key="name">scrollView</string>

@@ -39,6 +39,11 @@
     [self.view removeFromSuperview];
 }
 
+-(IBAction)closeKeyboard:(id)sender  {
+    [sender resignFirstResponder];
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -73,6 +78,7 @@
     [self setNewpwd2:nil];
     [self setScrollView:nil];
     [self setImageBackground:nil];
+    [self setBtnSave:nil];
     [super viewDidUnload];
 }
 - (IBAction)chooseHead:(id)sender {
@@ -112,8 +118,9 @@
 }
 
 - (IBAction)save:(id)sender {
+    [self.view endEditing: YES];
+    
     // 任一密码框有输入，则视为需要保存密码
-//    if (self.oldpwd.text != NULL || self.newpwd1.text != NULL || self.newpwd2.text != NULL) {
     if (![self.oldpwd.text isEqualToString:@""] || ![self.newpwd1.text isEqualToString:@""] || ![self.newpwd2.text isEqualToString:@""]) {
         if ([self.oldpwd.text isEqualToString:@""]) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请输入原密码" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];

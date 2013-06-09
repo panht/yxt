@@ -19,11 +19,13 @@
 @property (weak, nonatomic) IBOutlet UITextField *oldpwd;
 @property (weak, nonatomic) IBOutlet UITextField *newpwd1;
 @property (weak, nonatomic) IBOutlet UITextField *newpwd2;
+@property (weak, nonatomic) IBOutlet UIButton *btnSave;
 @property (weak, nonatomic) IBOutlet UIImageView *parentImageHead;
 
 - (IBAction)chooseHead:(id)sender;
 - (IBAction)save:(id)sender;
 - (IBAction)homeTapped:(id)sender;
 - (IBAction)backTapped:(id)sender;
+- (IBAction)closeKeyboard:(id)sender;
 
 @end
