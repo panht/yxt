@@ -209,14 +209,21 @@
     [self.btn2 setHidden:NO];
     [self.btn3 setHidden:NO];
     
+    // 获得屏幕宽高
+    int screenWidth = [[UIScreen mainScreen] bounds].size.width;
+    int screenHeight = [[UIScreen mainScreen] bounds].size.height;
+    int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
+    
     int x, y, width, height;
     x = 0;
-    y = self.view.frame.size.height - self.navBar.frame.size.height;
-    width = self.view.frame.size.width / 3;
+    y = screenHeight - statusBarHeight - self.navBar.frame.size.height;
+    width = screenWidth / 3;
     height = self.navBar.frame.size.height;
     self.btn1.frame = CGRectMake(x, y, width, height);
-    self.btn2.frame = CGRectMake(x + width, y, width, height);
-    self.btn3.frame = CGRectMake(x + width * 2, y, width, height);
+    self.btn2.frame = CGRectMake(x + width + 1, y, width, height);
+    self.btn3.frame = CGRectMake(x + width * 2 + 2, y, width, height);
+    
+    self.tableView1.frame = CGRectMake(x, self.navBar.frame.size.height, screenWidth, y - self.navBar.frame.size.height);
 //    self.view.frame = CGRectMake(x, self.navBar.frame.size.height, self.view.frame.size.width, self.view.frame.size.height - self.navBar.frame.size.height * 2);
 }
 

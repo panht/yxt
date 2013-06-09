@@ -59,13 +59,17 @@
     [self.btn1 setHidden:YES];
     [self.btn2 setHidden:YES];
     
+    // 获得屏幕宽高
+    int screenWidth = [[UIScreen mainScreen] bounds].size.width;
+    int screenHeight = [[UIScreen mainScreen] bounds].size.height;
+    int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
+    
     // 表格视图位置
     int xTableView1, yTableView1, widthTableView1, heightTableView1;
     xTableView1 = 0;
     yTableView1 = self.navBar.frame.size.height;
-    widthTableView1 = self.view.frame.size.width;
-    heightTableView1 = self.view.frame.size.height - self.navBar.frame.size.height;
-    
+    widthTableView1 = screenWidth;
+    heightTableView1 = screenHeight - self.navBar.frame.size.height;
     
     // 如果是教师，且不是班级成员栏目，显示发送按钮
     if ([app.loginType isEqualToString:@"1"] && ![self.action isEqualToString:@"eduClass"]) {
@@ -90,7 +94,7 @@
             // 收、发件箱按钮调整
             int x, y, width, height;
             x = 0;
-            y = self.view.frame.size.height - self.navBar.frame.size.height - 20;
+            y = screenHeight - statusBarHeight - self.navBar.frame.size.height;
             width = self.view.frame.size.width / 2;
             height = self.navBar.frame.size.height;
             self.btn1.frame = CGRectMake(x, y, width, height);
@@ -212,6 +216,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row < [self.dataSource count]) {
+        // 获得屏幕宽高
+        int screenWidth = [[UIScreen mainScreen] bounds].size.width;
+        int screenHeight = [[UIScreen mainScreen] bounds].size.height;
+//        int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
+        
         if ([self.action isEqualToString:@"eduClass"]) {
             // 为班级成员时，打开list2
             self.list2 = [[yxtList2 alloc] initWithNibName:@"yxtList2" bundle:[NSBundle mainBundle]];
@@ -222,8 +231,8 @@
             int x, y, width, height;
             x = 0;
             y = 30;
-            width = self.list2.view.frame.size.width;
-            height = self.list2.view.frame.size.height;
+            width = screenWidth;
+            height = screenHeight;
             self.list2.view.frame = CGRectMake(x, y, width, height);
             
             UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
@@ -244,8 +253,8 @@
             int x, y, width, height;
             x = 0;
             y = 20;
-            width = self.detail1.view.frame.size.width;
-            height = self.detail1.view.frame.size.height;
+            width = screenWidth;
+            height = screenHeight;
             self.detail1.view.frame = CGRectMake(x, y, width, height);
             
             UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];

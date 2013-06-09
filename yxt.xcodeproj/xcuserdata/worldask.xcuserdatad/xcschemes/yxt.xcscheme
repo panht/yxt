@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F2A7702A1720F5FD00CCEE55"
                BuildableName = "yxt.app"
-               BlueprintName = "yxt"
+               BlueprintName = "&#32764;&#26657;&#36890;"
                ReferencedContainer = "container:yxt.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -34,7 +34,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F2A7702A1720F5FD00CCEE55"
             BuildableName = "yxt.app"
-            BlueprintName = "yxt"
+            BlueprintName = "&#32764;&#26657;&#36890;"
             ReferencedContainer = "container:yxt.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -53,7 +53,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F2A7702A1720F5FD00CCEE55"
             BuildableName = "yxt.app"
-            BlueprintName = "yxt"
+            BlueprintName = "&#32764;&#26657;&#36890;"
             ReferencedContainer = "container:yxt.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -78,7 +78,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F2A7702A1720F5FD00CCEE55"
             BuildableName = "yxt.app"
-            BlueprintName = "yxt"
+            BlueprintName = "&#32764;&#26657;&#36890;"
             ReferencedContainer = "container:yxt.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

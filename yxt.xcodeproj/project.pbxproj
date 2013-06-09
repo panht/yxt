@@ -384,9 +384,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F2A7702A1720F5FD00CCEE55 /* yxt */ = {
+		F2A7702A1720F5FD00CCEE55 /* 翼校通 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F2A7704E1720F5FD00CCEE55 /* Build configuration list for PBXNativeTarget "yxt" */;
+			buildConfigurationList = F2A7704E1720F5FD00CCEE55 /* Build configuration list for PBXNativeTarget "翼校通" */;
 			buildPhases = (
 				F2A770271720F5FD00CCEE55 /* Sources */,
 				F2A770281720F5FD00CCEE55 /* Frameworks */,
@@ -396,7 +396,7 @@
 			);
 			dependencies = (
 			);
-			name = yxt;
+			name = "翼校通";
 			productName = yxt;
 			productReference = F2A7702B1720F5FD00CCEE55 /* yxt.app */;
 			productType = "com.apple.product-type.application";
@@ -423,7 +423,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F2A7702A1720F5FD00CCEE55 /* yxt */,
+				F2A7702A1720F5FD00CCEE55 /* 翼校通 */,
 			);
 		};
 /* End PBXProject section */
@@ -642,7 +642,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F2A7704E1720F5FD00CCEE55 /* Build configuration list for PBXNativeTarget "yxt" */ = {
+		F2A7704E1720F5FD00CCEE55 /* Build configuration list for PBXNativeTarget "翼校通" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F2A7704F1720F5FD00CCEE55 /* Debug */,

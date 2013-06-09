@@ -229,11 +229,16 @@
     // 导航栏背景图
     [self.navBar setBackgroundImage:[UIImage imageNamed:@"backgroundNav.png"] forBarMetrics:UIBarMetricsDefault];
     
+    // 获得屏幕宽高
+    int screenWidth = [[UIScreen mainScreen] bounds].size.width;
+    int screenHeight = [[UIScreen mainScreen] bounds].size.height;
+    int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
+    
     // 底部按钮
     int x, y, width, height;
     x = 0;
-    y = self.view.frame.size.height - self.navBar.frame.size.height;
-    width = self.view.frame.size.width / 4 - 2;
+    y = screenHeight - statusBarHeight - self.navBar.frame.size.height;
+    width = screenWidth / 4 - 2;
     height = self.navBar.frame.size.height;
     self.btn1.frame = CGRectMake(x, y, width, height);
     self.btn2.frame = CGRectMake(x + width + 2, y, width, height);

@@ -310,8 +310,19 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     self.textUsername.text = [userDefaults stringForKey:@"username"];
     self.textPassword.text = [userDefaults stringForKey:@"password"];
-    self.inputDisplayPassword.selectedSegmentIndex = [[userDefaults stringForKey:@"displayPassword"] integerValue];
-    self.inputAutoLogin.selectedSegmentIndex = [[userDefaults stringForKey:@"autoLogin"] integerValue];
+    
+    NSString *displayPassword = [userDefaults stringForKey:@"displayPassword"];
+    if (displayPassword != nil) {
+        self.inputDisplayPassword.selectedSegmentIndex = [displayPassword integerValue];
+    } else {
+        self.inputDisplayPassword.selectedSegmentIndex = 1;
+    }
+    NSString *autoLogin = [userDefaults stringForKey:@"autoLogin"];
+    if (autoLogin != nil) {
+        self.inputAutoLogin.selectedSegmentIndex = [autoLogin integerValue];
+    } else {
+        self.inputAutoLogin.selectedSegmentIndex = 1;
+    }
 }
 
 // 自动登录
