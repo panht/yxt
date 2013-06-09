@@ -39,11 +39,6 @@
     [self.view removeFromSuperview];
 }
 
--(IBAction)closeKeyboard:(id)sender  {
-    [sender resignFirstResponder];
-}
-
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -148,6 +143,9 @@
         if (self.imageOld != self.imageNew && self.imageNew != NULL) {
             NSData *dataImage = UIImagePNGRepresentation(self.imageHead.image);
             bytesImage = [GTMBase64 stringByEncodingData:dataImage];
+
+            // 更新主界面的头像
+            self.parentImageHead.image = self.imageNew;
         } else {
             bytesImage = @"";
         }
@@ -165,9 +163,6 @@
         
         if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
             self.imageOld = self.imageNew;
-            
-            // 更新主界面的头像
-            self.parentImageHead.image = self.imageNew;
             
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"保存成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
             [alert show];

@@ -26,6 +26,5 @@
 - (IBAction)save:(id)sender;
 - (IBAction)homeTapped:(id)sender;
 - (IBAction)backTapped:(id)sender;
-- (IBAction)closeKeyboard:(id)sender;
 
 @end
