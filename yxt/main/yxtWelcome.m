@@ -100,6 +100,8 @@
     self.form = [[yxtForm alloc] initWithNibName:@"yxtForm" bundle:[NSBundle mainBundle]];
     
     self.form.xibName = @"yxtFormUser";
+    self.form.parentImageHead = self.imageHead;
+    self.form.view.tag = 300;
     
     // 设置子视图高度
     int x, y, width, height;

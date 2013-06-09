@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *oldpwd;
 @property (weak, nonatomic) IBOutlet UITextField *newpwd1;
 @property (weak, nonatomic) IBOutlet UITextField *newpwd2;
+@property (weak, nonatomic) IBOutlet UIImageView *parentImageHead;
 
 - (IBAction)chooseHead:(id)sender;
 - (IBAction)save:(id)sender;

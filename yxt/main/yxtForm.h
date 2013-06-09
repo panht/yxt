@@ -27,6 +27,7 @@
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navBar;
 @property (weak, nonatomic) IBOutlet UINavigationItem *navTitle;
+@property (weak, nonatomic) IBOutlet UIImageView *parentImageHead;
 
 - (IBAction)homeTapped:(id)sender;
 - (IBAction)backTapped:(id)sender;

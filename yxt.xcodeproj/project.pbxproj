@@ -165,7 +165,7 @@
 		F28C979617214676009D8F1C /* index2Title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = index2Title.png; sourceTree = "<group>"; };
 		F28C979717214676009D8F1C /* index3Title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = index3Title.png; sourceTree = "<group>"; };
 		F28C979817214676009D8F1C /* index1Title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = index1Title.png; sourceTree = "<group>"; };
-		F2A7702B1720F5FD00CCEE55 /* yxt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = yxt.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2A7702B1720F5FD00CCEE55 /* 翼校通.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "翼校通.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2A7702E1720F5FD00CCEE55 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F2A770301720F5FD00CCEE55 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F2A770321720F5FD00CCEE55 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -229,7 +229,7 @@
 		F2A7702C1720F5FD00CCEE55 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F2A7702B1720F5FD00CCEE55 /* yxt.app */,
+				F2A7702B1720F5FD00CCEE55 /* 翼校通.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -398,7 +398,7 @@
 			);
 			name = "翼校通";
 			productName = yxt;
-			productReference = F2A7702B1720F5FD00CCEE55 /* yxt.app */;
+			productReference = F2A7702B1720F5FD00CCEE55 /* 翼校通.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */

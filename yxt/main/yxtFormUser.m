@@ -159,15 +159,8 @@
         if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
             self.imageOld = self.imageNew;
             
-            // TODO 保存成功，更新主界面的头像
-            //        UIResponder *responder = self;
-            //        while ((responder = [responder nextResponder])) {
-            //            if ([responder isKindOfClass:[yxtWelcome class]]) {
-            //                yxtWelcome *welcome = (yxtWelcome*)responder;
-            //                welcome.imageHead.image = self.imageHead.image;
-            //                [welcome.imageHead setNeedsDisplay];
-            //            }
-            //        }
+            // 更新主界面的头像
+            self.parentImageHead.image = self.imageNew;
             
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"保存成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
             [alert show];

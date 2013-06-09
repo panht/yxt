@@ -69,6 +69,7 @@
 -(void) loadFormUser {
     self.navTitle.title = @"个人信息 >> 修改";
     self.formUser = [[yxtFormUser alloc] initWithNibName:@"yxtFormUser" bundle:nil];
+    self.formUser.parentImageHead = self.parentImageHead;
     [self addChildViewController:self.formUser];
     [self settleForm:self.formUser];
     

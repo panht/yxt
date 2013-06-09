@@ -70,12 +70,12 @@
     yxtAppDelegate *app = [[UIApplication sharedApplication] delegate];
     
     // 特殊字符urlencode
-//    requestInfo = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) requestInfo, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
-//    identityInfo = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) identityInfo, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
-//    data = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) data, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
-    requestInfo = [self urlEncode:requestInfo];
-    identityInfo = [self urlEncode:identityInfo];
-    data = [self urlEncode:data];
+    requestInfo = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) requestInfo, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
+    identityInfo = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) identityInfo, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
+    data = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) data, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
+//    requestInfo = [self urlEncode:requestInfo];
+//    identityInfo = [self urlEncode:identityInfo];
+//    data = [self urlEncode:data];
     
     NSString *postURL = [[NSString alloc] initWithFormat:@"RequestInfo=%@&IdentityInfo=%@&data=%@", requestInfo, identityInfo, data];
     
