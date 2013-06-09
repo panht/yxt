@@ -12,6 +12,9 @@
 @interface yxtLogin : yxtViewControllerBase
 
 @property BOOL flagLogout;
+@property BOOL flagCheckVersion;
+@property NSInteger flagAlert;
+@property (strong, nonatomic) NSString *urlUpdate;
 @property (weak, nonatomic) IBOutlet UIImageView *imageBackground;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewIcon;
 @property (weak, nonatomic) IBOutlet UILabel *labelUsername;

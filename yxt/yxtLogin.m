@@ -19,6 +19,10 @@
 @implementation yxtLogin
 
 @synthesize flagLogout;
+@synthesize flagCheckVersion;
+// 1为选择角色，2为强制更新，3为可选更新
+@synthesize flagAlert;
+@synthesize urlUpdate;
 @synthesize imageViewIcon;
 @synthesize textUsername;
 @synthesize textPassword;
@@ -26,6 +30,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setFlagCheckVersion:YES];
     
     // 读取本地信息
     [self readDefaults];
@@ -183,6 +188,7 @@
             // 保存全局变量
             [app setLoginType:[jsonResult objectForKey:@"logintype"]];
             
+            [self setFlagAlert:1];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请选择登录身份" message:@"" delegate:self cancelButtonTitle:@"教师" otherButtonTitles: @"家长", nil];
             [alert show];
             return;
@@ -216,56 +222,82 @@
 
 //定义的委托，buttonindex就是按下的按钮的index值
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    yxtAppDelegate *app = (yxtAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+    if (self.flagAlert == 1) {
+        yxtAppDelegate *app = (yxtAppDelegate *)[[UIApplication sharedApplication] delegate];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            if (buttonIndex == 0) {
+                [app setLoginType:@"1"];
+            } else if (buttonIndex == 1) {
+                [app setLoginType:@"2"];
+            }
+            
+            NSString *pwd = @"/uNkSKHfSh8=";
+            NSString *identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
+            NSString *data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"logintype\":\"\", \"account\":\"%@\", \"pwd\":\"%@\"}]", self.textUsername.text, pwd]];
+            NSString *requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"login" :@"0" :@"0" :identityInfo :data]];
+            
+            [self login: requestInfo :identityInfo : data];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        });
+    } else if (self.flagAlert == 2) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.urlUpdate]];
+    } else if (self.flagAlert == 3) {
+//        self.urlUpdate = [NSString stringWithFormat:@"http://itunes.apple.com/us/app/id%d", 436957167];
         if (buttonIndex == 0) {
-            [app setLoginType:@"1"];
-        } else if (buttonIndex == 1) {
-            [app setLoginType:@"2"];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.urlUpdate]];
+        } else {
+            [self setFlagCheckVersion:NO];
+            [self autoLogin];
         }
-        
-        NSString *pwd = @"/uNkSKHfSh8=";
-        NSString *identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-        NSString *data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"logintype\":\"\", \"account\":\"%@\", \"pwd\":\"%@\"}]", self.textUsername.text, pwd]];
-        NSString *requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"login" :@"0" :@"0" :identityInfo :data]];
+    }
     
-        [self login: requestInfo :identityInfo : data];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-    });
 }
 
 // 版本检查
 - (BOOL) checkVersion {
-    // 从plist读取当前版本号
-    NSString *plist = [[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"];
-    NSMutableDictionary *dataPlist = [[NSMutableDictionary alloc] initWithContentsOfFile:plist];
-    NSInteger version = [[dataPlist objectForKey:@"Version"] integerValue];
-    
-    // 从服务器获取最新版本号
-    NSString *identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-    NSString *data = @"";
-    NSString *requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"ver" :@"0" :@"0" :identityInfo :data]];
-    NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
-    
-    if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
-        NSData *dataList = [[dataResponse objectForKey:@"data"] dataUsingEncoding:NSUTF8StringEncoding];
-        NSError *error;
-        NSDictionary *jsonList = [NSJSONSerialization JSONObjectWithData:dataList
-                                                                 options:kNilOptions
-                                                                   error:&error];
-        NSArray *data = [jsonList objectForKey:@"list"];
-        NSDictionary *row = [data objectAtIndex:0];
+    if (self.flagCheckVersion == YES) {
+        // 从plist读取当前版本号
+        NSString *plist = [[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"];
+        NSMutableDictionary *dataPlist = [[NSMutableDictionary alloc] initWithContentsOfFile:plist];
+        NSInteger version = [[dataPlist objectForKey:@"Version"] integerValue];
         
-        NSInteger dataver = [[row objectForKey:@"ver"] integerValue];
-//        NSLog(@"old:%d   new:%d", version, dataver);
-        // 比较版本号
-        if (dataver > version) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"有新版本，请更新" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-            [alert show];
+        // 从服务器获取最新版本号
+        NSString *identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
+        NSString *data = @"";
+        NSString *requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"ver" :@"0" :@"0" :identityInfo :data]];
+        NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
+        
+        if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
+            NSData *dataList = [[dataResponse objectForKey:@"data"] dataUsingEncoding:NSUTF8StringEncoding];
+            NSError *error;
+            NSDictionary *jsonList = [NSJSONSerialization JSONObjectWithData:dataList
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            NSArray *data = [jsonList objectForKey:@"list"];
+            NSDictionary *row = [data objectAtIndex:0];
             
-            return YES;
+            NSInteger dataver = [[row objectForKey:@"ver"] integerValue];
+            
+            //        NSLog(@"old:%d   new:%d", version, dataver);
+            // 比较版本号
+            if (dataver > version) {
+                [self setUrlUpdate:[row objectForKey:@"ver_url"]];
+                
+                // 是否强制更新
+                if ([[row objectForKey:@"ver"] isEqualToString:@"1"]) {
+                    [self setFlagAlert:2];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"有新版本，请更新" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                    [alert show];
+                } else {
+                    [self setFlagAlert:3];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"有新版本，是否更新" message:@"" delegate:self cancelButtonTitle:@"是" otherButtonTitles: @"否", nil];
+                    [alert show];
+                }
+                
+                return YES;
+            }
         }
     }
     
