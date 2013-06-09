@@ -54,10 +54,16 @@
     self.list1 = [[yxtList1 alloc] initWithNibName:@"yxtList1" bundle:[NSBundle mainBundle]];
     [self.list1 setAction:action];
     
+    
+    // 获得屏幕宽高
+//    int screenWidth = [[UIScreen mainScreen] bounds].size.width;
+//    int screenHeight = [[UIScreen mainScreen] bounds].size.height;
+    int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
+    
     // 设置子视图高度
     int x, y, width, height;
     x = 0;
-    y = 20;
+    y = statusBarHeight;
     width = self.parentViewController.view.frame.size.width;
     height = self.parentViewController.view.frame.size.height;
     self.list1.view.frame = CGRectMake(x, y, width, height);

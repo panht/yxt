@@ -161,12 +161,16 @@
                 self.label2.textColor =  [UIColor grayColor];
                 self.label3.textColor =  [UIColor grayColor];
             } else if ([self.action isEqualToString:@"homeworkContent"]) {
-                // 家庭作业 
+                // 家庭作业
+                detailTitle = [row objectForKey:@"ass_title"];
+                detailTitle = [yxtUtil urlDecode:detailTitle];
+                DetailContent = [row objectForKey:@"ass_content"];
+                DetailContent = [yxtUtil urlDecode:DetailContent];
                 self.label1.text = [NSString stringWithFormat:@"作业课程：%@", [row objectForKey:@"course_name"]];
-                self.label2.text = [NSString stringWithFormat:@"发送人：%@", [row objectForKey:@"user_name"]];
+                self.label2.text = [NSString stringWithFormat:@"发  送  人：%@", [row objectForKey:@"user_name"]];
                 self.label3.text = [NSString stringWithFormat:@"发送时间：%@", [row objectForKey:@"rec_date"]];
-                self.label4.text = [NSString stringWithFormat:@"作业标题：%@", [row objectForKey:@"ass_title"]];
-                self.labelContent.text = [row objectForKey:@"ass_content"];
+                self.label4.text = [NSString stringWithFormat:@"作业标题：%@", detailTitle];
+                self.labelContent.text = DetailContent;
                 
                 self.label1.frame = CGRectMake(x, y, width, height);
                 self.label2.frame = CGRectMake(x, y + height, width, height);
@@ -210,10 +214,16 @@
                 self.label2.textAlignment = UITextAlignmentLeft;
                 self.label3.textAlignment = UITextAlignmentLeft;
             } else if ([self.action isEqualToString:@"reviewsContent"]) {
+                // 日常表现
+                detailTitle = [row objectForKey:@"msg_title"];
+                detailTitle = [yxtUtil urlDecode:detailTitle];
+                DetailContent = [row objectForKey:@"msg_content"];
+                DetailContent = [yxtUtil urlDecode:DetailContent];
+                
                 self.label1.text = [NSString stringWithFormat:@"发件人：%@", [row objectForKey:@"user_name"]];
-                self.label2.text = [row objectForKey:@"msg_title"];
+                self.label2.text = detailTitle;
                 self.label3.text = [NSString stringWithFormat:@"发送时间：%@", [row objectForKey:@"rec_date"]];
-                self.labelContent.text = [row objectForKey:@"msg_content"];
+                self.labelContent.text = DetailContent;
                 
                 self.label1.frame = CGRectMake(x, y, width, height);
                 self.label2.frame = CGRectMake(x, y + height, width, height);

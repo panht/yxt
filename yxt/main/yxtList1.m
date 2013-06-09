@@ -208,6 +208,9 @@
         // 显示标题
         UILabel *title = [[UILabel alloc] initWithFrame: CGRectMake(5, 5, 250, heightTitle1)];
         title.text = [yxtUtil urlDecode: [rowData objectForKey:self.title1]];
+        if ([self.action isEqualToString:@"homework"]) {
+            title.text = [title.text stringByAppendingFormat:@"作业"];
+        }
         [cell.contentView addSubview:title]; 
     }
     
@@ -372,13 +375,18 @@
     } else if ([self.action isEqualToString:@"reviews"]) {
         self.form.xibName = @"yxtForm4";
     }
-
+    
+    // 获得屏幕宽高
+    int screenWidth = [[UIScreen mainScreen] bounds].size.width;
+    int screenHeight = [[UIScreen mainScreen] bounds].size.height;
+    int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
+    
     // 设置子视图高度
     int x, y, width, height;
     x = 0;
-    y = 20;
-    width = self.view.frame.size.width;
-    height = self.view.frame.size.height;
+    y = statusBarHeight;
+    width = screenWidth;
+    height = screenHeight - statusBarHeight;
     self.form.view.frame = CGRectMake(x, y, width, height);
     
     UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];

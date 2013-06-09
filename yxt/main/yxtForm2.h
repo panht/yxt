@@ -23,6 +23,8 @@
 @property (weak, nonatomic) IBOutlet UITextView *inputContent;
 @property (weak, nonatomic) IBOutlet UIPickerView *picker;
 @property (weak, nonatomic) IBOutlet UIImageView *imageBackground;
+@property (weak, nonatomic) IBOutlet UIButton *btnAlbum;
+@property (weak, nonatomic) IBOutlet UIButton *btnPhoto;
 
 - (IBAction)courseTapped:(id)sender;
 - (IBAction)send:(id)sender;

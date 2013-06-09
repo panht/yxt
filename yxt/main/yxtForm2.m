@@ -50,6 +50,20 @@
     self.inputContent.layer.borderColor = [UIColor grayColor].CGColor;
     self.inputContent.layer.borderWidth = 1.0;
     
+    // 底部按钮
+    // 获得屏幕宽高
+    int screenWidth = [[UIScreen mainScreen] bounds].size.width;
+    int screenHeight = [[UIScreen mainScreen] bounds].size.height;
+    int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
+    
+    int x, y, width, height;
+    x = 0;
+    y = screenHeight - statusBarHeight - self.btnAlbum.frame.size.height * 2;
+    width = screenWidth / 2;
+    height = self.btnAlbum.frame.size.height;
+    self.btnAlbum.frame = CGRectMake(x, y, width - 1, height);
+    self.btnPhoto.frame = CGRectMake(x + width + 1, y, width, height);
+    
     // picker添加点击事件
     UITapGestureRecognizer *pickerTapped = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(closePicker)];
     [self.picker addGestureRecognizer:pickerTapped];
@@ -121,13 +135,18 @@
         NSString *chksms = self.inputSMS.on ? @"1" : @"0";
         NSString *blocflag = self.inputWeibo.on ? @"1" : @"0";
         NSString *files = @"";
+        NSString *title = self.inputTitle.text;
+        NSString *content = self.inputContent.text;
+        title = [yxtUtil urlEncode:title];
+        content = [yxtUtil urlEncode:content];
+        coursename = [yxtUtil urlEncode:coursename];
         
         NSString *requestInfo;
         NSString *data;
         NSString *identityInfo;
         
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userid\":\"%@\", \"assTitle\":\"%@\", \"assContent\":\"%@\", \"classCourse\":\"%@\", \"chksms\":\"%@\", \"userName\":\"%@\", \"classCourseName\":\"%@\", \"blocToken\":\"%@\", \"userAccount\":\"%@\", \"blocFlag\":\"%@\", \"Files\":\"%@\"}]", app.userId, self.inputTitle.text, self.inputContent.text, courseid, chksms, app.username, coursename, app.token, app.userId, blocflag, files]];
+        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userid\":\"%@\", \"assTitle\":\"%@\", \"assContent\":\"%@\", \"classCourse\":\"%@\", \"chksms\":\"%@\", \"userName\":\"%@\", \"classCourseName\":\"%@\", \"blocToken\":\"%@\", \"userAccount\":\"%@\", \"blocFlag\":\"%@\", \"Files\":\"%@\"}]", app.userId, title, content, courseid, chksms, [yxtUtil urlEncode:app.username], coursename, app.token, app.userId, blocflag, files]];
         requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"addHomeWork" :@"0" :@"0" :identityInfo :data]];
         NSLog(@"requestInfo   %@", requestInfo);
         NSLog(@"identityInfo   %@", identityInfo);
@@ -202,6 +221,8 @@
     [self setInputContent:nil];
     [self setPicker:nil];
     [self setImageBackground:nil];
+    [self setBtnAlbum:nil];
+    [self setBtnPhoto:nil];
     [super viewDidUnload];
 }
 

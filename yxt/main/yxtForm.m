@@ -55,12 +55,17 @@
 
 //  设置子视图
 - (void) settleForm: (yxtViewControllerBase*)vc {
+    // 获得屏幕宽高
+    int screenWidth = [[UIScreen mainScreen] bounds].size.width;
+    int screenHeight = [[UIScreen mainScreen] bounds].size.height;
+//    int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
+
     // 设置子视图高度
     int x, y, width, height;
     x = 0;
     y = self.navBar.frame.size.height;
-    width = self.view.frame.size.width;
-    height = self.view.frame.size.height - y ;
+    width = screenWidth;
+    height = screenHeight - y ;
     vc.view.frame = CGRectMake(x, y, width, height);
     vc.imageBackground.frame = CGRectMake(x, y, width, height);
 }
@@ -70,8 +75,8 @@
     self.navTitle.title = @"个人信息 >> 修改";
     self.formUser = [[yxtFormUser alloc] initWithNibName:@"yxtFormUser" bundle:nil];
     self.formUser.parentImageHead = self.parentImageHead;
-    [self addChildViewController:self.formUser];
     [self settleForm:self.formUser];
+    [self addChildViewController:self.formUser];
     
 //    // 添加点击关闭键盘事件
 //    UITapGestureRecognizer *backgroundTap = [[UITapGestureRecognizer alloc]initWithTarget:self.formUser action:@selector(backgroundTap:)];
@@ -85,8 +90,8 @@
 -(void) loadForm1 {
     self.navTitle.title = @"通知公告 >> 添加内容";
     self.form1 = [[yxtForm1 alloc] initWithNibName:@"yxtForm1" bundle:nil];
-    [self addChildViewController:self.form1];
     [self settleForm:self.form1];
+    [self addChildViewController:self.form1];
     
     // 显示表单视图
     [self.view addSubview:self.form1.view];
@@ -94,10 +99,10 @@
 
 // 载入通知公告表单
 -(void) loadForm2 {
-    self.navTitle.title = @"通知公告 >> 添加内容";
+    self.navTitle.title = @" 家庭作业 >> 添加内容";
     self.form2 = [[yxtForm2 alloc] initWithNibName:@"yxtForm2" bundle:nil];
-    [self addChildViewController:self.form2];
     [self settleForm:self.form2];
+    [self addChildViewController:self.form2];
     
     // 显示表单视图
     [self.view addSubview:self.form2.view];
@@ -107,8 +112,8 @@
 -(void) loadForm3 {
     self.navTitle.title = @"成绩信息 >> 添加内容";
     self.form3 = [[yxtForm3 alloc] initWithNibName:@"yxtForm3" bundle:nil];
-    [self addChildViewController:self.form3];
     [self settleForm:self.form3];
+    [self addChildViewController:self.form3];
     
     // 显示表单视图
     [self.view addSubview:self.form3.view];
@@ -118,8 +123,8 @@
 -(void) loadForm4 {
     self.navTitle.title = @"日常表现 >> 添加内容";
     self.form4 = [[yxtForm4 alloc] initWithNibName:@"yxtForm4" bundle:nil];
-    [self addChildViewController:self.form4];
     [self settleForm:self.form4];
+    [self addChildViewController:self.form4];
     
     // 显示表单视图
     [self.view addSubview:self.form4.view];

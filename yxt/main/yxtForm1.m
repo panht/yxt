@@ -153,9 +153,6 @@
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
         data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userid\":\"%@\", \"title\":\"%@\", \"content\":\"%@\", \"classid\":\"%@\", \"selectuser\":\"%@\", \"chksms\":\"%@\", \"useraccount\":\"%@\", \"bloctoken\":\"%@\", \"blocflag\":\"%@\"}]", app.userId, title, content, classid, target, chksms, app.userId, app.token, blocflag]];
         requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"addBulletin" :@"0" :@"0" :identityInfo :data]];
-        NSLog(@"requestInfo   %@", requestInfo);
-        NSLog(@"identityInfo   %@", identityInfo);
-        NSLog(@"data   %@", data);
         
         // 从服务端获取数据
         NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
