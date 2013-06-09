@@ -136,12 +136,19 @@
             height = 25;
             
             // 数据绑定到控件
+            NSString *detailTitle;
+            NSString *DetailContent;
             if ([self.action isEqualToString:@"bulletinContent"]) {
                 // 通知公告
-                self.label1.text = [row objectForKey:@"msg_title"];
+                detailTitle = [row objectForKey:@"msg_title"];
+                detailTitle = [yxtUtil urlDecode:detailTitle];
+                DetailContent = [row objectForKey:@"bulletin_content"];
+                DetailContent = [yxtUtil urlDecode:DetailContent];
+                
+                self.label1.text = detailTitle;
                 self.label2.text = [NSString stringWithFormat:@"发件人：%@", [row objectForKey:@"user_name"]];
                 self.label3.text = [NSString stringWithFormat:@"时间：%@", [row objectForKey:@"rec_date"]];
-                self.labelContent.text = [row objectForKey:@"bulletin_content"];
+                self.labelContent.text = DetailContent;
                 
                 self.label1.frame = CGRectMake(x, y, width, height);
                 self.label2.frame = CGRectMake(x, y + height, width, height);

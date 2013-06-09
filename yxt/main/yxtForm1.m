@@ -111,6 +111,8 @@
 }
 
 - (IBAction)send:(id)sender {
+    [self.view endEditing: YES];
+    
     // 校验必填项
     if ([self.inputTitle.text isEqualToString:@""]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请输入通知主题" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
@@ -139,14 +141,17 @@
         } else if ([self.inputTarget.currentTitle isEqualToString:@"老师"]) {
            target = @"2"; 
         }
-        
+        NSString *title = self.inputTitle.text;
+        NSString *content = self.inputContent.text;
+        title = [yxtUtil urlEncode:title];
+        content = [yxtUtil urlEncode:content];
 
         NSString *requestInfo;
         NSString *data;
         NSString *identityInfo;
         
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userid\":\"%@\", \"title\":\"%@\", \"content\":\"%@\", \"classid\":\"%@\", \"selectuser\":\"%@\", \"chksms\":\"%@\", \"useraccount\":\"%@\", \"bloctoken\":\"%@\", \"blocflag\":\"%@\"}]", app.userId, self.inputTitle.text, self.inputContent.text, classid, target, chksms, app.userId, app.token, blocflag]];
+        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userid\":\"%@\", \"title\":\"%@\", \"content\":\"%@\", \"classid\":\"%@\", \"selectuser\":\"%@\", \"chksms\":\"%@\", \"useraccount\":\"%@\", \"bloctoken\":\"%@\", \"blocflag\":\"%@\"}]", app.userId, title, content, classid, target, chksms, app.userId, app.token, blocflag]];
         requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"addBulletin" :@"0" :@"0" :identityInfo :data]];
         NSLog(@"requestInfo   %@", requestInfo);
         NSLog(@"identityInfo   %@", identityInfo);

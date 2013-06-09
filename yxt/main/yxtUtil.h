@@ -17,6 +17,7 @@
 + (NSDictionary*) getResponse:(NSString *)requestInfo :(NSString *)identityInfo :(NSString *)data;
 
 + (NSString*) urlEncode:(NSString *) input;
++ (NSString*) urlDecode:(NSString *) input;
 + (NSString*) md5:(NSString *) input;
 
 @end

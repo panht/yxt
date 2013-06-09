@@ -139,6 +139,8 @@
 }
 
 - (IBAction)send:(id)sender {
+    [self.view endEditing: YES];
+    
     // 保存
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);

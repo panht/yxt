@@ -195,7 +195,7 @@
         // 显示副标题
         if (![self.title2 isEqualToString:@""]) {
             UILabel *date = [[UILabel alloc] initWithFrame: CGRectMake(5, 26, 200, 15)];
-            date.text = [rowData objectForKey:self.title2];
+            date.text = [yxtUtil urlDecode: [rowData objectForKey:self.title2]];
             date.font = [UIFont boldSystemFontOfSize:12];
             date.textColor = [UIColor grayColor];
             [cell.contentView addSubview:date];
@@ -207,7 +207,7 @@
         
         // 显示标题
         UILabel *title = [[UILabel alloc] initWithFrame: CGRectMake(5, 5, 250, heightTitle1)];
-        title.text = [rowData objectForKey:self.title1];
+        title.text = [yxtUtil urlDecode: [rowData objectForKey:self.title1]];
         [cell.contentView addSubview:title]; 
     }
     

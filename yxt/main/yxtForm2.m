@@ -98,6 +98,8 @@
 }
 
 - (IBAction)send:(id)sender {
+    [self.view endEditing: YES];
+    
     // 校验必填项
     if ([self.inputTitle.text isEqualToString:@""]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请输入作业标题" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];

@@ -123,10 +123,18 @@
     return jsonResultData;
 }
 
-+ (NSString*) urlEncode:(NSString *) input{    
-    NSString *data = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)input, nil, nil, kCFStringEncodingUTF8));
++ (NSString*) urlEncode:(NSString *) input {
+    NSString *data = [input stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//    NSString *data = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)input, nil, nil, kCFStringEncodingUTF8));
 
     //    data = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)data, nil, nil, kCFStringEncodingUTF8);
+    
+    return data;
+}
+
++ (NSString*) urlDecode:(NSString *) input {
+//    NSString *data = (NSString *)CFBridgingRelease(CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, (CFStringRef)input, nil,  kCFStringEncodingUTF8));
+    NSString *data =  [input stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     return data;
 }
