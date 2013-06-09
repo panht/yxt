@@ -18,53 +18,69 @@
 
 @implementation yxtLogin
 
-//@synthesize imageBackground;
+@synthesize flagLogout;
 @synthesize imageViewIcon;
-@synthesize labelUsername;
 @synthesize textUsername;
-@synthesize labelPassword;
 @synthesize textPassword;
 @synthesize buttonLogin;
-@synthesize labelMessage;
 
-
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
-    // 读取用户名密码
+    // 读取本地信息
     [self readDefaults];
+    [self displayPasswordTapped];
+    
+    // 自动登录
+    [self autoLogin];
     
     // 重新排放控件
     [self resettle];
 }
 
 // 重新排放控件
-- (void) resettle
-{
+- (void) resettle {
     // 获得屏幕宽高
     int screenWidth = [[UIScreen mainScreen] bounds].size.width;
     int screenHeight = [[UIScreen mainScreen] bounds].size.height;
+    
+    int x, y = 0, width, height;
+    x = 30;
+    width = 80;
+    height = 30;
+    
+    NSInteger spacing = 0;
+    if (screenHeight >= 568) {
+        spacing = 50;
+        y = 210;
+    } else if (screenHeight >= 480) {
+        spacing = 43;
+        y = 180;
+    } 
 
     // 背景图及Logo
-//    UIImage *imageBackground = [UIImage imageWithContentsOfFile:@"background"];
+//    UIImage *imageBackground = [UIImage imageWithContentsOfFile:@"backgroundLogin"];
     self.imageBackground.frame = CGRectMake(0, 0, screenWidth, screenHeight);
-    // 添加点击关闭键盘事件
-//    UITapGestureRecognizer *backgroundTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backgroundTap:)];
-//    [self.imageViewBackground addGestureRecognizer:backgroundTap];
-//    UIImage *imageIcon = [UIImage imageWithContentsOfFile:@"Icon"];
-//    self.imageViewIcon.frame = CGRectMake((screenWidth - imageIcon.size.width) / 2, 40, imageIcon.size.width, imageIcon.size.height);
     
-    // 用户名
-    self.labelUsername.frame  = CGRectMake(30, 190, 60, 30);
-    self.textUsername.frame = CGRectMake(90, self.labelUsername.frame.origin.y, 200, 30);
-    // 密码
-    self.labelPassword.frame = CGRectMake(self.labelUsername.frame.origin.x, self.labelUsername.frame.origin.y + 50, self.labelUsername.frame.size.width, self.labelUsername.frame.size.height);
-    self.textPassword.frame = CGRectMake(self.textUsername.frame.origin.x, self.labelPassword.frame.origin.y, self.textUsername.frame.size.width, self.textUsername.frame.size.height);
+    
+    // 用户名、密码
+    self.labelUsername.frame  = CGRectMake(x, y, width, height);
+    self.textUsername.frame = CGRectMake(x + width, y, 200, 30);
+    self.labelPassword.frame = CGRectMake(x, y + spacing, width, height);
+    self.textPassword.frame = CGRectMake(x + width, y + spacing, 200, 30);
+    
+    // 显示密码，自动登录
+    self.labelDisplayPassword.frame = CGRectMake(x, y + spacing * 2, width, height);
+    self.inputDisplayPassword.frame = CGRectMake(x + width, y + spacing * 2, 120, 35);
+    self.labelAutoLogin.frame =  CGRectMake(x, y + spacing * 3, width, height);
+    self.inputAutoLogin.frame = CGRectMake(x + width, y + spacing * 3, 120, 35);
+    // 显示密码添加点击事件
+    UITapGestureRecognizer *gestureDisplayPassword = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(displayPasswordTapped)];
+    self.inputDisplayPassword.userInteractionEnabled = YES;
+    [self.inputDisplayPassword addGestureRecognizer:gestureDisplayPassword];
+    
     // 登录按钮，居中，密码框下方
-    self.buttonLogin.frame = CGRectMake((screenWidth - self.buttonLogin.frame.size.width) / 2, self.textPassword.frame.origin.y + 50, self.buttonLogin.frame.size.width, self.buttonLogin.frame.size.height);
-    // 提示框，登录按钮下方，宽高同输入框
-    self.labelMessage.frame = CGRectMake(100, self.buttonLogin.frame.origin.y + 40, self.textUsername.frame.size.width, self.textUsername.frame.size.height);
+    self.buttonLogin.frame = CGRectMake((screenWidth - self.buttonLogin.frame.size.width) / 2, y + spacing * 4, self.buttonLogin.frame.size.width, self.buttonLogin.frame.size.height);
     
     self.textUsername.delegate = self;
     self.textPassword.delegate = self;
@@ -92,6 +108,10 @@
     [self setImageViewIcon:nil];
     [self setLabelUsername:nil];
     [self setLabelPassword:nil];
+    [self setLabelDisplayPassword:nil];
+    [self setInputDisplayPassword:nil];
+    [self setLabelAutoLogin:nil];
+    [self setInputAutoLogin:nil];
     [super viewDidUnload];
 }
 
@@ -101,14 +121,12 @@
     NSString *message;
     
     // 检查用户名密码是否为空
-    if ([self.textUsername.text isEqualToString:@""])
-    {
+    if ([self.textUsername.text isEqualToString:@""]) {
         message = @"请输入用户名";
         flagLogin = NO;
         
     }
-    if (flagLogin == YES && [self.textPassword.text isEqualToString:@""])
-    {
+    if (flagLogin == YES && [self.textPassword.text isEqualToString:@""]) {
         message = @"请输入密码";
         flagLogin = NO;
     }
@@ -144,8 +162,7 @@
     });
 }
 
-- (void) login:(NSString *)requestInfo :(NSString *)identityInfo :(NSString *)data
-{
+- (void) login:(NSString *)requestInfo :(NSString *)identityInfo :(NSString *)data {
     NSError *error;
     NSDictionary* jsonResult;
     NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
@@ -184,6 +201,8 @@
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             [userDefaults setValue:self.textUsername.text forKey: @"username"];
             [userDefaults setValue:self.textPassword.text forKey: @"password"];
+            [userDefaults setValue:[NSString stringWithFormat:@"%d", self.inputDisplayPassword.selectedSegmentIndex] forKey: @"displayPassword"];
+            [userDefaults setValue:[NSString stringWithFormat:@"%d", self.inputAutoLogin.selectedSegmentIndex] forKey: @"autoLogin"];
             
             // 跳转到入口界面
             [app showWelcome];
@@ -253,13 +272,33 @@
     return NO;
 }
 
-// 从本地存储读取用户名密码
+// 读取本地存储
 - (void) readDefaults
 {
-    // 读取用户名密码
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     self.textUsername.text = [userDefaults stringForKey:@"username"];
     self.textPassword.text = [userDefaults stringForKey:@"password"];
+    self.inputDisplayPassword.selectedSegmentIndex = [[userDefaults stringForKey:@"displayPassword"] integerValue];
+    self.inputAutoLogin.selectedSegmentIndex = [[userDefaults stringForKey:@"autoLogin"] integerValue];
+}
+
+// 自动登录
+- (void) autoLogin {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setValue:[NSString stringWithFormat:@"%d", self.inputAutoLogin.selectedSegmentIndex] forKey: @"autoLogin"];
+    
+    if (self.flagLogout != YES && self.inputAutoLogin.selectedSegmentIndex == 0) {
+        [self loginTapped: self.buttonLogin];
+    }
+}
+
+// 显示密码开关实现
+- (void) displayPasswordTapped {
+    if (self.inputDisplayPassword.selectedSegmentIndex == 0) {
+        [self.textPassword setSecureTextEntry:NO];
+    } else {
+        [self.textPassword setSecureTextEntry:YES];
+    }
 }
 
 @end

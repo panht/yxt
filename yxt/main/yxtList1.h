@@ -42,7 +42,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *btn0;
 @property (weak, nonatomic) IBOutlet UIButton *btn1;
 @property (weak, nonatomic) IBOutlet UIButton *btn2;
-@property (weak, nonatomic) IBOutlet UIButton *btn3;
 
 
 - (IBAction)homeTapped:(id)sender;
@@ -50,9 +49,7 @@
 - (IBAction)btn0Tapped:(id)sender;
 - (IBAction)btn1Tapped:(id)sender;
 - (IBAction)btn2Tapped:(id)sender;
-- (IBAction)btn3Tapped:(id)sender;
 
-- (void) resettleMembers;
 - (void) loadData;
 - (void) setByAction: (NSString *) action;
 

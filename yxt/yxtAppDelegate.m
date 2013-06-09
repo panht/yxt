@@ -82,6 +82,7 @@
 - (void) showLogin
 {
     self.login = [[yxtLogin alloc] initWithNibName:@"yxtLogin" bundle:nil];
+    self.login.flagLogout = YES;
     self.window.rootViewController = self.login;
     self.login.view.tag = 100;
     [self.window addSubview:self.login.view];

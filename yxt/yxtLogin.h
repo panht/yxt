@@ -11,23 +11,28 @@
 
 @interface yxtLogin : yxtViewControllerBase
 
+@property BOOL flagLogout;
 @property (weak, nonatomic) IBOutlet UIImageView *imageBackground;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewIcon;
 @property (weak, nonatomic) IBOutlet UILabel *labelUsername;
 @property (weak, nonatomic) IBOutlet UILabel *labelPassword;
 @property (weak, nonatomic) IBOutlet UITextField *textUsername;
 @property (weak, nonatomic) IBOutlet UITextField *textPassword;
+@property (weak, nonatomic) IBOutlet UILabel *labelDisplayPassword;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *inputDisplayPassword;
+@property (weak, nonatomic) IBOutlet UILabel *labelAutoLogin;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *inputAutoLogin;
 @property (weak, nonatomic) IBOutlet UIButton *buttonLogin;
-@property (weak, nonatomic) IBOutlet UILabel *labelMessage;
 
 - (IBAction)loginTapped:(id)sender;
 - (IBAction)closeKeyboard:(id)sender;
 //- (IBAction)backgroundTap:(id)sender;
 - (void) login:(NSString *)requestInfo :(NSString *)identityInfo :(NSString *)data;
 - (BOOL) checkVersion;
-- (void)resettle;
-- (void)readDefaults;
-
+- (void) resettle;
+- (void) readDefaults;
+- (void) displayPasswordTapped;
+- (void) autoLogin;
 
 @end
 
