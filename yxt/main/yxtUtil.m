@@ -113,10 +113,11 @@
     
     
     // 将responseinfo中的recordcount附加到data
-    NSMutableDictionary *jsonResultData1 = [jsonResultData mutableCopy];
-    [jsonResultData1 setObject:[jsonResponseinfo objectForKey:@"recordcount"] forKey:@"recordcount"];
-    jsonResultData = [NSDictionary dictionaryWithDictionary:jsonResultData1];
-    
+    if ([jsonResponseinfo objectForKey:@"recordcount"] != NULL && [jsonResultData isKindOfClass:[NSDictionary class]] == YES) {
+        NSMutableDictionary *jsonResultData1 = [jsonResultData mutableCopy];
+        [jsonResultData1 setObject:[jsonResponseinfo objectForKey:@"recordcount"] forKey:@"recordcount"];
+        jsonResultData = [NSDictionary dictionaryWithDictionary:jsonResultData1];
+    }
     
     NSLog(@"resultdata = %@", resultData);
     return jsonResultData;

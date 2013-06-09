@@ -41,19 +41,19 @@
     yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
     
     if ([self.action isEqualToString:@"bulletinContent"]) {
-        self.navTitle.title = @"|通知公告|详细内容";
+        self.navTitle.title = @"通知公告 >> 详细内容";
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"%@\", \"userid\":\"%@\"}]", self.type, app.userId]];
     } else if ([self.action isEqualToString:@"homeworkContent"]) {
-        self.navTitle.title = @"|家庭作业|详细内容";
+        self.navTitle.title = @"家庭作业 >> 详细内容";
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.userId]];
     } else if ([self.action isEqualToString:@"selectExamSendMsg"]) {
-        self.navTitle.title = @"|成绩信息|详细内容";
+        self.navTitle.title = @"成绩信息 >> 详细内容";
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@""]];
     } else if ([self.action isEqualToString:@"selectExamReceiveMsgDetail"]) {
-        self.navTitle.title = @"|成绩信息|详细内容";
+        self.navTitle.title = @"成绩信息 >> 详细内容";
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@""]];
     } else if ([self.action isEqualToString:@"reviewsContent"]) {
-        self.navTitle.title = @"|日常表现|详细内容";
+        self.navTitle.title = @"日常表现 >> 详细内容";
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.userId]];
     }
 }
@@ -146,7 +146,8 @@
                 self.label1.frame = CGRectMake(x, y, width, height);
                 self.label2.frame = CGRectMake(x, y + height, width, height);
                 self.label3.frame = CGRectMake(x, y + height * 2, width, height);
-                self.labelContent.frame = CGRectMake(x, y + height * 3, width, self.labelContent.frame.size.height);
+                self.labelContent.frame = CGRectMake(x, y + height * 3, width, self.view.frame.size.height - height * 3 - self.navBar.frame.size.height * 2);
+                
                 self.label1.textAlignment = UITextAlignmentCenter;
                 self.label2.textAlignment = UITextAlignmentCenter;
                 self.label3.textAlignment = UITextAlignmentCenter;
@@ -164,7 +165,8 @@
                 self.label2.frame = CGRectMake(x, y + height, width, height);
                 self.label3.frame = CGRectMake(x, y + height * 2, width, height);
                 self.label4.frame = CGRectMake(x, y + height * 3, width, height);
-                self.labelContent.frame = CGRectMake(x, y + height * 4, width, self.labelContent.frame.size.height);
+                self.labelContent.frame = CGRectMake(x, y + height * 4, width, self.view.frame.size.height - height * 4 - self.navBar.frame.size.height * 2);
+                
                 self.label1.textAlignment = UITextAlignmentLeft;
                 self.label2.textAlignment = UITextAlignmentLeft;
                 self.label3.textAlignment = UITextAlignmentLeft;
@@ -173,13 +175,33 @@
                 self.label1.text = [NSString stringWithFormat:@"标题：%@", [row objectForKey:@"msg_title"]];
                 self.label2.text = [NSString stringWithFormat:@"考试班级：%@", [row objectForKey:@"class_name"]];
                 self.label3.text = [NSString stringWithFormat:@"考试科目：%@", [row objectForKey:@"course_name"]];
-                self.label4.text = [NSString stringWithFormat:@"发送备注：%@", [row objectForKey:@"send_remark"]];
+                self.label4.text = [NSString stringWithFormat:@"发送备注：%@", [[row objectForKey:@"send_remark"] isEqualToString:@"1"] ? @"是" : @"否"];
                 self.label5.text = [NSString stringWithFormat:@"发送时间 ：%@", [row objectForKey:@"op_date"]];
+                
+                self.label1.frame = CGRectMake(x, y, width, height);
+                self.label2.frame = CGRectMake(x, y + height, width, height);
+                self.label3.frame = CGRectMake(x, y + height * 2, width, height);
+                self.label4.frame = CGRectMake(x, y + height * 3, width, height);
+                self.label5.frame = CGRectMake(x, y + height * 4, width, height);
+                
+                self.label1.textAlignment = UITextAlignmentLeft;
+                self.label2.textAlignment = UITextAlignmentLeft;
+                self.label3.textAlignment = UITextAlignmentLeft;
+                self.label4.textAlignment = UITextAlignmentLeft;
+                self.label5.textAlignment = UITextAlignmentLeft;
 //                self.labelContent.text = [row objectForKey:@"bulletin_content"];
             } else if ([self.action isEqualToString:@"selectExamReceiveMsgDetail"]) {
                 self.label1.text = [row objectForKey:@"msg_content"];
                 self.label2.text = [NSString stringWithFormat:@"发送者：%@", [row objectForKey:@"user_name"]];
                 self.label3.text = [NSString stringWithFormat:@"发送时间：%@", [row objectForKey:@"op_date"]];
+                
+                self.label1.frame = CGRectMake(x, y, width, height);
+                self.label2.frame = CGRectMake(x, y + height, width, height);
+                self.label3.frame = CGRectMake(x, y + height * 2, width, height);
+                
+                self.label1.textAlignment = UITextAlignmentLeft;
+                self.label2.textAlignment = UITextAlignmentLeft;
+                self.label3.textAlignment = UITextAlignmentLeft;
             } else if ([self.action isEqualToString:@"reviewsContent"]) {
                 self.label1.text = [NSString stringWithFormat:@"发件人：%@", [row objectForKey:@"user_name"]];
                 self.label2.text = [row objectForKey:@"msg_title"];
@@ -189,7 +211,11 @@
                 self.label1.frame = CGRectMake(x, y, width, height);
                 self.label2.frame = CGRectMake(x, y + height, width, height);
                 self.label3.frame = CGRectMake(x, y + height * 2, width, height);
-                self.labelContent.frame = CGRectMake(x, y + height * 3, width, self.labelContent.frame.size.height);
+                self.labelContent.frame = CGRectMake(x, y + height * 3, width, self.view.frame.size.height - height * 3 - self.navBar.frame.size.height * 2);
+                
+                self.label1.textAlignment = UITextAlignmentLeft;
+                self.label2.textAlignment = UITextAlignmentLeft;
+                self.label3.textAlignment = UITextAlignmentLeft;
             }
             
 //            [self.labelContent sizeToFit];

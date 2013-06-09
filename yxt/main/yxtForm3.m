@@ -10,6 +10,8 @@
 #import "yxtAppDelegate.h"
 #import "yxtUtil.h"
 #import "MBProgressHUD.h"
+#import <QuartzCore/QuartzCore.h>
+
 
 @interface yxtForm3 ()
 
@@ -37,6 +39,20 @@
     
     [self resettle];
     [self loadData];
+}
+
+- (void) resettle{
+    // 考试名称、考试班级、考试科目边框
+    self.inputName.layer.borderColor = [UIColor grayColor].CGColor;
+    self.inputName.layer.borderWidth = 1.0;
+    self.inputClass.layer.borderColor = [UIColor grayColor].CGColor;
+    self.inputClass.layer.borderWidth = 1.0;
+    self.inputSubject.layer.borderColor = [UIColor grayColor].CGColor;
+    self.inputSubject.layer.borderWidth = 1.0;
+    
+    // picker添加点击事件
+    UITapGestureRecognizer *pickerTapped = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(closePicker)];
+    [self.picker addGestureRecognizer:pickerTapped];
 }
 
 - (void) loadData{
@@ -122,11 +138,44 @@
     });
 }
 
-- (void) resettle{
-    
-}
-
 - (IBAction)send:(id)sender {
+    // 保存
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
+        NSString *examId = [NSString stringWithFormat:@"%d", self.inputName.tag];
+        NSString *classId = [NSString stringWithFormat:@"%d", self.inputClass.tag];
+        NSString *courseId = [NSString stringWithFormat:@"%d", self.inputSubject.tag];
+        NSString *chkSendRemark = self.inputMemo.on ? @"1" : @"0";
+        NSString *chkSendParents = self.inputMessage.on ? @"1" : @"0";
+        NSString *chksms = self.inputSMS.on ? @"1" : @"0";
+        NSString *blocflag = self.inputWeibo.on ? @"1" : @"0";
+        
+        NSString *requestInfo;
+        NSString *data;
+        NSString *identityInfo;
+        
+        identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
+        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"classid\":\"%@\", \"courseid\":\"%@\", \"examid\":\"%@\", \"sendparents\":\"%@\", \"sendparentsmsg\":\"%@\", \"sendremark\":\"%@\", \"snedstudent\":\"%@\", \"blocToken\":\"%@\", \"userAccount\":\"%@\", \"blocFlag\":\"%@\"}]", classId, courseId, examId, chkSendParents, @"", chkSendRemark, @"", app.token, app.userId, blocflag]];
+        requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"addExamSendMsg" :@"0" :@"0" :identityInfo :data]];
+        NSLog(@"requestInfo   %@", requestInfo);
+        NSLog(@"identityInfo   %@", identityInfo);
+        NSLog(@"data   %@", data);
+        
+        // 从服务端获取数据
+        NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
+        
+        if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"发送成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            [alert show];
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:[dataResponse objectForKey:@"resultdes"] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            [alert show];
+        }
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    });
 }
 
 #pragma mark Picker Data Soucrce Methods
@@ -190,11 +239,14 @@
     NSDictionary *value = [self.dataSource objectAtIndex:row];
     
     if (self.picker.tag == 1) {
-        [self.inputName setTitle:[value objectForKey:@"name"]  forState:UIControlStateNormal];
+        [self.inputName setTitle:[value objectForKey:@"exam_name"]  forState:UIControlStateNormal];
+        [self.inputName setTag:[[value objectForKey:@"exam_id"] integerValue]];
     } else if (self.picker.tag == 2) {
-        [self.inputClass setTitle:[value objectForKey:@"name"]  forState:UIControlStateNormal];
-    } else if (self.picker.tag == 2) {
-        [self.inputSubject setTitle:[value objectForKey:@"name"]  forState:UIControlStateNormal];
+        [self.inputClass setTitle:[value objectForKey:@"class_name"]  forState:UIControlStateNormal];
+        [self.inputClass setTag:[[value objectForKey:@"class_id"] integerValue]];
+    } else if (self.picker.tag == 3) {
+        [self.inputSubject setTitle:[value objectForKey:@"course_name"]  forState:UIControlStateNormal];
+        [self.inputSubject setTag:[[value objectForKey:@"course_id"] integerValue]];
     }
     [self.picker setHidden:YES];
 }

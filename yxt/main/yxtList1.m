@@ -7,6 +7,7 @@
 //
 
 #import "yxtList1.h"
+#import "yxtList2.h"
 #import "yxtDetail1.h"
 #import "yxtAppDelegate.h"
 #import "yxtUtil.h"
@@ -22,6 +23,8 @@
 
 @synthesize action;
 @synthesize type;
+@synthesize role;
+@synthesize classid;
 @synthesize title1;
 @synthesize title2;
 @synthesize data;
@@ -42,6 +45,7 @@
         self.pageIndex = @"1";
         self.pageSize = @"8";
         self.type = @"inbox";
+        self.role = @"teacher";
     }
     
     return self;
@@ -49,6 +53,12 @@
 
 - (void) setByAction: (NSString *) action {
     yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
+    
+    // 默认隐藏按钮
+    [self.btn0 setHidden:YES];
+    [self.btn1 setHidden:YES];
+    [self.btn2 setHidden:YES];
+    [self.btn3 setHidden:YES];
     
     // 表格视图位置
     int xTableView1, yTableView1, widthTableView1, heightTableView1;
@@ -58,19 +68,14 @@
     heightTableView1 = self.view.frame.size.height - self.navBar.frame.size.height;
     
     
-    // 如果是教师，显示发送按钮
-    if ([app.loginType isEqualToString:@"1"]) {
-        [self.btn3 setHidden:NO];
+    // 如果是教师，且不是班级成员栏目，显示发送按钮
+    if ([app.loginType isEqualToString:@"1"] && ![self.action isEqualToString:@"eduClass"]) {
+        [self.btn0 setHidden:NO];
         
         // 表格视图位置
-        yTableView1 += self.btn3.frame.size.height + 10;
-        heightTableView1 -= self.btn3.frame.size.height + 10;
-    } else {
-        // 其它角色隐藏按钮
-        [self.btn1 setHidden:YES];
-        [self.btn2 setHidden:YES];
-        [self.btn3 setHidden:YES];
-    }
+        yTableView1 += self.btn0.frame.size.height + 10;
+        heightTableView1 -= self.btn0.frame.size.height + 10;
+    } 
     
     // 设置标题栏、请求数据、表格行文本、详细页action名称
     if ([self.action isEqualToString:@"bulletin"]) {
@@ -93,9 +98,11 @@
             self.btn2.frame = CGRectMake(x + width, y, width, height);
             //        [self.btn1 setBackgroundImage:self.image32 forState:UIControlStateNormal];
             
-            // 通知公告显示收发件箱
-            [self.btn1 setHidden:NO];
-            [self.btn2 setHidden:NO];
+            // 为教师时，通知公告显示收发件箱
+            if ([app.loginType isEqualToString:@"1"]) {
+                [self.btn1 setHidden:NO];
+                [self.btn2 setHidden:NO];
+            }
             
             // 表格视图高度
             heightTableView1 -= self.btn1.frame.size.height;
@@ -124,12 +131,18 @@
         self.title1 = @"title";
         self.title2 = @"announce_date";
         self.actionDetail = @"reviewsContent";
-    }  else if ([self.action isEqualToString:@"members"]) {
+    }  else if ([self.action isEqualToString:@"eduClass"]) {
         self.navTitle.title = @"班级成员 >> 班级选择";
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userid\":\"%@\"}]", app.userId]];
         self.title1 = @"name";
         self.title2 = @"";
 //        self.actionDetail = @"reviewsContent";
+    }  else if ([self.action isEqualToString:@"members"]) {
+        self.navTitle.title = @"班级成员 >> 详细内容";
+        self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"membertype\":\"%@\", \"classid\":\"%@\"}]", self.role, self.classid]];
+        self.title1 = @"user_name";
+        self.title2 = @"";
+        //        self.actionDetail = @"reviewsContent";
     }
     
     // 重画表格
@@ -187,15 +200,15 @@
     
     if (indexPath.row < [self.dataSource count]) {
         // 显示标题
-        NSDictionary *row = [self.dataSource objectAtIndex:indexPath.row];  
+        NSDictionary *rowData = [self.dataSource objectAtIndex:indexPath.row];
         UILabel *title = [[UILabel alloc] initWithFrame: CGRectMake(5, 5, 250, 15)];
-        title.text = [row objectForKey:self.title1];
+        title.text = [rowData objectForKey:self.title1];
         [cell.contentView addSubview:title];
     
         // 显示时间
         if (![self.title2 isEqualToString:@""]) {
             UILabel *date = [[UILabel alloc] initWithFrame: CGRectMake(5, 26, 200, 15)];
-            date.text = [row objectForKey:self.title2];
+            date.text = [rowData objectForKey:self.title2];
             date.font = [UIFont boldSystemFontOfSize:12];
             date.textColor = [UIColor grayColor];
             [cell.contentView addSubview:date];
@@ -207,25 +220,57 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row < [self.dataSource count]) {
-        self.detail1 = [[yxtDetail1 alloc] initWithNibName:@"yxtDetail1" bundle:[NSBundle mainBundle]];
-        self.detail1.pageIndex = [NSString stringWithFormat:@"%d", indexPath.row + 1];
-        self.detail1.pageSize = @"1";
-        
-        // 设置参数
-        self.detail1.action = self.actionDetail;
-        self.detail1.type = self.type;
-        
-        // 设置子视图高度
-        int x, y, width, height;
-        x = 0;
-        y = 20;
-        width = self.detail1.view.frame.size.width;
-        height = self.detail1.view.frame.size.height;
-        self.detail1.view.frame = CGRectMake(x, y, width, height);
-
-        UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
-        self.detail1.view.tag = 400;
-        [topWindow addSubview: self.detail1.view];
+        if ([self.action isEqualToString:@"members"]) {
+            // 为班级成员时不响应
+//            NSDictionary *rowData = [self.dataSource objectAtIndex:indexPath.row];
+//            self.classid = [rowData objectForKey:self.title1];
+        } else if ([self.action isEqualToString:@"eduClass"]) {
+            // 为班级时，打开班级成员列表
+//            self.action = @"members";
+//            [self resettleMembers];
+//            
+//            NSDictionary *rowData = [self.dataSource objectAtIndex:indexPath.row];
+//            self.classid = [rowData objectForKey:@"value"];
+//            self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"membertype\":\"%@\", \"classid\":\"%@\"}]", self.role, self.classid]];
+//            [self loadData];
+//            [self.tableView1 reloadData];
+            self.list2 = [[yxtList2 alloc] initWithNibName:@"yxtList2" bundle:[NSBundle mainBundle]];
+            NSDictionary *rowData = [self.dataSource objectAtIndex:indexPath.row];
+            self.list2.classid = [rowData objectForKey:@"value"];
+            
+            // 设置子视图高度
+            int x, y, width, height;
+            x = 0;
+            y = 30;
+            width = self.list2.view.frame.size.width;
+            height = self.list2.view.frame.size.height;
+            self.list2.view.frame = CGRectMake(x, y, width, height);
+            
+            UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+            self.list2.view.tag = 400;
+            [topWindow addSubview: self.list2.view];
+            [topWindow makeKeyAndVisible];
+        } else {
+            self.detail1 = [[yxtDetail1 alloc] initWithNibName:@"yxtDetail1" bundle:[NSBundle mainBundle]];
+            self.detail1.pageIndex = [NSString stringWithFormat:@"%d", indexPath.row + 1];
+            self.detail1.pageSize = @"1";
+            
+            // 设置参数
+            self.detail1.action = self.actionDetail;
+            self.detail1.type = self.type;
+            
+            // 设置子视图高度
+            int x, y, width, height;
+            x = 0;
+            y = 20;
+            width = self.detail1.view.frame.size.width;
+            height = self.detail1.view.frame.size.height;
+            self.detail1.view.frame = CGRectMake(x, y, width, height);
+            
+            UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+            self.detail1.view.tag = 400;
+            [topWindow addSubview: self.detail1.view];
+        }
     }
 }
 
@@ -265,6 +310,30 @@
     [[self tableView1] addGestureRecognizer:recognizer];
 }
 
+// 整理班级成员列表界面
+- (void) resettleMembers {
+    [self.btn1 setTitle:@"学校教师" forState:UIControlStateNormal];
+    [self.btn2 setTitle:@"学生" forState:UIControlStateNormal];
+    [self.btn3 setTitle:@"家长" forState:UIControlStateNormal];
+    [self.btn1 setBackgroundImage:self.image12 forState:UIControlStateNormal];
+    [self.btn2 setBackgroundImage:self.image11 forState:UIControlStateNormal];
+    [self.btn3 setBackgroundImage:self.image11 forState:UIControlStateNormal];
+    [self.btn1 setHidden:NO];
+    [self.btn2 setHidden:NO];
+    [self.btn3 setHidden:NO];
+    
+    // 收、发件箱按钮调整
+    int x, y, width, height;
+    x = 0;
+    y = self.view.frame.size.height - self.navBar.frame.size.height - 24;
+    width = self.view.frame.size.width / 3;
+    height = self.navBar.frame.size.height;
+    self.btn1.frame = CGRectMake(x, y, width, height);
+    self.btn2.frame = CGRectMake(x + width, y, width, height);
+    self.btn3.frame = CGRectMake(x + width * 2, y, width, height);
+    self.view.frame = CGRectMake(x, self.navBar.frame.size.height, self.view.frame.size.width, self.view.frame.size.height - self.navBar.frame.size.height * 2);
+}
+
 // 上下滑动手势
 -(void)handleSwipeFrom:(UISwipeGestureRecognizer *)recognizer{
     NSInteger intPageIndex = [self.pageIndex integerValue];
@@ -297,10 +366,18 @@
 - (IBAction)btn1Tapped:(id)sender {
     [self.btn1 setBackgroundImage:self.image12 forState:UIControlStateNormal];
     [self.btn2 setBackgroundImage:self.image21 forState:UIControlStateNormal];
+    if ([self.action isEqualToString:@"bulletin"]) {
+        
+        yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
+        self.type = @"outbox";
+        self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"%@\", \"userid\":\"%@\"}]", self.type, app.userId]];
+    } else if([self.action isEqualToString:@"members"]) {
+        [self.btn3 setBackgroundImage:self.image11 forState:UIControlStateNormal];
+        
+        self.role = @"teacher";
+        self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"membertype\":\"%@\", \"classid\":\"%@\"}]", self.role, self.classid]];
+    }
     
-    yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
-    self.type = @"outbox";
-    self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"%@\", \"userid\":\"%@\"}]", self.type, app.userId]];
     [self loadData];
     [self.tableView1 reloadData];
 }
@@ -310,15 +387,35 @@
     [self.btn1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
     [self.btn2 setBackgroundImage:self.image22 forState:UIControlStateNormal];
     
-    yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
-    self.type = @"inbox";
-    self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"%@\", \"userid\":\"%@\"}]", self.type, app.userId]];
+    if ([self.action isEqualToString:@"bulletin"]) {
+        yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
+        self.type = @"inbox";
+        self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"%@\", \"userid\":\"%@\"}]", self.type, app.userId]];
+    } else if([self.action isEqualToString:@"members"]) {
+        [self.btn3 setBackgroundImage:self.image11 forState:UIControlStateNormal];
+        
+        self.role = @"partent";
+        self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"membertype\":\"%@\", \"classid\":\"%@\"}]", self.role, self.classid]];
+    }
     [self loadData];
     [self.tableView1 reloadData];
 }
 
-// 发送通知公告
 - (IBAction)btn3Tapped:(id)sender {
+    if([self.action isEqualToString:@"members"]) {
+        [self.btn1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
+        [self.btn2 setBackgroundImage:self.image11 forState:UIControlStateNormal];
+        [self.btn3 setBackgroundImage:self.image12 forState:UIControlStateNormal];
+        
+        self.role = @"student";
+        self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"membertype\":\"%@\", \"classid\":\"%@\"}]", self.role, self.classid]];
+        [self loadData];
+        [self.tableView1 reloadData];
+    }
+}
+
+// 发送
+- (IBAction)btn0Tapped:(id)sender {
     // 打开通用表单
     self.form = [[yxtForm alloc] initWithNibName:@"yxtForm" bundle:[NSBundle mainBundle]];
     
@@ -354,10 +451,11 @@
 - (void)viewDidUnload {
     [self setTableView1:nil];
     [self setNavTitle:nil];
+    [self setBtn0:nil];
     [self setBtn1:nil];
     [self setBtn2:nil];
-    [self setBtn3:nil];
     [self setNavBar:nil];
+    [self setBtn3:nil];
     [super viewDidUnload];
 }
 @end
