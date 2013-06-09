@@ -55,10 +55,10 @@
     height = 30;
     
     NSInteger spacing = 0;
-    if (screenHeight >= 568) {
+    if (screenHeight == 568) {
         spacing = 50;
         y = 210;
-    } else if (screenHeight >= 480) {
+    } else if (screenHeight == 480) {
         spacing = 43;
         y = 180;
     } 

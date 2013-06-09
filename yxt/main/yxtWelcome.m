@@ -215,11 +215,16 @@
     [self.button2 setBackgroundImage:self.image21 forState:UIControlStateNormal];
     [self.button3 setBackgroundImage:self.image31 forState:UIControlStateNormal];
     
+    // 获得屏幕宽高
+    int screenWidth = [[UIScreen mainScreen] bounds].size.width;
+    int screenHeight = [[UIScreen mainScreen] bounds].size.height;
+    int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
+    
     // 重画按钮
-    int x, y, width, height;
+    int x, y = 0, width, height;
     x = 0;
-    y = self.view.frame.size.height - self.navBar.frame.size.height;
-    width  = self.view.frame.size.width / 3;
+    y = screenHeight - statusBarHeight - self.navBar.frame.size.height;
+    width  = screenWidth / 3;
     height = self.navBar.frame.size.height;
     self.button1.frame = CGRectMake(x, y, width, height);
     self.button2.frame = CGRectMake(x + width, y, width, height);
