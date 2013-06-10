@@ -58,14 +58,14 @@
     // 获得屏幕宽高
     int screenWidth = [[UIScreen mainScreen] bounds].size.width;
     int screenHeight = [[UIScreen mainScreen] bounds].size.height;
-//    int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
+    int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
 
     // 设置子视图高度
     int x, y, width, height;
     x = 0;
     y = self.navBar.frame.size.height;
     width = screenWidth;
-    height = screenHeight - y ;
+    height = screenHeight - statusBarHeight - y ;
     vc.view.frame = CGRectMake(x, y, width, height);
     vc.imageBackground.frame = CGRectMake(x, y, width, height);
 }

@@ -330,7 +330,7 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setValue:[NSString stringWithFormat:@"%d", self.inputAutoLogin.selectedSegmentIndex] forKey: @"autoLogin"];
     
-    if (self.flagLogout != YES && self.inputAutoLogin.selectedSegmentIndex == 0) {
+    if (self.flagLogout != YES && self.inputAutoLogin.selectedSegmentIndex == 0 && self.textUsername.text != nil && ![self.textUsername.text isEqualToString:@""] && self.textPassword.text != nil && ![self.textPassword.text isEqualToString:@""]) {
         [self loginTapped: self.buttonLogin];
     }
 }

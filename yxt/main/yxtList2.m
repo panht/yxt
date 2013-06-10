@@ -122,15 +122,6 @@
             [btnSMS setBackgroundColor:[UIColor clearColor]];
             [btnSMS addTarget:self action:@selector(smsTapped:) forControlEvents:UIControlEventTouchUpInside];
             [cell.contentView addSubview:btnSMS];
-//            UIImage *imagePhonecall = [UIImage imageNamed:@"phonecall.png"];
-//            UIImageView *imageViewPhonecall = [[UIImageView alloc] initWithImage:imagePhonecall];
-//            imageViewPhonecall.frame = CGRectMake(230, 5, 30, 30);
-//            [imageViewPhonecall setUserInteractionEnabled:YES];
-//            [cell.contentView addSubview:imageViewPhonecall];
-//            
-//            UITapGestureRecognizer *gestureCall = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(phoneTapped)];
-//            imageViewPhonecall.userInteractionEnabled = YES;
-//            [imageViewPhonecall addGestureRecognizer:gestureCall];
         }
     }
     

@@ -10,6 +10,7 @@
 #import "yxtAppDelegate.h"
 #import "yxtUtil.h"
 #import "MBProgressHUD.h"
+#import "GTMBase64.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface yxtForm2 ()
@@ -20,7 +21,7 @@
 
 @synthesize dataSource;
 @synthesize dataListArray;
-//@synthesize picker;
+@synthesize files;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -35,8 +36,10 @@
 {
     [super viewDidLoad];
     
-    // 隐藏 picker
-    [self.picker setHidden:YES];
+    self.files = [[NSMutableArray alloc] init];
+    
+    // 隐藏 inputPicker
+    [self.inputPicker setHidden:YES];
     
     // 重新布局、初始值
     [self resettle];
@@ -49,24 +52,28 @@
     self.inputCourse.layer.borderWidth = 1.0;
     self.inputContent.layer.borderColor = [UIColor grayColor].CGColor;
     self.inputContent.layer.borderWidth = 1.0;
+//    self.scrollView.layer.borderColor = [UIColor grayColor].CGColor;
+//    self.scrollView.layer.borderWidth = 1.0;
     
-    // 底部按钮
     // 获得屏幕宽高
     int screenWidth = [[UIScreen mainScreen] bounds].size.width;
     int screenHeight = [[UIScreen mainScreen] bounds].size.height;
     int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
+    self.view.frame = CGRectMake(0, 0, screenWidth, screenHeight - statusBarHeight - self.btnAlbum.frame.size.height);
     
+    // 底部按钮，子视图宽高已经计算过，不需要再按屏幕宽高计算
     int x, y, width, height;
     x = 0;
-    y = screenHeight - statusBarHeight - self.btnAlbum.frame.size.height * 2;
-    width = screenWidth / 2;
+    y = self.view.frame.size.height - self.btnAlbum.frame.size.height;
+    width = self.view.frame.size.width / 2;
     height = self.btnAlbum.frame.size.height;
     self.btnAlbum.frame = CGRectMake(x, y, width - 1, height);
     self.btnPhoto.frame = CGRectMake(x + width + 1, y, width, height);
+    self.scrollView.frame = CGRectMake(x, y - 60, self.view.frame.size.width, 60);
     
-    // picker添加点击事件
+    // inputPicker添加点击事件
     UITapGestureRecognizer *pickerTapped = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(closePicker)];
-    [self.picker addGestureRecognizer:pickerTapped];
+    [self.inputPicker addGestureRecognizer:pickerTapped];
 }
 
 - (void)didReceiveMemoryWarning
@@ -134,19 +141,30 @@
         NSString *coursename = self.inputCourse.currentTitle;
         NSString *chksms = self.inputSMS.on ? @"1" : @"0";
         NSString *blocflag = self.inputWeibo.on ? @"1" : @"0";
-        NSString *files = @"";
         NSString *title = self.inputTitle.text;
         NSString *content = self.inputContent.text;
         title = [yxtUtil urlEncode:title];
         content = [yxtUtil urlEncode:content];
         coursename = [yxtUtil urlEncode:coursename];
         
+        // 处理图片
+        NSData *dataImage;
+        NSString *bytesImage;
+        for (UIImage *image in self.files) {
+            dataImage = UIImagePNGRepresentation(image);
+            if (bytesImage == nil) {
+                bytesImage = [GTMBase64 stringByEncodingData:dataImage];
+            } else {
+                bytesImage = [bytesImage stringByAppendingFormat: [GTMBase64 stringByEncodingData:dataImage]];
+            }
+        }
+        
         NSString *requestInfo;
         NSString *data;
         NSString *identityInfo;
         
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userid\":\"%@\", \"assTitle\":\"%@\", \"assContent\":\"%@\", \"classCourse\":\"%@\", \"chksms\":\"%@\", \"userName\":\"%@\", \"classCourseName\":\"%@\", \"blocToken\":\"%@\", \"userAccount\":\"%@\", \"blocFlag\":\"%@\", \"Files\":\"%@\"}]", app.userId, title, content, courseid, chksms, [yxtUtil urlEncode:app.username], coursename, app.token, app.userId, blocflag, files]];
+        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userid\":\"%@\", \"assTitle\":\"%@\", \"assContent\":\"%@\", \"classCourse\":\"%@\", \"chksms\":\"%@\", \"userName\":\"%@\", \"classCourseName\":\"%@\", \"blocToken\":\"%@\", \"userAccount\":\"%@\", \"blocFlag\":\"%@\", \"Files\":\"%@\"}]", app.userId, title, content, courseid, chksms, [yxtUtil urlEncode:app.username], coursename, app.token, app.userId, blocflag, bytesImage]];
         requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"addHomeWork" :@"0" :@"0" :identityInfo :data]];
         NSLog(@"requestInfo   %@", requestInfo);
         NSLog(@"identityInfo   %@", identityInfo);
@@ -167,11 +185,96 @@
     });
 }
 
+- (IBAction)albumTapped:(id)sender {
+    // 相册
+    if ([self.files count] >= 5) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"最多只能上传五张图片" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
+    } else {
+        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+        imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        imagePicker.delegate = self;
+        [self presentModalViewController:imagePicker animated:YES];
+    }
+}
+
+- (IBAction)photoTapped:(id)sender {
+    // 拍照
+    if ([self.files count] >= 5) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"最多只能上传五张图片" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
+    } else {
+        UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypeCamera;
+        
+        // 判断相机是否可用
+        if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
+            //            sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            
+            UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+            imagePicker.delegate = self;
+            imagePicker.allowsEditing = YES;
+            imagePicker.sourceType = sourceType;
+            [self presentModalViewController:imagePicker animated:YES];
+        }
+    }
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)aImage editingInfo:(NSDictionary *)editingInfo {
+    // 存放到数组
+    [self.files addObject:aImage];
+    // 绘制图片
+    [self drawImage:aImage :[self.files count] - 1];
+    
+    [picker dismissModalViewControllerAnimated:YES];
+}
+
+- (void) drawImage: (UIImage *)image :(NSInteger)seqNo {
+    int xOffset = seqNo * 60;
+    
+    // 添加imgaeView
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+    // 数组索引+1000 作为tag
+    imageView.tag = seqNo + 1000;
+    imageView.frame = CGRectMake(15 + xOffset, 5, 50, 50);
+    [self.scrollView addSubview:imageView];
+    
+    // 添加删除角标
+    UIButton *btnDel = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btnDel setImage:[UIImage imageNamed:@"delete.png"] forState:UIControlStateNormal];
+    btnDel.frame = CGRectMake(15 - 10 + xOffset, 0, 20, 20);
+    // 数组索引 作为tag
+    btnDel.tag = seqNo;
+    [btnDel addTarget:self action:@selector(delImage:) forControlEvents:UIControlEventTouchUpInside];
+    [self.scrollView addSubview:btnDel];
+}
+
+- (void) delImage: (id)sender; {
+    // 从界面删除所有图片
+    for (UIView *v in self.scrollView.subviews) {
+        if ([v isKindOfClass:[UIImageView class]] || [v isKindOfClass:[UIButton class]]) {
+            [v removeFromSuperview];
+        }
+    }
+    
+    UIButton *button = (UIButton *) sender;
+    // 从tag获取要删除的图片在数组中的索引
+    NSInteger index = button.tag;
+    // 从数组中删除指定索引
+    [self.files removeObjectAtIndex:index];
+    
+    // 遍历数组，重新绘制图片
+    NSInteger i = 0;
+    for (UIImage *image in self.files) {
+        [self drawImage:image :i];
+        i++;
+    }
+}
+
 - (IBAction)courseTapped:(id)sender {
     self.dataSource = self.dataListArray;
-    [self.picker setTag:1];
-    [self.picker setHidden:NO];
-    [self.picker reloadAllComponents];
+    [self.inputPicker setTag:1];
+    [self.inputPicker setHidden:NO];
+    [self.inputPicker reloadAllComponents];
 }
 
 #pragma mark Picker Data Soucrce Methods
@@ -191,7 +294,7 @@
     
     if (row < [self.dataSource count]) {
         // 显示标题
-        if (self.picker.tag == 1) {
+        if (self.inputPicker.tag == 1) {
             NSDictionary *rowData = [self.dataSource objectAtIndex:row];
             result = [rowData objectForKey:@"name"];
             [self.inputCourse setTag:[[rowData objectForKey:@"value"] integerValue]];
@@ -201,16 +304,16 @@
     return result;
 }
 
-// 点击关闭picker
+// 点击关闭inputPicker
 - (void) closePicker {
-    NSInteger row = [self.picker selectedRowInComponent:0];
+    NSInteger row = [self.inputPicker selectedRowInComponent:0];
     
-    if (self.picker.tag == 1) {
+    if (self.inputPicker.tag == 1) {
         NSDictionary *value = [self.dataSource objectAtIndex:row];
         [self.inputCourse setTitle:[value objectForKey:@"name"]  forState:UIControlStateNormal];
     }
     
-    [self.picker setHidden:YES];
+    [self.inputPicker setHidden:YES];
 }
 
 - (void)viewDidUnload {
@@ -219,10 +322,10 @@
     [self setInputSMS:nil];
     [self setInputWeibo:nil];
     [self setInputContent:nil];
-    [self setPicker:nil];
     [self setImageBackground:nil];
     [self setBtnAlbum:nil];
     [self setBtnPhoto:nil];
+    [self setInputPicker:nil];
     [super viewDidUnload];
 }
 

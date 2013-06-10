@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F23A5EDB1764D52700BD0993 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = F23A5EDA1764D52700BD0993 /* delete.png */; };
 		F27499BC17608374008F62A7 /* yxtViewControllerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = F27499BB17608374008F62A7 /* yxtViewControllerBase.m */; };
 		F27499C1176085E8008F62A7 /* back1.png in Resources */ = {isa = PBXBuildFile; fileRef = F27499BF176085E8008F62A7 /* back1.png */; };
 		F27499C2176085E8008F62A7 /* home1.png in Resources */ = {isa = PBXBuildFile; fileRef = F27499C0176085E8008F62A7 /* home1.png */; };
@@ -91,6 +92,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F23A5EDA1764D52700BD0993 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
 		F27499BA17608374008F62A7 /* yxtViewControllerBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yxtViewControllerBase.h; sourceTree = "<group>"; };
 		F27499BB17608374008F62A7 /* yxtViewControllerBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = yxtViewControllerBase.m; sourceTree = "<group>"; };
 		F27499BF176085E8008F62A7 /* back1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back1.png; sourceTree = "<group>"; };
@@ -265,6 +267,7 @@
 		F2A770511720F67500CCEE55 /* Resouces */ = {
 			isa = PBXGroup;
 			children = (
+				F23A5EDA1764D52700BD0993 /* delete.png */,
 				F287B07B1763A02B0068FAEB /* phonecall.png */,
 				F287B07C1763A02B0068FAEB /* sms.png */,
 				F2FC66CC175B23460076F50E /* account_ico.png */,
@@ -487,6 +490,7 @@
 				F287B07A176398040068FAEB /* yxtList2.xib in Resources */,
 				F287B07D1763A02B0068FAEB /* phonecall.png in Resources */,
 				F287B07E1763A02B0068FAEB /* sms.png in Resources */,
+				F23A5EDB1764D52700BD0993 /* delete.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
