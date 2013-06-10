@@ -33,13 +33,14 @@
 
 @interface ALPickerView : UIView <UITableViewDataSource, UITableViewDelegate> {
 @private
-  id<ALPickerViewDelegate> delegate_;
-  
-  UITableView *internalTableView_;
+    //    id<ALPickerViewDelegate> __weak delegate_;
+    id<ALPickerViewDelegate> __weak delegate_;
+    
+    UITableView *internalTableView_;
 }
 
 // Set a delegate conforming to ALPickerViewDelegate protocol
-@property (nonatomic, assign) id<ALPickerViewDelegate> delegate;
+@property (nonatomic, weak) id<ALPickerViewDelegate> delegate;
 // If set to nil the all option row is hidden at all, default is 'All'
 @property (nonatomic, copy) NSString *allOptionTitle;
 

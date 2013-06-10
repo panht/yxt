@@ -31,7 +31,7 @@
 
 @interface ALPickerViewCell : UITableViewCell {
 @private
-  BOOL selectionState_;
+    BOOL selectionState_;
 }
 
 @property (nonatomic, assign) BOOL selectionState;

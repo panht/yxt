@@ -23,6 +23,7 @@
     
 @property (strong, nonatomic) NSArray *dataSource1;
 @property (strong, nonatomic) NSArray *dataSource2;
+@property (strong, nonatomic) NSArray *dataListArray2;
 @property (strong, nonatomic) NSArray *dataSource2Selected;
 
 @property (weak, nonatomic) IBOutlet UIButton *inputUser;
@@ -37,9 +38,9 @@
 - (IBAction)send:(id)sender;
 
 - (void) resettle;
-- (void) loadData;
+- (void) loadData1;
+- (void) loadData2: (NSInteger) classid;
 - (void) closePicker;
-- (void) loadMultiPicker;
 - (void) getData;
 
 @end

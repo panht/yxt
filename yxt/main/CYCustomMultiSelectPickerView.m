@@ -10,10 +10,10 @@
 #import "ALPickerView.h"
 @interface CYCustomMultiSelectPickerView()<ALPickerViewDelegate>
 
-@property (nonatomic, retain) NSMutableDictionary *selectionStatesDic;
-@property (nonatomic, retain) NSMutableArray *selectedEntriesArr;//选中的状态
-@property (nonatomic, retain) ALPickerView *pickerView;
-@property (nonatomic, retain) UIToolbar *toolBar;
+@property (nonatomic, strong) NSMutableDictionary *selectionStatesDic;
+@property (nonatomic, strong) NSMutableArray *selectedEntriesArr;//选中的状态
+@property (nonatomic, strong) ALPickerView *pickerView;
+@property (nonatomic, strong) UIToolbar *toolBar;
 @end
 
 @implementation CYCustomMultiSelectPickerView
@@ -23,30 +23,20 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        self.selectionStatesDic = [[NSMutableDictionary alloc] initWithCapacity:16];
-        self.selectedEntriesArr = [[NSMutableArray alloc] initWithCapacity:16];
+        self.selectionStatesDic = [[NSMutableDictionary alloc] initWithCapacity:100];
+        self.selectedEntriesArr = [[NSMutableArray alloc] initWithCapacity:100];
         
-        self.entriesArray = [[NSMutableArray alloc] initWithCapacity:16];
-        self.entriesSelectedArray = [[NSMutableArray alloc] initWithCapacity:16];
+        self.entriesArray = [[NSMutableArray alloc] initWithCapacity:100];
+        self.entriesSelectedArray = [[NSMutableArray alloc] initWithCapacity:100];
     }
     return self;
 }
 
--(void)dealloc
-{
-    self.entriesArray = nil;
-    self.selectedEntriesArr= nil;
-    self.selectionStatesDic = nil;
-    self.pickerView = nil;
-    self.toolBar = nil;
-    
-//    [super dealloc];
-}
 
 - (void)pickerShow
 {
-  //  entries = [[NSArray alloc] initWithObjects:@"Row 1", @"Row 2", @"Row 3", @"Row 4", @"Row 5", nil];
-
+    //  entries = [[NSArray alloc] initWithObjects:@"Row 1", @"Row 2", @"Row 3", @"Row 4", @"Row 5", nil];
+    
 	for (NSString *key in self.entriesArray){
         BOOL isSelected = NO;
         for (NSString *keyed in self.entriesSelectedArray) {
@@ -59,7 +49,7 @@
     
 	// Init picker and add it to view
     if (!self.pickerView) {
-        self.pickerView = [[ALPickerView alloc] initWithFrame:CGRectMake(0,260, 320, 260)];
+        self.pickerView = [[ALPickerView alloc] initWithFrame:CGRectMake(0,100, 320, 216)];
     }
 	self.pickerView.delegate = self;
 	[self addSubview:self.pickerView];
@@ -72,9 +62,6 @@
     [items addObject:cancelBtn];
     [items addObject:flexibleSpaceItem];
     [items addObject:confirmBtn];
-//    [cancelBtn release];
-//    [flexibleSpaceItem release];
-//    [confirmBtn release];
     
     if (self.toolBar==nil) {
         self.toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.pickerView.frame.origin.y - 44, 320, 44)];
@@ -82,21 +69,20 @@
     self.toolBar.hidden = NO;
     self.toolBar.barStyle = UIBarStyleBlackTranslucent;
     self.toolBar.items = items;
-//    [items release];
     items = nil;
     [self addSubview:self.toolBar];
     
     [UIView animateWithDuration:0.5 animations:^{
-        self.pickerView.frame = CGRectMake(0, 44, 320, 260);
+        self.pickerView.frame = CGRectMake(0, 44, 320, 216);
         self.toolBar.frame = CGRectMake(0, self.pickerView.frame.origin.y-44, 320, 44);
     }];
-  
+    
 }
 - (void)pickerHide
 {
     [UIView animateWithDuration:0.5 animations:^{
         self.alpha = 0.0;
-        self.pickerView.frame = CGRectMake(0, 260+44, 320, 260);
+        self.pickerView.frame = CGRectMake(0, 100+44, 320, 260);
         self.toolBar.frame = CGRectMake(0, self.pickerView.frame.origin.y-44, 320, 44);
     }];
 }
@@ -109,7 +95,7 @@
         }
     }
     
-//    CYLog(@"tempStr==%@",self.selectedEntriesArr);
+    //    CYLog(@"tempStr==%@",self.selectedEntriesArr);
     
     if ([self.multiPickerDelegate respondsToSelector:@selector(returnChoosedPickerString:)]) {
         [self.multiPickerDelegate returnChoosedPickerString:self.selectedEntriesArr];
@@ -118,7 +104,7 @@
     [self pickerHide];
 }
 
-#pragma mark -  ALPickerViewDelegate 
+#pragma mark -  ALPickerViewDelegate
 
 
 // Return the number of elements of your pickerview

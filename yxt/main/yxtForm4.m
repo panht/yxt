@@ -20,6 +20,7 @@
 
 @synthesize dataSource1;
 @synthesize dataSource2;
+@synthesize dataListArray2;
 @synthesize dataSource2Selected;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -59,7 +60,7 @@
     [self.inputPicker1 addGestureRecognizer:pickerTapped];
 }
 
-- (void) loadData {
+- (void) loadData1 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
@@ -87,11 +88,70 @@
             [self.inputPicker1 setTag:1];
             [self.inputPicker1 setHidden:NO];
             [self.inputPicker1 reloadAllComponents];
-//            NSDictionary *row = [self.dataListArray objectAtIndex:0];
+        }
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    });
+}
+
+- (void) loadData2:(NSInteger)classid {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        // 获取班级
+        NSString *requestInfo;
+        NSString *data;
+        NSString *identityInfo;
+        
+        identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
+        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"classid\":\"%@\"}]", [NSString stringWithFormat:@"%d", classid]]];
+        requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"selectStudent" :@"1" :@"100" :identityInfo :data]];
+        // 从服务端获取数据
+        NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
+        
+        if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
+            NSData *dataList = [[dataResponse objectForKey:@"data"] dataUsingEncoding:NSUTF8StringEncoding];
+            NSError *error;
+            NSDictionary *jsonList = [NSJSONSerialization JSONObjectWithData:dataList
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            self.dataListArray2 = [jsonList objectForKey:@"list"];
             
-            // 通知范围初始值
-//            [self.inputScope setTitle:[row objectForKey:@"name"] forState:UIControlStateNormal];
-//            [self.inputScope setTag:[[row objectForKey:@"value"] integerValue]];
+            // 遍历数组，将姓名取出来放到表格数据源中
+            NSMutableArray *array2 = [[NSMutableArray alloc] init];
+            
+            for (NSDictionary *dict in self.dataListArray2) {
+                [array2 addObject:[NSString stringWithFormat:@"%@(%@)", [dict objectForKey:@"user_name"], [[dict objectForKey:@"is_open"] isEqualToString:@"1"] ? @"已开通业务" : @"未开通业务"]];
+            }
+            self.dataSource2 = [array2 mutableCopy];
+            
+            selectionStates = [[NSMutableDictionary alloc] init];
+            
+            // 配置是否选中状态
+            for (NSString *key in self.dataSource2){
+                BOOL isSelected = NO;
+                for (NSString *keyed in self.dataSource2Selected) {
+                    if ([key isEqualToString:keyed]) {
+                        isSelected = YES;
+                    }
+                }
+                [selectionStates setObject:[NSNumber numberWithBool:isSelected] forKey:key];
+            }
+            
+            //点击后删除之前的PickerView
+            for (UIView *view in self.view.subviews) {
+                if ([view isKindOfClass:[CYCustomMultiSelectPickerView class]]) {
+                    [view removeFromSuperview];
+                }
+            }
+            
+            //    multiPickerView = [[CYCustomMultiSelectPickerView alloc] initWithFrame:CGRectMake(0,[UIScreen mainScreen].bounds.size.height - 360 - 20, 320, 260 + 44)];
+            multiPickerView = [[CYCustomMultiSelectPickerView alloc] initWithFrame:CGRectMake(0, 100, 320, 216)];
+            multiPickerView.entriesArray = self.dataSource2;
+            multiPickerView.entriesSelectedArray = self.dataSource2Selected;
+            multiPickerView.multiPickerDelegate = self;
+            [self.view addSubview:multiPickerView];
+            [multiPickerView pickerShow];
         }
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -151,7 +211,7 @@
 }
 
 - (IBAction)userTapped:(id)sender {
-    [self loadData];
+    [self loadData1];
 }
 
 #pragma mark Picker Data Soucrce Methods
@@ -187,54 +247,13 @@
     
     if (self.inputPicker1.tag == 1) {
         NSDictionary *value = [self.dataSource1 objectAtIndex:row];
-        //        [self.inputCourse setTitle:[value objectForKey:@"name"]  forState:UIControlStateNormal];
+        NSInteger classid = [[value objectForKey:@"value"] integerValue];
         
         [self.inputPicker1 setHidden:YES];
         
         // 载入多选picker
-        [self loadMultiPicker];
+        [self loadData2: classid];
     }
-}
-
-- (void) loadMultiPicker {
-    //初始化一下数据，分别为 所有源数据，和 已经选中的数据
-	self.dataSource2 = [[NSArray alloc] initWithObjects:@"Duke", @"ColorMark", @"●(り啩__唸り)●", @"zaza", @"Miss.Y'G先生",@"iOS 开发者_北京联盟",@"QQ群:262091386",@"iZ",@"Code4App.com",nil];
-    self.dataSource2Selected = [[NSArray alloc] initWithObjects: @"QQ群:262091386",@"Code4App.com",nil];
-	selectionStates = [[NSMutableDictionary alloc] init];
-    
-    // 配置是否选中状态
-	for (NSString *key in self.dataSource2){
-        BOOL isSelected = NO;
-        
-        for (NSString *keyed in self.dataSource2Selected) {
-            if ([key isEqualToString:keyed]) {
-                isSelected = YES;
-            }
-        }
-        [selectionStates setObject:[NSNumber numberWithBool:isSelected] forKey:key];
-    }
-    
-    [self getData];
-}
-
-- (void) getData {
-    //点击后删除之前的PickerView
-    for (UIView *view in self.view.subviews) {
-        if ([view isKindOfClass:[CYCustomMultiSelectPickerView class]]) {
-            [view removeFromSuperview];
-        }
-    }
-    
-    multiPickerView = [[CYCustomMultiSelectPickerView alloc] initWithFrame:CGRectMake(0,[UIScreen mainScreen].bounds.size.height - 360 - 20, 320, 260 + 44)];
-    
-    //  multiPickerView.backgroundColor = [UIColor redColor];
-    multiPickerView.entriesArray = self.dataSource2;
-    multiPickerView.entriesSelectedArray = self.dataSource2Selected;
-    multiPickerView.multiPickerDelegate = self;
-    
-    [self.view addSubview:multiPickerView];
-    
-    [multiPickerView pickerShow];
 }
 
 #pragma mark - Delegate
