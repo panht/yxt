@@ -11,6 +11,7 @@
 
 @interface CYCustomMultiSelectPickerView : UIView
 
+@property (nonatomic, strong) NSMutableArray *selectedArray;
 @property (nonatomic, strong) NSArray *entriesArray;
 @property (nonatomic, strong) NSArray *entriesSelectedArray;
 @property (nonatomic, weak) id<CYCustomMultiSelectPickerViewDelegate> multiPickerDelegate;

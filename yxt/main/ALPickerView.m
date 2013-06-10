@@ -50,7 +50,7 @@
 	if ((self = [super initWithFrame:CGRectMake(frame.origin.x, frame.origin.y, 320, 216)])) {
         self.backgroundColor = [UIColor blackColor];
         self.clipsToBounds = YES;
-        self.allOptionTitle = NSLocalizedString(@"全选", @"All option title");
+//        self.allOptionTitle = NSLocalizedString(@"全选", @"All option title");
         
         internalTableView_ = [[UITableView alloc] initWithFrame:CGRectMake(10, -2, 300, 218) style:UITableViewStylePlain];
         internalTableView_.delegate = self;

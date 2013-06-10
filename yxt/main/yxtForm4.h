@@ -25,7 +25,10 @@
 @property (strong, nonatomic) NSArray *dataSource2;
 @property (strong, nonatomic) NSArray *dataListArray2;
 @property (strong, nonatomic) NSArray *dataSource2Selected;
+@property (strong, nonatomic) NSString *classId;
+@property (strong, nonatomic) NSString *ids;
 
+@property (strong, nonatomic) IBOutlet CYCustomMultiSelectPickerView *multiPickerView;
 @property (weak, nonatomic) IBOutlet UIButton *inputUser;
 @property (weak, nonatomic) IBOutlet UITextField *inputTitle;
 @property (weak, nonatomic) IBOutlet UISwitch *inputSMS;
@@ -39,7 +42,7 @@
 
 - (void) resettle;
 - (void) loadData1;
-- (void) loadData2: (NSInteger) classid;
+- (void) loadData2;
 - (void) closePicker;
 - (void) getData;
 

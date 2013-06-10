@@ -22,6 +22,8 @@
 @synthesize dataSource2;
 @synthesize dataListArray2;
 @synthesize dataSource2Selected;
+@synthesize classId;
+@synthesize ids;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -94,7 +96,7 @@
     });
 }
 
-- (void) loadData2:(NSInteger)classid {
+- (void) loadData2{
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
@@ -104,7 +106,7 @@
         NSString *identityInfo;
         
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"classid\":\"%@\"}]", [NSString stringWithFormat:@"%d", classid]]];
+        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"classid\":\"%@\"}]", self.classId]];
         requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"selectStudent" :@"1" :@"100" :identityInfo :data]];
         // 从服务端获取数据
         NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
@@ -115,28 +117,16 @@
             NSDictionary *jsonList = [NSJSONSerialization JSONObjectWithData:dataList
                                                                      options:kNilOptions
                                                                        error:&error];
-            self.dataListArray2 = [jsonList objectForKey:@"list"];
-            
-            // 遍历数组，将姓名取出来放到表格数据源中
-            NSMutableArray *array2 = [[NSMutableArray alloc] init];
-            
-            for (NSDictionary *dict in self.dataListArray2) {
-                [array2 addObject:[NSString stringWithFormat:@"%@(%@)", [dict objectForKey:@"user_name"], [[dict objectForKey:@"is_open"] isEqualToString:@"1"] ? @"已开通业务" : @"未开通业务"]];
-            }
-            self.dataSource2 = [array2 mutableCopy];
-            
+//            self.dataListArray2 = [jsonList objectForKey:@"list"];
+//            
+//            // 遍历数组，将姓名取出来放到表格数据源中
+//            NSMutableArray *array2 = [[NSMutableArray alloc] init];
+//            for (NSDictionary *dict in self.dataListArray2) {
+//                [array2 addObject:[NSString stringWithFormat:@"%@(%@)", [dict objectForKey:@"user_name"], [[dict objectForKey:@"is_open"] isEqualToString:@"1"] ? @"已开通业务" : @"未开通业务"]];
+//            }
+//            self.dataSource2 = [array2 mutableCopy];
+            self.dataSource2 = [jsonList objectForKey:@"list"];
             selectionStates = [[NSMutableDictionary alloc] init];
-            
-            // 配置是否选中状态
-            for (NSString *key in self.dataSource2){
-                BOOL isSelected = NO;
-                for (NSString *keyed in self.dataSource2Selected) {
-                    if ([key isEqualToString:keyed]) {
-                        isSelected = YES;
-                    }
-                }
-                [selectionStates setObject:[NSNumber numberWithBool:isSelected] forKey:key];
-            }
             
             //点击后删除之前的PickerView
             for (UIView *view in self.view.subviews) {
@@ -146,12 +136,12 @@
             }
             
             //    multiPickerView = [[CYCustomMultiSelectPickerView alloc] initWithFrame:CGRectMake(0,[UIScreen mainScreen].bounds.size.height - 360 - 20, 320, 260 + 44)];
-            multiPickerView = [[CYCustomMultiSelectPickerView alloc] initWithFrame:CGRectMake(0, 100, 320, 216)];
-            multiPickerView.entriesArray = self.dataSource2;
-            multiPickerView.entriesSelectedArray = self.dataSource2Selected;
-            multiPickerView.multiPickerDelegate = self;
-            [self.view addSubview:multiPickerView];
-            [multiPickerView pickerShow];
+            self.multiPickerView = [[CYCustomMultiSelectPickerView alloc] initWithFrame:CGRectMake(0, 50, 320, 216)];
+            self.multiPickerView.entriesArray = self.dataSource2;
+            self.multiPickerView.entriesSelectedArray = self.dataSource2Selected;
+            self.multiPickerView.multiPickerDelegate = self;
+            [self.view addSubview: self.multiPickerView];
+            [self.multiPickerView pickerShow];
         }
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -189,8 +179,8 @@
         NSString *identityInfo;
         
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-//        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userid\":\"%@\", \"assTitle\":\"%@\", \"assContent\":\"%@\", \"classCourse\":\"%@\", \"chksms\":\"%@\", \"userName\":\"%@\", \"classCourseName\":\"%@\", \"blocToken\":\"%@\", \"userAccount\":\"%@\", \"blocFlag\":\"%@\", \"Files\":\"%@\"}]", app.userId, title, content, courseid, chksms, [yxtUtil urlEncode:app.username], coursename, app.token, app.userId, blocflag, bytesImage]];
-        requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"addHomeWork" :@"0" :@"0" :identityInfo :data]];
+        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"title\":\"%@\", \"content\":\"%@\", \"classid\":\"%@\", \"ids\":\"%@\", \"chksms\":\"%@\", \"userName\":\"%@\", \"blocToken\":\"%@\", \"userAccount\":\"%@\", \"blocFlag\":\"%@\"}]", title, content, self.classId, ids, chksms, [yxtUtil urlEncode:app.username], app.token, app.userId, blocflag]];
+        requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"addReviews" :@"0" :@"0" :identityInfo :data]];
         NSLog(@"requestInfo   %@", requestInfo);
         NSLog(@"identityInfo   %@", identityInfo);
         NSLog(@"data   %@", data);
@@ -247,23 +237,26 @@
     
     if (self.inputPicker1.tag == 1) {
         NSDictionary *value = [self.dataSource1 objectAtIndex:row];
-        NSInteger classid = [[value objectForKey:@"value"] integerValue];
+        self.classId = [value objectForKey:@"value"];
         
         [self.inputPicker1 setHidden:YES];
         
         // 载入多选picker
-        [self loadData2: classid];
+        [self loadData2];
     }
 }
 
 #pragma mark - Delegate
 //获取到选中的数据
 -(void)returnChoosedPickerString:(NSMutableArray *)selectedEntriesArr {
-    NSLog(@"selectedArray=%@", selectedEntriesArr);
+    for (NSString *row in self.multiPickerView.selectedArray) {
+        if (self.ids == nil) {
+            self.ids = [[self.dataSource2 objectAtIndex:[row integerValue]] objectForKey:@"user_id"];
+        } else {
+            self.ids = [self.ids stringByAppendingFormat:@",%@", [[self.dataSource2 objectAtIndex:[row integerValue]] objectForKey:@"user_id"]];
+        }
+    }
     
-    NSString *dataStr = [selectedEntriesArr componentsJoinedByString:@"\n"];
-    
-//    showLbl.text = dataStr;
     // 再次初始化选中的数据
     self.dataSource2Selected = [NSArray arrayWithArray:selectedEntriesArr];
 }

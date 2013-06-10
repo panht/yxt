@@ -28,6 +28,8 @@
         
         self.entriesArray = [[NSMutableArray alloc] initWithCapacity:100];
         self.entriesSelectedArray = [[NSMutableArray alloc] initWithCapacity:100];
+        
+        self.selectedArray = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -37,19 +39,19 @@
 {
     //  entries = [[NSArray alloc] initWithObjects:@"Row 1", @"Row 2", @"Row 3", @"Row 4", @"Row 5", nil];
     
-	for (NSString *key in self.entriesArray){
-        BOOL isSelected = NO;
-        for (NSString *keyed in self.entriesSelectedArray) {
-            if ([key isEqualToString:keyed]) {
-                isSelected = YES;
-            }
-        }
-        [self.selectionStatesDic setObject:[NSNumber numberWithBool:isSelected] forKey:key];
-    }
+//	for (NSString *key in self.entriesArray){
+//        BOOL isSelected = NO;
+//        for (NSString *keyed in self.entriesSelectedArray) {
+//            if ([key isEqualToString:keyed]) {
+//                isSelected = YES;
+//            }
+//        }
+//        [self.selectionStatesDic setObject:[NSNumber numberWithBool:isSelected] forKey:key];
+//    }
     
 	// Init picker and add it to view
     if (!self.pickerView) {
-        self.pickerView = [[ALPickerView alloc] initWithFrame:CGRectMake(0,100, 320, 216)];
+        self.pickerView = [[ALPickerView alloc] initWithFrame:CGRectMake(0,50, 320, 216)];
     }
 	self.pickerView.delegate = self;
 	[self addSubview:self.pickerView];
@@ -82,7 +84,7 @@
 {
     [UIView animateWithDuration:0.5 animations:^{
         self.alpha = 0.0;
-        self.pickerView.frame = CGRectMake(0, 100+44, 320, 260);
+        self.pickerView.frame = CGRectMake(0, 50+44, 320, 260);
         self.toolBar.frame = CGRectMake(0, self.pickerView.frame.origin.y-44, 320, 44);
     }];
 }
@@ -115,7 +117,10 @@
 // Return a plain UIString to display on the given row
 - (NSString *)pickerView:(ALPickerView *)pickerView textForRow:(NSInteger)row
 {
-    return [self.entriesArray objectAtIndex:row];
+    NSDictionary *dict = [self.entriesArray objectAtIndex:row];
+    NSString *rowText = [NSString stringWithFormat:@"%@(%@)", [dict objectForKey:@"user_name"], [[dict objectForKey:@"is_open"] isEqualToString:@"1"] ? @"已开通业务" : @"未开通业务"];
+    
+    return rowText;
 }
 // Return a boolean selection state on the given row
 - (BOOL)pickerView:(ALPickerView *)pickerView selectionStateForRow:(NSInteger)row
@@ -125,19 +130,27 @@
 
 - (void)pickerView:(ALPickerView *)pickerView didCheckRow:(NSInteger)row {
 	// Check whether all rows are checked or only one
-	if (row == -1)
-		for (id key in [self.selectionStatesDic allKeys])
+	if (row == -1) {
+		for (id key in [self.selectionStatesDic allKeys]) {
 			[self.selectionStatesDic setObject:[NSNumber numberWithBool:YES] forKey:key];
-	else
+        }
+    } else {
 		[self.selectionStatesDic setObject:[NSNumber numberWithBool:YES] forKey:[self.entriesArray objectAtIndex:row]];
+    }
+    
+    [self.selectedArray addObject: [NSString stringWithFormat:@"%d", row]];
 }
 
 - (void)pickerView:(ALPickerView *)pickerView didUncheckRow:(NSInteger)row {
 	// Check whether all rows are unchecked or only one
-	if (row == -1)
-		for (id key in [self.selectionStatesDic allKeys])
+	if (row == -1) {
+		for (id key in [self.selectionStatesDic allKeys]) {
 			[self.selectionStatesDic setObject:[NSNumber numberWithBool:NO] forKey:key];
-	else
+        }
+    } else {
 		[self.selectionStatesDic setObject:[NSNumber numberWithBool:NO] forKey:[self.entriesArray objectAtIndex:row]];
+    }
+    
+    [self.selectedArray removeObject: [NSString stringWithFormat:@"%d", row]];
 }
 @end
