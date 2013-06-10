@@ -263,7 +263,7 @@
 					<object class="IBUITextView" id="425507771">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{20, 156}, {280, 147}}</string>
+						<string key="NSFrame">{{20, 155}, {280, 100}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSNextKeyView" ref="952475543"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -285,9 +285,9 @@
 					<object class="IBUIButton" id="952475543">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{124, 311}, {73, 44}}</string>
+						<string key="NSFrame">{{124, 263}, {73, 44}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
-						<reference key="NSNextKeyView" ref="239627849"/>
+						<reference key="NSNextKeyView" ref="509172968"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -362,11 +362,12 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<bool key="IBUIShowsSelectionIndicator">YES</bool>
 					</object>
-					<object class="IBUIScrollView" id="945925242">
+					<object class="IBUIScrollView" id="509172968">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{1, 355}, {316, 60}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSNextKeyView" ref="239627849"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -488,7 +489,7 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">scrollView</string>
 						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="945925242"/>
+						<reference key="destination" ref="509172968"/>
 					</object>
 					<int key="connectionID">43</int>
 				</object>
@@ -564,7 +565,6 @@
 							<reference ref="726825283"/>
 							<reference ref="73129389"/>
 							<reference ref="507310361"/>
-							<reference ref="425507771"/>
 							<reference ref="239627849"/>
 							<reference ref="757190775"/>
 							<reference ref="513581407"/>
@@ -572,7 +572,8 @@
 							<reference ref="952475543"/>
 							<reference ref="60549667"/>
 							<reference ref="800481925"/>
-							<reference ref="945925242"/>
+							<reference ref="509172968"/>
+							<reference ref="425507771"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -664,7 +665,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">42</int>
-						<reference key="object" ref="945925242"/>
+						<reference key="object" ref="509172968"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
 				</array>
