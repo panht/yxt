@@ -166,4 +166,28 @@
     return ((isReachable && !needsConnection) || nonWifi || moveNet) ? YES : NO;
 }
 
++ (void) message:(UIView *) view :(NSString *) message {
+    MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:view];
+	[view addSubview:HUD];
+
+	HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+	HUD.mode = MBProgressHUDModeCustomView;
+	HUD.delegate = self;
+	HUD.labelText = message;
+	
+	[HUD show:YES];
+	[HUD hide:YES afterDelay:2];
+}
+
++ (void) warning:(UIView *) view :(NSString *) message {
+    MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:view];
+	[view addSubview:HUD];
+	HUD.mode = MBProgressHUDModeCustomView;
+	HUD.delegate = self;
+	HUD.labelText = message;
+	
+	[HUD show:YES];
+	[HUD hide:YES afterDelay:2];
+}
+
 @end

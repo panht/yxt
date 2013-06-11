@@ -118,20 +118,16 @@
     // 任一密码框有输入，则视为需要保存密码
     if (![self.oldpwd.text isEqualToString:@""] || ![self.newpwd1.text isEqualToString:@""] || ![self.newpwd2.text isEqualToString:@""]) {
         if ([self.oldpwd.text isEqualToString:@""]) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请输入原密码" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-            [alert show];
+            [yxtUtil warning: self.view :@"请输入原密码"];
             return;
         } else if ([self.newpwd1.text isEqualToString:@""]) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请输入新密码" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-            [alert show];
+            [yxtUtil warning: self.view :@"请输入新密码"];
             return;
         } else if ([self.newpwd2.text isEqualToString:@""]) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请重新输入新密码" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-            [alert show];
+            [yxtUtil warning: self.view :@"请重新输入新密码"];
             return;
         } else if (![self.newpwd1.text isEqualToString:self.newpwd2.text]) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"两次输入的新密码不一样，请重新输入" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-            [alert show];
+            [yxtUtil warning: self.view :@"两次输入的新密码不一样"];
             return;
         }
     }
@@ -161,17 +157,23 @@
         
         NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
         
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
         if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
             self.imageOld = self.imageNew;
             
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"保存成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-            [alert show];
+            // 关闭当前视图，在父视图弹出消息
+            UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+            UIView *welcomeView = [topWindow viewWithTag:200];
+            [yxtUtil message:welcomeView :@"保存成功"];
+            
+            [self.view removeFromSuperview];
+            UIView *list1View = [topWindow viewWithTag:300];
+            [list1View removeFromSuperview];
         } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:[dataResponse objectForKey:@"resultdes"] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-            [alert show];
+            [yxtUtil warning: self.view :[dataResponse objectForKey:@"resultdes"]];
         }
         
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
     });
     
 }

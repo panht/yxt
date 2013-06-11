@@ -123,12 +123,10 @@
     
     // 校验必填项
     if ([self.inputTitle.text isEqualToString:@""]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请输入作业标题" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-        [alert show];
+        [yxtUtil warning:self.view :@"请输入作业标题"];
         return;
     } else if ([self.inputContent.text isEqualToString:@""]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请输入内容" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-        [alert show];
+        [yxtUtil warning:self.view :@"请输入内容"];
         return;
     }
     
@@ -173,23 +171,30 @@
         // 从服务端获取数据
         NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
         
-        if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"发送成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-            [alert show];
-        } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:[dataResponse objectForKey:@"resultdes"] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-            [alert show];
-        }
-        
         [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
+        if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
+            // 关闭当前视图，在父视图弹出消息
+            UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+            UIView *listView = [topWindow viewWithTag:200];
+            [yxtUtil message:listView :@"发送成功"];
+            
+            [self.view removeFromSuperview];
+            UIView *formView = [topWindow viewWithTag:300];
+            [formView removeFromSuperview];
+            UIView *list1View = [topWindow viewWithTag:400];
+            [list1View removeFromSuperview];
+
+        } else {
+            [yxtUtil warning:self.view :[dataResponse objectForKey:@"resultdes"]];
+        }
     });
 }
 
 - (IBAction)albumTapped:(id)sender {
     // 相册
     if ([self.files count] >= 5) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"最多只能上传五张图片" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-        [alert show];
+        [yxtUtil warning:self.view :@"最多只能上传五张图片"];
     } else {
         UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
         imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
@@ -201,8 +206,7 @@
 - (IBAction)photoTapped:(id)sender {
     // 拍照
     if ([self.files count] >= 5) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"最多只能上传五张图片" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-        [alert show];
+        [yxtUtil warning:self.view :@"最多只能上传五张图片"];
     } else {
         UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypeCamera;
         

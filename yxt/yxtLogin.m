@@ -136,8 +136,7 @@
         flagLogin = NO;
     }
     if (flagLogin == NO) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:message delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-        [alert show];
+        [yxtUtil warning:self.view :message];
         return;
     }
     
@@ -215,8 +214,7 @@
             [self.view removeFromSuperview];
         }
     } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:[dataResponse objectForKey:@"resultdes"] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-        [alert show];
+        [yxtUtil warning:self.view :[dataResponse objectForKey:@"resultdes"]];
     }
 }
 
@@ -288,8 +286,7 @@
                 // 是否强制更新
                 if ([[row objectForKey:@"ver"] isEqualToString:@"1"]) {
                     [self setFlagAlert:2];
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"有新版本，请更新" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                    [alert show];
+                    [yxtUtil warning:self.view :@"有新版本，请更新"];
                 } else {
                     [self setFlagAlert:3];
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"有新版本，是否更新" message:@"" delegate:self cancelButtonTitle:@"是" otherButtonTitles: @"否", nil];

@@ -456,6 +456,7 @@
     width = screenWidth;
     height = screenHeight - statusBarHeight;
     self.form.view.frame = CGRectMake(x, y, width, height);
+    self.form.view.tag = 400;
     
     UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
     [topWindow addSubview: self.form.view];
