@@ -72,8 +72,9 @@
     
     if (flagNetwork == NO) {
         NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
-        [result setObject:@"-1" forKey:@"resultcode"];
+        [result setObject:@"-999" forKey:@"resultcode"];
         [result setObject:@"没有可用的网络连接" forKey:@"resultdes"];
+        
         return result;
     } else {
         yxtAppDelegate *app = [[UIApplication sharedApplication] delegate];
