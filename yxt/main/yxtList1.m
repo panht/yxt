@@ -43,9 +43,15 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.pageIndex = @"1";
-        self.pageSize = @"8";
         self.type = @"inbox";
         self.role = @"teacher";
+        
+        int screenHeight = [[UIScreen mainScreen] bounds].size.height;
+        if (screenHeight == 568) {
+            self.pageSize = @"10";
+        } else {
+            self.pageSize = @"8";
+        }
     }
     
     return self;
@@ -124,15 +130,15 @@
     } else if ([self.action isEqualToString:@"selectExamReceiveMsg"]) {
         self.navTitle.title = @"成绩信息 >> 列表信息";
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"examType\":\"0\"}]"]];
-        self.title1 = @"msg_content";
-        self.title2 = @"rec_date";
+        self.title1 = @"student_name";
+        self.title2 = @"op_date";
         self.actionDetail = @"selectExamReceiveMsgDetail";
     }  else if ([self.action isEqualToString:@"reviews"]) {
         self.navTitle.title = @"日常表现 >> 列表信息";
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"logintype\":\"%@\", \"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.loginType, app.userId]];
         self.title1 = @"title";
         self.title2 = @"announce_date";
-        self.actionDetail = @"reviewsContent";
+        self.actionDetail = @"reviewsConetent";
     }  else if ([self.action isEqualToString:@"eduClass"]) {
         self.navTitle.title = @"班级成员 >> 班级选择";
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userid\":\"%@\"}]", app.userId]];
@@ -150,10 +156,8 @@
 //    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         NSString *requestInfo;
         NSString *identityInfo;
-        
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
         requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:self.action :self.pageIndex :self.pageSize :identityInfo :self.data]];
-    
         // 从服务端获取数据
         NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :self.data];
         
@@ -163,55 +167,112 @@
             NSDictionary *jsonList = [NSJSONSerialization JSONObjectWithData:dataList
                                                                      options:kNilOptions
                                                                        error:&error];
-            
             NSArray *dataListArray = [jsonList objectForKey:@"list"];
-            self.dataSource = dataListArray;
             
-            //        for(int i=0; i < [data count]; i++) {
-            //            NSLog(@"value%d : %@", i, [data objectAtIndex:i]);
-            //        }
+            // 将数据合并到原数组中
+            NSMutableArray *arrayTemp = [[NSMutableArray alloc] init];
+            if ([self.dataSource count] > 0){
+                arrayTemp = [self.dataSource mutableCopy];
+            }
+            [arrayTemp addObjectsFromArray:dataListArray];
+            self.dataSource = [arrayTemp mutableCopy];
+            
+            if ([self.dataSource count] > 0) {
+                NSIndexPath *scrollIndexPath = [NSIndexPath indexPathForRow:([self.tableView1 numberOfRowsInSection:0] - 1) inSection:0];
+                [[self tableView1] scrollToRowAtIndexPath:scrollIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+            }
         }
 //        [MBProgressHUD hideHUDForView:self.view animated:YES];
 //    });
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.pageSize intValue];
+    return [self.dataSource count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-//                                       reuseIdentifier:CellIdentifier];
-        cell=[[UITableViewCell alloc] initWithFrame: CGRectMake(5, 0, 300, 65)];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        cell.frame = CGRectMake(5, 0, 300, 65);
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
+//        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+    } else {
+        while ([cell.contentView.subviews lastObject] != nil) {
+            [(UIView*)[cell.contentView.subviews lastObject] removeFromSuperview];
+        }
     }
     
     if (indexPath.row < [self.dataSource count]) {
         NSDictionary *rowData = [self.dataSource objectAtIndex:indexPath.row];
         NSInteger heightTitle1;
         
-        // 显示副标题
+        // 有没有副标题，主标题高度不同
         if (![self.title2 isEqualToString:@""]) {
-            UILabel *date = [[UILabel alloc] initWithFrame: CGRectMake(5, 26, 200, 15)];
-            date.text = [yxtUtil urlDecode: [rowData objectForKey:self.title2]];
-            date.font = [UIFont boldSystemFontOfSize:12];
-            date.textColor = [UIColor grayColor];
-            [cell.contentView addSubview:date];
-            
             heightTitle1 = 15;
         } else {
             heightTitle1 = 35;
         }
+        UILabel *text1 = [[UILabel alloc] init];
+        UILabel *text2 = [[UILabel alloc] init];
+        UILabel *date = [[UILabel alloc] init];
         
-        // 显示标题
-        UILabel *title = [[UILabel alloc] initWithFrame: CGRectMake(5, 5, 250, heightTitle1)];
-        title.text = [yxtUtil urlDecode: [rowData objectForKey:self.title1]];
-        if ([self.action isEqualToString:@"homework"]) {
-            title.text = [title.text stringByAppendingFormat:@"作业"];
+        // 通知公告和家庭作业图标
+        if ([self.action isEqualToString:@"bulletin"] || [self.action isEqualToString:@"homework"] || [self.action isEqualToString:@"eduClass"]) {
+            // 主、副标题位置
+            text1.frame = CGRectMake(5, 5, 250, heightTitle1);
+            date.frame = CGRectMake(5, 26, 200, 15);
+            
+            // 右方箭头图标
+            UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowLeft1.png"]];
+            image.frame = CGRectMake(300, 12, 14, 20);
+            [cell.contentView addSubview:image];
+        } else if ([self.action isEqualToString:@"selectExamSendMsg"] || [self.action isEqualToString:@"selectExamReceiveMsg"] || [self.action isEqualToString:@"reviews"]) {
+            // 主、副标题位置
+            text1.frame = CGRectMake(25, 5, 250, heightTitle1);
+            text2.frame = CGRectMake(5, 26, 180, 15);
+            date.frame = CGRectMake(200, 26, 120, 15);
+            
+            // 添加副标题，已读未读图标文件名
+            NSString *imageName = @"messageRead.png";
+            if ([self.action isEqualToString:@"selectExamSendMsg"]) {
+                text2.text = [NSString stringWithFormat:@"考试班级:%@考试科目:%@", [rowData objectForKey:@"class_name"], [rowData objectForKey:@"course_name"]];
+                
+            } else if ([self.action isEqualToString:@"selectExamReceiveMsg"]) {
+                text2.text = [yxtUtil urlDecode: [rowData objectForKey:@"msg_content"]];
+                if ([[rowData objectForKey:@"is_read"] isEqualToString:@"0"]) {
+                    imageName = @"messageUnread.png";
+                }
+            } else if ([self.action isEqualToString:@"reviews"]) {
+                text2.text = [yxtUtil urlDecode: [rowData objectForKey:@"content"]];
+            }
+            text2.font = [UIFont boldSystemFontOfSize:12];
+            text2.textColor = [UIColor grayColor];
+            [cell.contentView addSubview:text2];
+            
+            // 左方已读未读图标
+            UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
+            image.frame = CGRectMake(5, 5, 18, 14);
+            [cell.contentView addSubview:image];
         }
-        [cell.contentView addSubview:title]; 
+        
+        // 显示副标题
+        if (![self.title2 isEqualToString:@""]) {
+            date.text = [yxtUtil urlDecode: [rowData objectForKey:self.title2]];
+            date.font = [UIFont boldSystemFontOfSize:12];
+            date.textColor = [UIColor grayColor];
+            [cell.contentView addSubview:date];
+        } 
+        
+        // 显示主标题
+        text1.text = [yxtUtil urlDecode: [rowData objectForKey:self.title1]];
+        if ([self.action isEqualToString:@"homework"]) {
+            text1.text = [text1.text stringByAppendingFormat:@"作业"];
+        } else if ([self.action isEqualToString:@"selectExamReceiveMsg"]) {
+            text1.text = [text1.text stringByAppendingFormat:@"家长"];
+        }
+        [cell.contentView addSubview:text1];
     }
     
     return cell;
@@ -296,11 +357,11 @@
     UISwipeGestureRecognizer *recognizer;
     recognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeFrom:)];
     [recognizer setDirection:(UISwipeGestureRecognizerDirectionUp)];
-    [[self tableView1] addGestureRecognizer:recognizer];
+    [self.tableView1 addGestureRecognizer:recognizer];
     
-    recognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeFrom:)];
-    [recognizer setDirection:(UISwipeGestureRecognizerDirectionDown)];
-    [[self tableView1] addGestureRecognizer:recognizer];
+//    recognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeFrom:)];
+//    [recognizer setDirection:(UISwipeGestureRecognizerDirectionDown)];
+//    [[self tableView1] addGestureRecognizer:recognizer];
 }
 
 // 上下滑动手势
@@ -310,13 +371,14 @@
     if(recognizer.direction == UISwipeGestureRecognizerDirectionUp) {
         // 上滑页号加1
         intPageIndex++;
-    } else if(recognizer.direction == UISwipeGestureRecognizerDirectionDown) {
-        // 下滑页号减1
-        intPageIndex--;
-        if (intPageIndex < 1) {
-            intPageIndex = 1;
-        }
     }
+//    else if(recognizer.direction == UISwipeGestureRecognizerDirectionDown) {
+//        // 下滑页号减1
+//        intPageIndex--;
+//        if (intPageIndex < 1) {
+//            intPageIndex = 1;
+//        }
+//    }
     
     [self setPageIndex:[NSString stringWithFormat:@"%d", intPageIndex]];
     [self loadData];
@@ -339,6 +401,9 @@
         
         yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
         self.type = @"outbox";
+        self.dataSource = nil;
+        [self.tableView1 reloadData];
+        self.pageIndex = @"1";
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"%@\", \"userid\":\"%@\"}]", self.type, app.userId]];
         
         [self loadData];
@@ -354,6 +419,9 @@
         
         yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
         self.type = @"inbox";
+        self.dataSource = nil;
+        [self.tableView1 reloadData];
+        self.pageIndex = @"1";
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"%@\", \"userid\":\"%@\"}]", self.type, app.userId]];
         
         [self loadData];

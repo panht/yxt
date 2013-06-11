@@ -52,7 +52,7 @@
     } else if ([self.action isEqualToString:@"selectExamReceiveMsgDetail"]) {
         self.navTitle.title = @"成绩信息 >> 详细内容";
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@""]];
-    } else if ([self.action isEqualToString:@"reviewsContent"]) {
+    } else if ([self.action isEqualToString:@"reviewsConetent"]) {
         self.navTitle.title = @"日常表现 >> 详细内容";
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.userId]];
     }
@@ -202,27 +202,28 @@
                 self.label5.textAlignment = UITextAlignmentLeft;
 //                self.labelContent.text = [row objectForKey:@"bulletin_content"];
             } else if ([self.action isEqualToString:@"selectExamReceiveMsgDetail"]) {
-                self.label1.text = [row objectForKey:@"msg_content"];
-                self.label2.text = [NSString stringWithFormat:@"发送者：%@", [row objectForKey:@"user_name"]];
-                self.label3.text = [NSString stringWithFormat:@"发送时间：%@", [row objectForKey:@"op_date"]];
+//                self.label1.text = [row objectForKey:@"msg_content"];
+                self.label1.text = [NSString stringWithFormat:@"发送者：%@", [row objectForKey:@"user_name"]];
+                self.label2.text = [NSString stringWithFormat:@"发送时间：%@", [row objectForKey:@"op_date"]];
+                self.labelContent.text = [row objectForKey:@"msg_content"];
                 
                 self.label1.frame = CGRectMake(x, y, width, height);
                 self.label2.frame = CGRectMake(x, y + height, width, height);
-                self.label3.frame = CGRectMake(x, y + height * 2, width, height);
+                self.labelContent.frame = CGRectMake(x, y + height * 2, width, height);
                 
                 self.label1.textAlignment = UITextAlignmentLeft;
                 self.label2.textAlignment = UITextAlignmentLeft;
-                self.label3.textAlignment = UITextAlignmentLeft;
-            } else if ([self.action isEqualToString:@"reviewsContent"]) {
+//                self.label3.textAlignment = UITextAlignmentLeft;
+            } else if ([self.action isEqualToString:@"reviewsConetent"]) {
                 // 日常表现
-                detailTitle = [row objectForKey:@"msg_title"];
+                detailTitle = [row objectForKey:@"title"];
                 detailTitle = [yxtUtil urlDecode:detailTitle];
-                DetailContent = [row objectForKey:@"msg_content"];
+                DetailContent = [row objectForKey:@"content"];
                 DetailContent = [yxtUtil urlDecode:DetailContent];
                 
                 self.label1.text = [NSString stringWithFormat:@"发件人：%@", [row objectForKey:@"user_name"]];
                 self.label2.text = detailTitle;
-                self.label3.text = [NSString stringWithFormat:@"发送时间：%@", [row objectForKey:@"rec_date"]];
+                self.label3.text = [NSString stringWithFormat:@"发送时间：%@", [row objectForKey:@"announce_date"]];
                 self.labelContent.text = DetailContent;
                 
                 self.label1.frame = CGRectMake(x, y, width, height);

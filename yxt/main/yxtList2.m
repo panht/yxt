@@ -33,61 +33,71 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.pageIndex = @"1";
-        self.pageSize = @"8";
         self.role = @"teacher";
+        
+        int screenHeight = [[UIScreen mainScreen] bounds].size.height;
+        if (screenHeight == 568) {
+            self.pageSize = @"10";
+        } else {
+            self.pageSize = @"8";
+        }
     }
     
     return self;
 }
 
 - (void) loadData {
-    //    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    //    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
-    //    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-    NSString *requestInfo;
-    NSString *identityInfo;
-    
-    identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-    self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"membertype\":\"%@\", \"classid\":\"%@\"}]", self.role, self.classid]];
-    requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"members" :self.pageIndex :self.pageSize :identityInfo :self.data]];
-    
-    // 从服务端获取数据
-    NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :self.data];
-    
-    if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
-        NSData *dataList = [[dataResponse objectForKey:@"data"] dataUsingEncoding:NSUTF8StringEncoding];
-        NSError *error;
-        NSDictionary *jsonList = [NSJSONSerialization JSONObjectWithData:dataList
-                                                                 options:kNilOptions
-                                                                   error:&error];
+//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+//    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        NSString *requestInfo;
+        NSString *identityInfo;
         
-        NSArray *dataListArray = [jsonList objectForKey:@"list"];
-        self.dataSource = dataListArray;
+        identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
+        self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"membertype\":\"%@\", \"classid\":\"%@\"}]", self.role, self.classid]];
+        requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"members" :self.pageIndex :self.pageSize :identityInfo :self.data]];
         
-        //        for(int i=0; i < [data count]; i++) {
-        //            NSLog(@"value%d : %@", i, [data objectAtIndex:i]);
-        //        }
-    }
-    //        [MBProgressHUD hideHUDForView:self.view animated:YES];
-    //    });
-    
+        // 从服务端获取数据
+        NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :self.data];
+        
+        if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
+            NSData *dataList = [[dataResponse objectForKey:@"data"] dataUsingEncoding:NSUTF8StringEncoding];
+            NSError *error;
+            NSDictionary *jsonList = [NSJSONSerialization JSONObjectWithData:dataList
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            
+            NSArray *dataListArray = [jsonList objectForKey:@"list"];
+            
+            // 将数据合并到原数组中
+            NSMutableArray *arrayTemp = [[NSMutableArray alloc] init];
+            if ([self.dataSource count] > 0){
+                arrayTemp = [self.dataSource mutableCopy];
+            }
+            [arrayTemp addObjectsFromArray:dataListArray];
+            self.dataSource = [arrayTemp mutableCopy];
+            
+            NSIndexPath *scrollIndexPath = [NSIndexPath indexPathForRow:([self.tableView1 numberOfRowsInSection:0] - 1) inSection:0];
+            [[self tableView1] scrollToRowAtIndexPath:scrollIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+        }
+//    [MBProgressHUD hideHUDForView:self.view animated:YES];
+//    });
 }
 
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//    return 1;
-//}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.pageSize intValue];
+    return [self.dataSource count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        //        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-        //                                       reuseIdentifier:CellIdentifier];
         cell=[[UITableViewCell alloc] initWithFrame: CGRectMake(5, 0, 300, 65)];
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
+    } else {
+        while ([cell.contentView.subviews lastObject] != nil) {
+            [(UIView*)[cell.contentView.subviews lastObject] removeFromSuperview];
+        }
     }
     
     if (indexPath.row < [self.dataSource count]) {
@@ -146,12 +156,6 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:smsNo]];
 }
 
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    if (indexPath.row < [self.dataSource count]) {
-//        
-//    }
-//}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -182,13 +186,16 @@
     [recognizer setDirection:(UISwipeGestureRecognizerDirectionUp)];
     [[self tableView1] addGestureRecognizer:recognizer];
     
-    recognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeFrom:)];
-    [recognizer setDirection:(UISwipeGestureRecognizerDirectionDown)];
-    [[self tableView1] addGestureRecognizer:recognizer];
+//    recognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeFrom:)];
+//    [recognizer setDirection:(UISwipeGestureRecognizerDirectionDown)];
+//    [[self tableView1] addGestureRecognizer:recognizer];
 }
 
 // 整理班级成员列表界面
 - (void) resettle {
+    self.tableView1.sectionFooterHeight = 0;
+    self.tableView1.sectionHeaderHeight = 0;
+    
     // 底部按钮调整
     [self.btn1 setTitle:@"学校教师" forState:UIControlStateNormal];
     [self.btn2 setTitle:@"学生" forState:UIControlStateNormal];
@@ -225,13 +232,14 @@
     if(recognizer.direction == UISwipeGestureRecognizerDirectionUp) {
         // 上滑页号加1
         intPageIndex++;
-    } else if(recognizer.direction == UISwipeGestureRecognizerDirectionDown) {
-        // 下滑页号减1
-        intPageIndex--;
-        if (intPageIndex < 1) {
-            intPageIndex = 1;
-        }
     }
+//    else if(recognizer.direction == UISwipeGestureRecognizerDirectionDown) {
+//        // 下滑页号减1
+//        intPageIndex--;
+//        if (intPageIndex < 1) {
+//            intPageIndex = 1;
+//        }
+//    }
     
     [self setPageIndex:[NSString stringWithFormat:@"%d", intPageIndex]];
     [self loadData];
@@ -255,6 +263,8 @@
     [self.btn3 setBackgroundImage:self.image11 forState:UIControlStateNormal];
     
     self.role = @"teacher";
+    self.dataSource = nil;
+    self.pageIndex = @"1";
     self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"membertype\":\"%@\", \"classid\":\"%@\"}]", self.role, self.classid]];
     
     [self loadData];
@@ -267,6 +277,8 @@
     [self.btn3 setBackgroundImage:self.image11 forState:UIControlStateNormal];
     
     self.role = @"student";
+    self.dataSource = nil;
+    self.pageIndex = @"1";
     self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"membertype\":\"%@\", \"classid\":\"%@\"}]", self.role, self.classid]];
     
     [self loadData];
@@ -279,6 +291,8 @@
     [self.btn3 setBackgroundImage:self.image12 forState:UIControlStateNormal];
     
     self.role = @"partent";
+    self.dataSource = nil;
+    self.pageIndex = @"1";
     self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"membertype\":\"%@\", \"classid\":\"%@\"}]", self.role, self.classid]];
     [self loadData];
     [self.tableView1 reloadData];

@@ -29,9 +29,6 @@
 
 // 显示列表页
 - (void) showList1:(NSString *)action {
-    // 设置action
-    //    yxtAppDelegate *app = (yxtAppDelegate *)[[UIApplication sharedApplication] delegate];
-    
     self.list1 = [[yxtList1 alloc] initWithNibName:@"yxtList1" bundle:[NSBundle mainBundle]];
     [self.list1 setAction:action];
     
@@ -87,7 +84,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    // 只有教师才显示班级成员
+    yxtAppDelegate *app = (yxtAppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (![app.loginType isEqualToString:@"1"]) {
+        [self.button1 setHidden:YES];
+        [self.label1 setHidden:YES];
+    }
 }
 
 
@@ -105,6 +108,7 @@
     [self setButton5:nil];
     [self setButton6:nil];
     [self setImageBackground:nil];
+    [self setLabel1:nil];
     [super viewDidUnload];
 }
 

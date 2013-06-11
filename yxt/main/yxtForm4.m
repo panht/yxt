@@ -160,6 +160,10 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请输入内容" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
         [alert show];
         return;
+    }else if ([self.ids isEqualToString:@""]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请选择学生" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
+        return;
     }
     
     // 保存
