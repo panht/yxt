@@ -67,60 +67,70 @@
 
 // 从服务器返回结果数据集
 +(NSDictionary*) getResponse:(NSString *)requestInfo :(NSString *)identityInfo :(NSString *)data {
-    yxtAppDelegate *app = [[UIApplication sharedApplication] delegate];
+    // 检查网络连接
+    BOOL flagNetwork = [self checkNetwork];
     
-    // 特殊字符urlencode
-    requestInfo = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) requestInfo, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
-    identityInfo = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) identityInfo, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
-    data = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) data, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
-//    requestInfo = [self urlEncode:requestInfo];
-//    identityInfo = [self urlEncode:identityInfo];
-//    data = [self urlEncode:data];
-    
-    NSString *postURL = [[NSString alloc] initWithFormat:@"RequestInfo=%@&IdentityInfo=%@&data=%@", requestInfo, identityInfo, data];
-    
-//    NSLog(@"postURL: %@", postURL);
-    // 向服务器提交请求，并得到返回数据
-    NSData *postData = [postURL dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-    NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:app.urlService]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:postData];
-    //[NSURLConnection connectionWithRequest:request delegate:self ];
-    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-    
-    // 返回数据转json
-    NSError* error;
-    NSDictionary* json = [NSJSONSerialization JSONObjectWithData:responseData
-                                                         options:kNilOptions
-                                                           error:&error];
-    // responseinfo段再转json
-    NSString* responseinfo = [json objectForKey:@"responseinfo"];
-    NSData *dataResponseinfo = [responseinfo dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary* jsonResponseinfo = [NSJSONSerialization JSONObjectWithData:dataResponseinfo
-                                                         options:kNilOptions
-                                                           error:&error];
-    
-    // 返回数据
-    NSString *resultData = [json objectForKey:@"resultdata"];
-    NSData *dataResultData = [resultData dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *jsonResultData = [NSJSONSerialization JSONObjectWithData:dataResultData
-                                                                     options:kNilOptions
-                                                                       error:&error];
-    
-    
-    // 将responseinfo中的recordcount附加到data
-    if ([jsonResponseinfo objectForKey:@"recordcount"] != NULL && [jsonResultData isKindOfClass:[NSDictionary class]] == YES) {
-        NSMutableDictionary *jsonResultData1 = [jsonResultData mutableCopy];
-        [jsonResultData1 setObject:[jsonResponseinfo objectForKey:@"recordcount"] forKey:@"recordcount"];
-        jsonResultData = [NSDictionary dictionaryWithDictionary:jsonResultData1];
+    if (flagNetwork == NO) {
+        NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
+        [result setObject:@"-1" forKey:@"resultcode"];
+        [result setObject:@"没有可用的网络连接" forKey:@"resultdes"];
+        return result;
+    } else {
+        yxtAppDelegate *app = [[UIApplication sharedApplication] delegate];
+        
+        // 特殊字符urlencode
+        requestInfo = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) requestInfo, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
+        identityInfo = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) identityInfo, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
+        data = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) data, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
+        //    requestInfo = [self urlEncode:requestInfo];
+        //    identityInfo = [self urlEncode:identityInfo];
+        //    data = [self urlEncode:data];
+        
+        NSString *postURL = [[NSString alloc] initWithFormat:@"RequestInfo=%@&IdentityInfo=%@&data=%@", requestInfo, identityInfo, data];
+        
+        //    NSLog(@"postURL: %@", postURL);
+        // 向服务器提交请求，并得到返回数据
+        NSData *postData = [postURL dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setURL:[NSURL URLWithString:app.urlService]];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        [request setHTTPBody:postData];
+        //[NSURLConnection connectionWithRequest:request delegate:self ];
+        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+        
+        // 返回数据转json
+        NSError* error;
+        NSDictionary* json = [NSJSONSerialization JSONObjectWithData:responseData
+                                                             options:kNilOptions
+                                                               error:&error];
+        // responseinfo段再转json
+        NSString* responseinfo = [json objectForKey:@"responseinfo"];
+        NSData *dataResponseinfo = [responseinfo dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary* jsonResponseinfo = [NSJSONSerialization JSONObjectWithData:dataResponseinfo
+                                                                         options:kNilOptions
+                                                                           error:&error];
+        
+        // 返回数据
+        NSString *resultData = [json objectForKey:@"resultdata"];
+        NSData *dataResultData = [resultData dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *jsonResultData = [NSJSONSerialization JSONObjectWithData:dataResultData
+                                                                       options:kNilOptions
+                                                                         error:&error];
+        
+        
+        // 将responseinfo中的recordcount附加到data
+        if ([jsonResponseinfo objectForKey:@"recordcount"] != NULL && [jsonResultData isKindOfClass:[NSDictionary class]] == YES) {
+            NSMutableDictionary *jsonResultData1 = [jsonResultData mutableCopy];
+            [jsonResultData1 setObject:[jsonResponseinfo objectForKey:@"recordcount"] forKey:@"recordcount"];
+            jsonResultData = [NSDictionary dictionaryWithDictionary:jsonResultData1];
+        }
+        
+        NSLog(@"resultdata = %@", resultData);
+        return jsonResultData;
     }
-    
-    NSLog(@"resultdata = %@", resultData);
-    return jsonResultData;
 }
 
 + (NSString*) urlEncode:(NSString *) input {

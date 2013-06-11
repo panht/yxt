@@ -105,9 +105,9 @@
 }
 
 - (void) loadData {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+//    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         NSString *requestInfo;
         NSString *identityInfo;
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
@@ -153,13 +153,16 @@
                 self.label1.frame = CGRectMake(x, y, width, height);
                 self.label2.frame = CGRectMake(x, y + height, width, height);
                 self.label3.frame = CGRectMake(x, y + height * 2, width, height);
-                self.labelContent.frame = CGRectMake(x, y + height * 3, width, self.view.frame.size.height - height * 3 - self.navBar.frame.size.height * 2);
+                int heightContent = self.view.frame.size.height - height * 3 - self.navBar.frame.size.height * 2;
+                self.labelContent.frame = CGRectMake(x, y + height * 3, width, heightContent);
                 
                 self.label1.textAlignment = UITextAlignmentCenter;
                 self.label2.textAlignment = UITextAlignmentCenter;
                 self.label3.textAlignment = UITextAlignmentCenter;
                 self.label2.textColor =  [UIColor grayColor];
                 self.label3.textColor =  [UIColor grayColor];
+                self.label2.font = [UIFont systemFontOfSize:12];
+                self.label3.font = [UIFont systemFontOfSize:12];
             } else if ([self.action isEqualToString:@"homeworkContent"]) {
                 // 家庭作业
                 detailTitle = [row objectForKey:@"ass_title"];
@@ -187,7 +190,7 @@
                 self.label2.text = [NSString stringWithFormat:@"考试班级：%@", [row objectForKey:@"class_name"]];
                 self.label3.text = [NSString stringWithFormat:@"考试科目：%@", [row objectForKey:@"course_name"]];
                 self.label4.text = [NSString stringWithFormat:@"发送备注：%@", [[row objectForKey:@"send_remark"] isEqualToString:@"1"] ? @"是" : @"否"];
-                self.label5.text = [NSString stringWithFormat:@"发送时间 ：%@", [row objectForKey:@"op_date"]];
+                self.label5.text = [NSString stringWithFormat:@"发送时间：%@", [row objectForKey:@"op_date"]];
                 
                 self.label1.frame = CGRectMake(x, y, width, height);
                 self.label2.frame = CGRectMake(x, y + height, width, height);
@@ -234,13 +237,15 @@
                 self.label1.textAlignment = UITextAlignmentLeft;
                 self.label2.textAlignment = UITextAlignmentLeft;
                 self.label3.textAlignment = UITextAlignmentLeft;
+                self.label3.textColor =  [UIColor grayColor];
+                self.label3.font = [UIFont systemFontOfSize:12];
             }
             
-//            [self.labelContent sizeToFit];
+            [self.labelContent sizeToFit];
         }
         
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-    });
+//        [MBProgressHUD hideHUDForView:self.view animated:YES];
+//    });
 }
 
 - (void) resettle {

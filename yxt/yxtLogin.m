@@ -143,9 +143,6 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        // TODO 检查网络连接
-        [yxtUtil checkNetwork];
-        
         // 检查版本
         BOOL flagVersionNew = [self checkVersion];
         

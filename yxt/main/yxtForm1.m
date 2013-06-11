@@ -161,6 +161,7 @@
             UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
             UIView *listView = [topWindow viewWithTag:300];
             [yxtUtil message:listView :@"发送成功"];
+//            [listView setNeedsDisplay];
             
             [self.view removeFromSuperview];
             UIView *list1View = [topWindow viewWithTag:400];
