@@ -241,9 +241,13 @@
                 self.label3.font = [UIFont systemFontOfSize:12];
             }
             
-            [self.labelContent sizeToFit];
+//            [self.labelContent sizeToFit];
         }
-        
+    
+    // 如果是成绩信息，置为已读
+    if ([self.action isEqualToString:@"selectExamReceiveMsgDetail"]) {
+    }
+    
 //        [MBProgressHUD hideHUDForView:self.view animated:YES];
 //    });
 }
