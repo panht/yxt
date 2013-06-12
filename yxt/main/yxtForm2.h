@@ -10,7 +10,7 @@
 #import "yxtViewControllerBase.h"
 @interface yxtForm2 : yxtViewControllerBase <UIPickerViewDelegate, UIPickerViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
     NSArray *dataSource;
-    UIPickerView *inputPicker;
+//    UIPickerView *inputPicker;
 }
 @property (strong, nonatomic) NSArray *dataSource;
 @property (strong, nonatomic) NSArray *dataListArray;

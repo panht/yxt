@@ -153,7 +153,7 @@
             if (bytesImage == nil) {
                 bytesImage = [GTMBase64 stringByEncodingData:dataImage];
             } else {
-                bytesImage = [bytesImage stringByAppendingFormat: [GTMBase64 stringByEncodingData:dataImage]];
+                bytesImage = [bytesImage stringByAppendingFormat:@"%@", [GTMBase64 stringByEncodingData:dataImage]];
             }
         }
         

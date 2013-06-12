@@ -11,7 +11,7 @@
 
 @interface yxtForm1 : yxtViewControllerBase <UIPickerViewDelegate, UIPickerViewDataSource> {
     NSArray *dataSource;
-    UIPickerView *picker;
+//    UIPickerView *picker;
 }
 
 @property (strong, nonatomic) NSArray *dataSource;

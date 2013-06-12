@@ -12,7 +12,7 @@
 #import "MBProgressHUD.h"
 #import <QuartzCore/QuartzCore.h>
 
-@interface yxtForm1 ()
+@interface yxtForm1 () 
 
 @end
 

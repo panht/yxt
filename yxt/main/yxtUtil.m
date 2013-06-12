@@ -183,7 +183,7 @@
 
 	HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
 	HUD.mode = MBProgressHUDModeCustomView;
-	HUD.delegate = self;
+//	HUD.delegate = self;
 	HUD.labelText = message;
 	
 	[HUD show:YES];
@@ -194,7 +194,7 @@
     MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:view];
 	[view addSubview:HUD];
 	HUD.mode = MBProgressHUDModeCustomView;
-	HUD.delegate = self;
+//	HUD.delegate = self;
 	HUD.labelText = message;
 	
 	[HUD show:YES];

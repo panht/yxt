@@ -12,13 +12,13 @@
 #import "CYCustomMultiSelectPickerView.h"
 
 @interface yxtForm4 : yxtViewControllerBase <UIPickerViewDelegate, UIPickerViewDataSource, CYCustomMultiSelectPickerViewDelegate> {
-    NSArray *dataSource1;
-    UIPickerView *picker;
-	NSArray *dataSource2;
-    NSArray *dataSource2Selected;
+//    NSArray *dataSource1;
+//    UIPickerView *picker;
+//	NSArray *dataSource2;
+//    NSArray *dataSource2Selected;
 	NSMutableDictionary *selectionStates;
-    UILabel *showLbl;
-    CYCustomMultiSelectPickerView *multiPickerView;
+//    UILabel *showLbl;
+//    CYCustomMultiSelectPickerView *multiPickerView;
 }
     
 @property (strong, nonatomic) NSArray *dataSource1;
@@ -44,6 +44,5 @@
 - (void) loadData1;
 - (void) loadData2;
 - (void) closePicker;
-- (void) getData;
 
 @end
