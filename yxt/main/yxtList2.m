@@ -168,9 +168,15 @@
     UIButton *button = (UIButton *)sender;
     NSDictionary *rowData = [self.dataSource objectAtIndex:button.tag];
     NSString *phoneNo = [rowData objectForKey:@"mobilephone"];
-    NSString *callNo = [NSString stringWithFormat:@"tel://%@", phoneNo];
+//    NSString *callNo = [NSString stringWithFormat:@"tel://%@", phoneNo];
+    NSString *callNo = [NSString stringWithFormat:@"telprompt://%@", phoneNo];
+    NSURL *callURL =[NSURL URLWithString:callNo];
     
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:callNo]];
+    [[UIApplication sharedApplication] openURL:callURL];
+    
+//    UIWebView*callWebview =[[UIWebView alloc] init];
+//    [callWebview loadRequest:[NSURLRequest requestWithURL:callURL]];
+//    [self.view addSubview:callWebview];
 }
 
 - (void) smsTapped:(id)sender {

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface yxtViewControllerBase : UIViewController <UITextFieldDelegate>  
+@interface yxtViewControllerBase : UIViewController <UITextFieldDelegate, UITextViewDelegate>
 
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageBackground;
