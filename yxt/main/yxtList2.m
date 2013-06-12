@@ -119,7 +119,7 @@
         if (![phoneNo isEqualToString:@""]) {
             UIButton *btnPhonecall = [UIButton buttonWithType:UIButtonTypeCustom];
             [btnPhonecall setImage:[UIImage imageNamed:@"phonecall.png"] forState:UIControlStateNormal];
-            btnPhonecall.frame = CGRectMake(230, 5, 30, 30);
+            btnPhonecall.frame = CGRectMake(220, 5, 30, 30);
             btnPhonecall.tag = indexPath.row;
             [btnPhonecall setBackgroundColor:[UIColor clearColor]];
             [btnPhonecall addTarget:self action:@selector(phoneTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -140,6 +140,9 @@
 
 - (void) scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     self.flagLoadNext = YES;
+    if (self.lastOffsetY < scrollView.contentOffset.y) {
+        self.lastOffsetY = scrollView.contentOffset.y;
+    }
 }
 
 - (void) scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
@@ -148,10 +151,10 @@
 
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView {
     // 获得屏高
-    int screenHeight = [[UIScreen mainScreen] bounds].size.height;
+//    int screenHeight = [[UIScreen mainScreen] bounds].size.height;
     
     // 如果向上拖动超过屏高三分之一，并且flagLoadNext = YES
-    if (scrollView.contentOffset.y > screenHeight / 3 && self.flagLoadNext == YES) {
+    if (scrollView.contentOffset.y - self.lastOffsetY  > 60 && self.flagLoadNext == YES) {
         NSInteger intPageIndex = [self.pageIndex integerValue];
         intPageIndex++;
         
@@ -233,11 +236,11 @@
     // 获得屏幕宽高
     int screenWidth = [[UIScreen mainScreen] bounds].size.width;
     int screenHeight = [[UIScreen mainScreen] bounds].size.height;
-    int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
+//    int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
     
     int x, y, width, height;
     x = 0;
-    y = screenHeight - statusBarHeight - self.navBar.frame.size.height;
+    y = screenHeight - self.navBar.frame.size.height - 30;
     width = screenWidth / 3;
     height = self.navBar.frame.size.height;
     self.btn1.frame = CGRectMake(x, y, width, height);

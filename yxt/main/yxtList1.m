@@ -21,6 +21,7 @@
 
 @implementation yxtList1
 
+@synthesize lastOffsetY;
 @synthesize flagLoadNext;
 @synthesize action;
 @synthesize type;
@@ -332,14 +333,17 @@
 
 - (void) scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     self.flagLoadNext = NO;
+    if (self.lastOffsetY < scrollView.contentOffset.y) {
+        self.lastOffsetY = scrollView.contentOffset.y;
+    }
 }
 
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView {
     // 获得屏高
-    int screenHeight = [[UIScreen mainScreen] bounds].size.height;
-    
+//    int screenHeight = [[UIScreen mainScreen] bounds].size.height;
+//    NSLog(@"%f", scrollView.contentOffset.y);
     // 如果向上拖动超过屏高三分之一，并且flagLoadNext = YES
-    if (scrollView.contentOffset.y > screenHeight / 3 && self.flagLoadNext == YES) {
+    if (scrollView.contentOffset.y - self.lastOffsetY  > 60 && self.flagLoadNext == YES) {
         NSInteger intPageIndex = [self.pageIndex integerValue];
         intPageIndex++;
         

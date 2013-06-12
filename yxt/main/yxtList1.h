@@ -16,6 +16,7 @@
 @interface yxtList1 : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property BOOL flagLoadNext;
+@property NSInteger lastOffsetY;
 @property (strong, nonatomic) IBOutlet yxtList2 *list2;
 @property (strong, nonatomic) IBOutlet yxtDetail1 *detail1;
 @property (strong, nonatomic) yxtForm *form;
