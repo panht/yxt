@@ -226,7 +226,7 @@
     int x, y = 0, width, height;
     x = 0;
     y = screenHeight - statusBarHeight - self.navBar.frame.size.height;
-    width  = screenWidth / 3 - 1;
+    width  = screenWidth / 3;
     height = self.navBar.frame.size.height;
     self.button1.frame = CGRectMake(x, y, width, height);
     self.button2.frame = CGRectMake(x + width + 1, y, width, height);
