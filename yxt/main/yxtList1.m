@@ -21,6 +21,7 @@
 
 @implementation yxtList1
 
+@synthesize flagLoadNext;
 @synthesize action;
 @synthesize type;
 @synthesize role;
@@ -328,9 +329,34 @@
     }
 }
 
+- (void) scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    self.flagLoadNext = YES;
+}
+
+- (void) scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    self.flagLoadNext = NO;
+}
+
+- (void) scrollViewDidScroll:(UIScrollView *)scrollView {
+    // 获得屏高
+    int screenHeight = [[UIScreen mainScreen] bounds].size.height;
+    
+    // 如果向上拖动超过屏高三分之一，并且flagLoadNext = YES
+    if (scrollView.contentOffset.y > screenHeight / 3 && self.flagLoadNext == YES) {
+        NSInteger intPageIndex = [self.pageIndex integerValue];
+        intPageIndex++;
+        
+        [self setPageIndex:[NSString stringWithFormat:@"%d", intPageIndex]];
+        [self loadData];
+        [self.tableView1 reloadData];
+        self.flagLoadNext = NO;
+    }
+}
+
 - (void)viewDidLoad
 {
-    [super viewDidLoad]; 
+    [super viewDidLoad];
+    
     self.image11 = [UIImage imageNamed:@"list1Bulletin11.png"];
     self.image12 = [UIImage imageNamed:@"list1Bulletin12.png"];
     self.image21 = [UIImage imageNamed:@"list1Bulletin21.png"];
@@ -354,10 +380,10 @@
     [self loadData];
     
     // 手势事件
-    UISwipeGestureRecognizer *recognizer;
-    recognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeFrom:)];
-    [recognizer setDirection:(UISwipeGestureRecognizerDirectionUp)];
-    [self.tableView1 addGestureRecognizer:recognizer];
+//    UISwipeGestureRecognizer *recognizer;
+//    recognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeFrom:)];
+//    [recognizer setDirection:(UISwipeGestureRecognizerDirectionUp)];
+//    [self.tableView1 addGestureRecognizer:recognizer];
     
 //    recognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeFrom:)];
 //    [recognizer setDirection:(UISwipeGestureRecognizerDirectionDown)];
@@ -365,13 +391,13 @@
 }
 
 // 上下滑动手势
--(void)handleSwipeFrom:(UISwipeGestureRecognizer *)recognizer{
-    NSInteger intPageIndex = [self.pageIndex integerValue];
-    
-    if(recognizer.direction == UISwipeGestureRecognizerDirectionUp) {
-        // 上滑页号加1
-        intPageIndex++;
-    }
+//-(void)handleSwipeFrom:(UISwipeGestureRecognizer *)recognizer{
+//    NSInteger intPageIndex = [self.pageIndex integerValue];
+//    
+//    if(recognizer.direction == UISwipeGestureRecognizerDirectionUp) {
+//        // 上滑页号加1
+//        intPageIndex++;
+//    }
 //    else if(recognizer.direction == UISwipeGestureRecognizerDirectionDown) {
 //        // 下滑页号减1
 //        intPageIndex--;
@@ -379,11 +405,11 @@
 //            intPageIndex = 1;
 //        }
 //    }
-    
-    [self setPageIndex:[NSString stringWithFormat:@"%d", intPageIndex]];
-    [self loadData];
-    [self.tableView1 reloadData];
-}
+//    
+//    [self setPageIndex:[NSString stringWithFormat:@"%d", intPageIndex]];
+//    [self loadData];
+//    [self.tableView1 reloadData];
+//}
 
 - (IBAction)homeTapped:(id)sender {
     [self.view removeFromSuperview];
