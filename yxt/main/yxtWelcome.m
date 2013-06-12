@@ -226,11 +226,11 @@
     int x, y = 0, width, height;
     x = 0;
     y = screenHeight - statusBarHeight - self.navBar.frame.size.height;
-    width  = screenWidth / 3;
+    width  = screenWidth / 3 - 1;
     height = self.navBar.frame.size.height;
     self.button1.frame = CGRectMake(x, y, width, height);
-    self.button2.frame = CGRectMake(x + width, y, width, height);
-    self.button3.frame = CGRectMake(x + width * 2, y, width, height);
+    self.button2.frame = CGRectMake(x + width + 1, y, width, height);
+    self.button3.frame = CGRectMake(x + width * 2 + 2, y, width, height);
     
     // 点击事件
     [self.button1 addTarget:self action:@selector(item1Tapped:) forControlEvents:UIControlEventTouchUpInside];
