@@ -48,7 +48,7 @@
 }
 
 - (void) loadData {
-//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 //    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
 //    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         NSString *requestInfo;
@@ -77,11 +77,10 @@
             }
             [arrayTemp addObjectsFromArray:dataListArray];
             self.dataSource = [arrayTemp mutableCopy];
-            
-            NSIndexPath *scrollIndexPath = [NSIndexPath indexPathForRow:([self.tableView1 numberOfRowsInSection:0] - 1) inSection:0];
-            [[self tableView1] scrollToRowAtIndexPath:scrollIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+            [self.tableView1 reloadData];
         }
-//    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
 //    });
 }
 
@@ -158,7 +157,6 @@
         
         [self setPageIndex:[NSString stringWithFormat:@"%d", intPageIndex]];
         [self loadData];
-        [self.tableView1 reloadData];
         self.flagLoadNext = NO;
     }
 }
@@ -293,7 +291,6 @@
     self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"membertype\":\"%@\", \"classid\":\"%@\"}]", self.role, self.classid]];
     
     [self loadData];
-    [self.tableView1 reloadData];
 }
 
 - (IBAction)btn2Tapped:(id)sender {
@@ -307,7 +304,6 @@
     self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"membertype\":\"%@\", \"classid\":\"%@\"}]", self.role, self.classid]];
     
     [self loadData];
-    [self.tableView1 reloadData];
 }
 
 - (IBAction)btn3Tapped:(id)sender {
@@ -320,7 +316,6 @@
     self.pageIndex = @"1";
     self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"membertype\":\"%@\", \"classid\":\"%@\"}]", self.role, self.classid]];
     [self loadData];
-    [self.tableView1 reloadData];
 }
 
 - (void)didReceiveMemoryWarning

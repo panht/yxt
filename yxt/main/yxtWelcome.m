@@ -254,7 +254,7 @@
         if (self.tabCurrent == self.tab1) {
             
         } else if (self.tabCurrent == self.tab2) {
-            [self transitionFromViewController:self.tabCurrent toViewController:self.tab1 duration:1 options:UIViewAnimationOptionTransitionNone animations:^{
+            [self transitionFromViewController:self.tabCurrent toViewController:self.tab1 duration:0.8 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
             }  completion:^(BOOL finished) {
                 if (finished) {
                     self.tabCurrent = self.tab1;
@@ -265,7 +265,7 @@
             }];
             
         } else if (self.tabCurrent == self.tab3) {
-            [self transitionFromViewController:self.tabCurrent toViewController:self.tab2 duration:1 options:UIViewAnimationOptionTransitionNone animations:^{
+            [self transitionFromViewController:self.tabCurrent toViewController:self.tab2 duration:0.8 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
             }  completion:^(BOOL finished) {
                 if (finished) {
                     self.tabCurrent = self.tab2;
@@ -279,7 +279,7 @@
     
     if(recognizer.direction == UISwipeGestureRecognizerDirectionLeft) {
         if (self.tabCurrent == self.tab1) {
-            [self transitionFromViewController:self.tabCurrent toViewController:self.tab2 duration:1 options:UIViewAnimationOptionTransitionNone animations:^{
+            [self transitionFromViewController:self.tabCurrent toViewController:self.tab2 duration:0.8 options:UIViewAnimationOptionTransitionFlipFromRight animations:^{
             }  completion:^(BOOL finished) {
                 if (finished) {
                     self.tabCurrent = self.tab2;
@@ -289,7 +289,7 @@
                 }
             }];
         } else if (self.tabCurrent == self.tab2) {
-            [self transitionFromViewController:self.tabCurrent toViewController:self.tab3 duration:1 options:UIViewAnimationOptionTransitionNone animations:^{
+            [self transitionFromViewController:self.tabCurrent toViewController:self.tab3 duration:0.8 options:UIViewAnimationOptionTransitionFlipFromRight animations:^{
             }  completion:^(BOOL finished) {
                 if (finished) {
                     self.tabCurrent = self.tab3;
