@@ -42,24 +42,28 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // 从服务器获取头像图片
-    yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
-    NSURL *url = [NSURL URLWithString:[[NSString alloc] initWithFormat:@"%@%@", app.urlHead, app.headerimg]];
-    NSData *data = [NSData dataWithContentsOfURL:url];
-    
-    // 判断头像图片是否存在
-    if (data != NULL) {
-        self.imageOld = [[UIImage alloc] initWithData:data];
-        self.imageHead.image = self.imageOld;
-        [self.imageHead setNeedsDisplay];
-    }
     
     // 设置文本框委托
     self.oldpwd.delegate = self;
     self.newpwd1.delegate = self;
     self.newpwd2.delegate = self;
+    
+    // 设置头像
+    // 判断本地是否已保存头像文件
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsPath = [paths objectAtIndex:0];
+    NSString *filePath = [documentsPath stringByAppendingPathComponent:@"avatar.png"];
+    NSData *data = [NSData dataWithContentsOfFile:filePath];
+    
+    if (data != NULL) {
+        self.imageOld = [UIImage imageWithData:data];
+    } else {
+        // 否则显示默认头像
+        self.imageOld = [UIImage imageNamed:@"account_ico.png"];
+    }
+    self.imageHead.image = self.imageOld;
+    [self.imageHead setNeedsDisplay];
 }
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -140,6 +144,12 @@
             NSData *dataImage = UIImagePNGRepresentation(self.imageHead.image);
             bytesImage = [GTMBase64 stringByEncodingData:dataImage];
 
+            // 判断本地是否已保存头像文件
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+            NSString *documentsPath = [paths objectAtIndex:0];
+            NSString *filePath = [documentsPath stringByAppendingPathComponent:@"avatar.png"];
+            [dataImage writeToFile:filePath atomically:YES];
+                    
             // 更新主界面的头像
             self.parentImageHead.image = self.imageNew;
         } else {

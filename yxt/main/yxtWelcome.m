@@ -77,18 +77,38 @@
     [self.view addSubview:self.tab1.view];
     self.tabCurrent = self.tab1;
     [self setButton];
-    
+}
+
+- (void) viewDidAppear:(BOOL)animated {
     // 设置头像、名字
     yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
-    NSURL *url = [NSURL URLWithString:[[NSString alloc] initWithFormat:@"%@%@", app.urlHead, app.headerimg]];
-    NSData *data = [NSData dataWithContentsOfURL:url];
-    if (data != NULL) {
-        // 要判断头像图片是否存在
-        UIImage *aimage = [[UIImage alloc] initWithData:data];
-        self.imageHead.image = aimage;
-        [self.imageHead setNeedsDisplay];
-    }
     self.username.text = app.username;
+    
+    // 判断本地是否已保存头像文件
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsPath = [paths objectAtIndex:0];
+    NSString *filePath = [documentsPath stringByAppendingPathComponent:@"avatar.png"];
+    NSData *data = [NSData dataWithContentsOfFile:filePath];
+    UIImage *image;
+    
+    if (data != NULL) {
+        image = [UIImage imageWithData:data];
+    } else {
+        // 否则从服务器获取
+        NSURL *url = [NSURL URLWithString:[[NSString alloc] initWithFormat:@"%@%@", app.urlHead, app.headerimg]];
+        data = [NSData dataWithContentsOfURL:url];
+        
+        if (data != NULL) {
+            //  保存为本地文件
+            [data writeToFile:filePath atomically:YES];
+            image = [UIImage imageWithData:data];
+        } else {
+            // 否则显示默认头像
+            image = [UIImage imageNamed:@"account_ico.png"];
+        }
+    }
+    self.imageHead.image = image;
+    [self.imageHead setNeedsDisplay];
     
     // 点击头像打开更新用户信息界面
     UITapGestureRecognizer *headTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(openForm:)];
