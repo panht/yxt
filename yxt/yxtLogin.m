@@ -143,7 +143,7 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        // TODO 检查网络连接
+        // 检查网络连接
         [yxtUtil checkNetwork];
         
         // 检查版本
@@ -152,10 +152,9 @@
         if (flagVersionNew == NO) {
             NSString *identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
             // 验证用户名密码
-            // TODO 3DES加密，双角色那里还有一处也要改
-            //    NSString *pwd = [ThreeDES encrypt:self.textPassword.text withKey:app.ThreeDesKey];
-            NSString *pwd = @"/uNkSKHfSh8=";
-            //    NSString *pwd = self.textPassword.text;
+            //  3DES加密
+            yxtAppDelegate *app = (yxtAppDelegate *)[[UIApplication sharedApplication] delegate];
+            NSString *pwd = [ThreeDES encrypt:self.textPassword.text withKey:app.ThreeDesKey];
             NSString *data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"logintype\":\"\", \"account\":\"%@\", \"pwd\":\"%@\"}]", self.textUsername.text, pwd]];
             NSString *requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"login" :@"0" :@"0" :identityInfo :data]];
             
@@ -232,7 +231,7 @@
                 [app setLoginType:@"2"];
             }
             
-            NSString *pwd = @"/uNkSKHfSh8=";
+            NSString *pwd = [ThreeDES encrypt:self.textPassword.text withKey:app.ThreeDesKey];
             NSString *identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
             NSString *data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"logintype\":\"\", \"account\":\"%@\", \"pwd\":\"%@\"}]", self.textUsername.text, pwd]];
             NSString *requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"login" :@"0" :@"0" :identityInfo :data]];

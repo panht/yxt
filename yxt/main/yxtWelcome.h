@@ -24,9 +24,9 @@
 @property (strong, nonatomic) UIViewController *tabCurrent;
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navBar;
-@property (weak, nonatomic) IBOutlet UIButton *button1;
-@property (weak, nonatomic) IBOutlet UIButton *button2;
-@property (weak, nonatomic) IBOutlet UIButton *button3;
+@property (weak, nonatomic) IBOutlet UIImageView *button1;
+@property (weak, nonatomic) IBOutlet UIImageView *button2;
+@property (weak, nonatomic) IBOutlet UIImageView *button3;
 @property (weak, nonatomic) UIImage *image11;
 @property (weak, nonatomic) UIImage *image12;
 @property (weak, nonatomic) UIImage *image21;

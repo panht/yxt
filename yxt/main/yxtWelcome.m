@@ -160,9 +160,12 @@
         }  completion:^(BOOL finished) {
             if (finished) {
                 self.tabCurrent = self.tab1;
-                [self.button1 setBackgroundImage:self.image12 forState:UIControlStateNormal];
-                [self.button2 setBackgroundImage:self.image21 forState:UIControlStateNormal];
-                [self.button3 setBackgroundImage:self.image31 forState:UIControlStateNormal];
+                [self.button1 setImage: self.image12];
+                [self.button2 setImage: self.image21];
+                [self.button3 setImage: self.image31];
+//                [self.button1 setBackgroundImage:self.image12 forState:UIControlStateNormal];
+//                [self.button2 setBackgroundImage:self.image21 forState:UIControlStateNormal];
+//                [self.button3 setBackgroundImage:self.image31 forState:UIControlStateNormal];
             }
         }];
     }
@@ -175,9 +178,12 @@
         }  completion:^(BOOL finished) {
             if (finished) {
                 self.tabCurrent = self.tab2;
-                [self.button1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
-                [self.button2 setBackgroundImage:self.image22 forState:UIControlStateNormal];
-                [self.button3 setBackgroundImage:self.image31 forState:UIControlStateNormal];
+                [self.button1 setImage: self.image11];
+                [self.button2 setImage: self.image22];
+                [self.button3 setImage: self.image31];
+//                [self.button1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
+//                [self.button2 setBackgroundImage:self.image22 forState:UIControlStateNormal];
+//                [self.button3 setBackgroundImage:self.image31 forState:UIControlStateNormal];
             }
         }];
     }
@@ -190,9 +196,12 @@
         }  completion:^(BOOL finished) {
             if (finished) {
                 self.tabCurrent = self.tab3;
-                [self.button1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
-                [self.button2 setBackgroundImage:self.image21 forState:UIControlStateNormal];
-                [self.button3 setBackgroundImage:self.image32 forState:UIControlStateNormal];
+                [self.button1 setImage: self.image11];
+                [self.button2 setImage: self.image21];
+                [self.button3 setImage: self.image32];
+//                [self.button1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
+//                [self.button2 setBackgroundImage:self.image21 forState:UIControlStateNormal];
+//                [self.button3 setBackgroundImage:self.image32 forState:UIControlStateNormal];
             }
         }];
     }
@@ -233,9 +242,12 @@
     self.image22 = [UIImage imageNamed:@"indextab22.png"];
     self.image31 = [UIImage imageNamed:@"indextab31.png"];
     self.image32 = [UIImage imageNamed:@"indextab32.png"];
-    [self.button1 setBackgroundImage:self.image12 forState:UIControlStateNormal];
-    [self.button2 setBackgroundImage:self.image21 forState:UIControlStateNormal];
-    [self.button3 setBackgroundImage:self.image31 forState:UIControlStateNormal];
+    [self.button1 setImage: self.image12];
+    [self.button2 setImage: self.image21];
+    [self.button3 setImage: self.image31];
+//    [self.button1 setBackgroundImage:self.image12 forState:UIControlStateNormal];
+//    [self.button2 setBackgroundImage:self.image21 forState:UIControlStateNormal];
+//    [self.button3 setBackgroundImage:self.image31 forState:UIControlStateNormal];
     
     // 获得屏幕宽高
     int screenWidth = [[UIScreen mainScreen] bounds].size.width;
@@ -253,9 +265,24 @@
     self.button3.frame = CGRectMake(x + width * 2 + 2, y, width, height);
     
     // 点击事件
-    [self.button1 addTarget:self action:@selector(item1Tapped:) forControlEvents:UIControlEventTouchUpInside];
-    [self.button2 addTarget:self action:@selector(item2Tapped:) forControlEvents:UIControlEventTouchUpInside];
-    [self.button3 addTarget:self action:@selector(item3Tapped:) forControlEvents:UIControlEventTouchUpInside];
+    UITapGestureRecognizer *button1Tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(item1Tapped:)];
+    if (self.button1) {
+        self.button1.userInteractionEnabled = YES;
+        [self.button1 addGestureRecognizer:button1Tap];
+    }
+    UITapGestureRecognizer *button2Tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(item2Tapped:)];
+    if (self.button2) {
+        self.button2.userInteractionEnabled = YES;
+        [self.button2 addGestureRecognizer:button2Tap];
+    }
+    UITapGestureRecognizer *button3Tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(item3Tapped:)];
+    if (self.button3) {
+        self.button3.userInteractionEnabled = YES;
+        [self.button3 addGestureRecognizer:button3Tap];
+    }
+//    [self.button1 addTarget:self action:@selector(item1Tapped:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.button2 addTarget:self action:@selector(item2Tapped:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.button3 addTarget:self action:@selector(item3Tapped:) forControlEvents:UIControlEventTouchUpInside];
     
     // 手势事件
     UISwipeGestureRecognizer *recognizer;
@@ -278,9 +305,12 @@
             }  completion:^(BOOL finished) {
                 if (finished) {
                     self.tabCurrent = self.tab1;
-                    [self.button1 setBackgroundImage:self.image12 forState:UIControlStateNormal];
-                    [self.button2 setBackgroundImage:self.image21 forState:UIControlStateNormal];
-                    [self.button3 setBackgroundImage:self.image31 forState:UIControlStateNormal];
+                    [self.button1 setImage: self.image12];
+                    [self.button2 setImage: self.image21];
+                    [self.button3 setImage: self.image31];
+//                    [self.button1 setBackgroundImage:self.image12 forState:UIControlStateNormal];
+//                    [self.button2 setBackgroundImage:self.image21 forState:UIControlStateNormal];
+//                    [self.button3 setBackgroundImage:self.image31 forState:UIControlStateNormal];
                 }
             }];
             
@@ -289,9 +319,12 @@
             }  completion:^(BOOL finished) {
                 if (finished) {
                     self.tabCurrent = self.tab2;
-                    [self.button1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
-                    [self.button2 setBackgroundImage:self.image22 forState:UIControlStateNormal];
-                    [self.button3 setBackgroundImage:self.image31 forState:UIControlStateNormal];
+                    [self.button1 setImage: self.image11];
+                    [self.button2 setImage: self.image22];
+                    [self.button3 setImage: self.image31];
+//                    [self.button1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
+//                    [self.button2 setBackgroundImage:self.image22 forState:UIControlStateNormal];
+//                    [self.button3 setBackgroundImage:self.image31 forState:UIControlStateNormal];
                 }
             }];
         }
@@ -303,9 +336,12 @@
             }  completion:^(BOOL finished) {
                 if (finished) {
                     self.tabCurrent = self.tab2;
-                    [self.button1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
-                    [self.button2 setBackgroundImage:self.image22 forState:UIControlStateNormal];
-                    [self.button3 setBackgroundImage:self.image31 forState:UIControlStateNormal];
+                    [self.button1 setImage: self.image11];
+                    [self.button2 setImage: self.image22];
+                    [self.button3 setImage: self.image31];
+//                    [self.button1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
+//                    [self.button2 setBackgroundImage:self.image22 forState:UIControlStateNormal];
+//                    [self.button3 setBackgroundImage:self.image31 forState:UIControlStateNormal];
                 }
             }];
         } else if (self.tabCurrent == self.tab2) {
@@ -313,9 +349,12 @@
             }  completion:^(BOOL finished) {
                 if (finished) {
                     self.tabCurrent = self.tab3;
-                    [self.button1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
-                    [self.button2 setBackgroundImage:self.image21 forState:UIControlStateNormal];
-                    [self.button3 setBackgroundImage:self.image32 forState:UIControlStateNormal];
+                    [self.button1 setImage: self.image11];
+                    [self.button2 setImage: self.image21];
+                    [self.button3 setImage: self.image32];
+//                    [self.button1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
+//                    [self.button2 setBackgroundImage:self.image21 forState:UIControlStateNormal];
+//                    [self.button3 setBackgroundImage:self.image32 forState:UIControlStateNormal];
                 }
             }];
         } else if (self.tabCurrent == self.tab3) {
