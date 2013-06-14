@@ -201,4 +201,37 @@
 	[HUD hide:YES afterDelay:2];
 }
 
++ (UIImage*) resizeImage:(UIImage *) image{
+    NSData *data = UIImageJPEGRepresentation(image, 1);
+    NSInteger filesize = data.length;
+
+    // 获得文件大小
+    UIImageView *iv = [[UIImageView alloc] init];
+    iv.image = image;
+    float width, height;
+    width = [iv image].size.width;
+    height = [iv image].size.height;
+//    NSLog(@"before: filesize=%d, width=%f, height=%f", filesize, width, height);
+    
+    // 大于1M，则宽高各缩到一半
+    if (filesize > 1024 * 1024) {
+        CGSize newSize = CGSizeMake(width / 2, height / 2);
+        UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.5);
+//        UIGraphicsBeginImageContext(newSize);
+        [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+        UIImage *smallImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+//        NSData *data = UIImageJPEGRepresentation(smallImage, 1);
+//        NSInteger filesize1 = data.length;
+//        
+//        iv.image = smallImage;
+//        NSLog(@"after: filesize=%d, width=%f, height=%f", filesize1, [iv image].size.width, [iv image].size.height);
+        
+        image = smallImage;
+    }
+    
+    return image;
+}
+
 @end

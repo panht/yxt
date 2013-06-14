@@ -19,12 +19,17 @@
 @property (strong, nonatomic) NSString *ThreeDesKey;
 
 @property (strong, nonatomic) NSString *action;
+// 登录成功返回信息
 @property (strong, nonatomic) NSString *userId;
+@property (strong, nonatomic) NSString *acc;
 @property (strong, nonatomic) NSString *username;
 @property (strong, nonatomic) NSString *schoolNo;
+@property (strong, nonatomic) NSString *schoolName;
+@property (strong, nonatomic) NSString *areaCode;
 // 登录类型，1教师，2家长，3，双角色，4学生
 @property (strong, nonatomic) NSString *loginType;
 @property (strong, nonatomic) NSString *token;
+@property (strong, nonatomic) NSString *blocToken;
 @property (strong, nonatomic) NSString *headerimg;
 
 

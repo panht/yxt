@@ -197,8 +197,11 @@
             }
             [app setHeaderimg:[jsonResult objectForKey:@"headerimg"]];
             [app setUserId:[jsonResult objectForKey:@"userid"]];
+            [app setAcc:[jsonResult objectForKey:@"acc"]];
             [app setUsername:[jsonResult objectForKey:@"username"]];
             [app setSchoolNo:[jsonResult objectForKey:@"schoolserno"]];
+            [app setSchoolName:[jsonResult objectForKey:@"schoolname"]];
+            [app setAreaCode:[jsonResult objectForKey:@"areacode"]];
             [app setToken:[jsonResult objectForKey:@"token"]];
             
             // 保存用户名密码
@@ -207,6 +210,18 @@
             [userDefaults setValue:self.textPassword.text forKey: @"password"];
             [userDefaults setValue:[NSString stringWithFormat:@"%d", self.inputDisplayPassword.selectedSegmentIndex] forKey: @"displayPassword"];
             [userDefaults setValue:[NSString stringWithFormat:@"%d", self.inputAutoLogin.selectedSegmentIndex] forKey: @"autoLogin"];
+            
+            
+            // 获取集中平台token
+            identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
+            data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"token\":\"%@\"}]", app.token]];
+            requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"getAppSession" :@"0" :@"0" :identityInfo :data]];
+            NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
+            
+            if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
+                NSString *blocToken = [dataResponse objectForKey:@"data"];
+                [app setBlocToken:blocToken];
+            }
             
             // 跳转到入口界面
             [app showWelcome];

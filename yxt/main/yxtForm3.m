@@ -38,6 +38,7 @@
     [super viewDidLoad];
     
     [self resettle];
+
     [self loadData];
 }
 
@@ -159,7 +160,7 @@
         NSString *identityInfo;
         
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"classid\":\"%@\", \"courseid\":\"%@\", \"examid\":\"%@\", \"sendparents\":\"%@\", \"sendparentsmsg\":\"%@\", \"sendremark\":\"%@\", \"sendstudent\":\"%@\", \"bloctoken\":\"%@\", \"useraccount\":\"%@\", \"blocflag\":\"%@\"}]", classId, courseId, examId, chksms, chkSendParents, chkSendRemark, chkSendRemark, app.token, app.userId, blocflag]];
+        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"classid\":\"%@\", \"courseid\":\"%@\", \"examid\":\"%@\", \"sendparents\":\"%@\", \"sendparentsmsg\":\"%@\", \"sendremark\":\"%@\", \"sendstudent\":\"%@\", \"bloctoken\":\"%@\", \"useraccount\":\"%@\", \"blocflag\":\"%@\"}]", classId, courseId, examId, chkSendParents, chksms, chkSendRemark, @"0", app.blocToken, app.acc, blocflag]];
         requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"addExamSendMsg" :@"0" :@"0" :identityInfo :data]];
         
         // 从服务端获取数据

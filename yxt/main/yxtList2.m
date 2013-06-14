@@ -208,19 +208,8 @@
     self.tableView1.sectionHeaderHeight = 0;
     
     [self resettle];
-    
-    // 载入数据
+
     [self loadData];
-    
-    // 手势事件
-//    UISwipeGestureRecognizer *recognizer;
-//    recognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeFrom:)];
-//    [recognizer setDirection:(UISwipeGestureRecognizerDirectionUp)];
-//    [[self tableView1] addGestureRecognizer:recognizer];
-    
-//    recognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeFrom:)];
-//    [recognizer setDirection:(UISwipeGestureRecognizerDirectionDown)];
-//    [[self tableView1] addGestureRecognizer:recognizer];
 }
 
 // 整理班级成员列表界面
@@ -256,27 +245,6 @@
     self.tableView1.frame = CGRectMake(x, self.navBar.frame.size.height, screenWidth, y - self.navBar.frame.size.height);
 //    self.view.frame = CGRectMake(x, self.navBar.frame.size.height, self.view.frame.size.width, self.view.frame.size.height - self.navBar.frame.size.height * 2);
 }
-
-// 上下滑动手势
-//-(void)handleSwipeFrom:(UISwipeGestureRecognizer *)recognizer{
-//    NSInteger intPageIndex = [self.pageIndex integerValue];
-//    
-//    if(recognizer.direction == UISwipeGestureRecognizerDirectionUp) {
-//        // 上滑页号加1
-//        intPageIndex++;
-//    }
-//    else if(recognizer.direction == UISwipeGestureRecognizerDirectionDown) {
-//        // 下滑页号减1
-//        intPageIndex--;
-//        if (intPageIndex < 1) {
-//            intPageIndex = 1;
-//        }
-//    }
-    
-//    [self setPageIndex:[NSString stringWithFormat:@"%d", intPageIndex]];
-//    [self loadData];
-//    [self.tableView1 reloadData];
-//}
 
 - (IBAction)homeTapped:(id)sender {
     UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];

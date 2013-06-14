@@ -280,9 +280,8 @@
     [self resettle];
     
     [self setByAction:self.action];
-    
+
     [self loadData];
-    
 }
 
 - (void)didReceiveMemoryWarning

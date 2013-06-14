@@ -19,10 +19,14 @@
 
 @synthesize action;
 @synthesize userId;
+@synthesize acc;
 @synthesize username;
 @synthesize schoolNo;
+@synthesize schoolName;
+@synthesize areaCode;
 @synthesize loginType;
 @synthesize token;
+@synthesize blocToken;
 @synthesize headerimg;
 
 @synthesize window;

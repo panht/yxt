@@ -77,6 +77,42 @@
     [self.view addSubview:self.tab1.view];
     self.tabCurrent = self.tab1;
     [self setButton];
+    
+    // 创建定时器，每15分钟调用，循环调用repeats:YES，NO只调用一次
+    id timer;
+    timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(runTimer:) userInfo:nil repeats:YES];
+}
+
+- (void)runTimer:(id)timer {
+    yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
+    
+    // 向服务器验证token
+    NSString *identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
+    NSString *data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"token\":\"%@\", \"isbloc\":\"1\"}]", app.token]];
+    NSString *requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"tokenVerify" :@"0" :@"0" :identityInfo :data]];
+//    NSLog(@"%@", requestInfo);
+//    NSLog(@"%@", identityInfo);
+//    NSLog(@"%@", data);
+//    [yxtUtil getResponse:requestInfo :identityInfo :data];
+    
+    // 获取集中平台推送信息
+    identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
+    data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userAccount\":\"%@\"}]", app.acc]];
+    requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"pushBlocMessage" :@"0" :@"0" :identityInfo :data]];
+    //    NSLog(@"%@", requestInfo);
+    //    NSLog(@"%@", identityInfo);
+    //    NSLog(@"%@", data);
+//    NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
+//    
+//    if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
+//        NSData *dataList = [[dataResponse objectForKey:@"data"] dataUsingEncoding:NSUTF8StringEncoding];
+//        NSError *error;
+//        NSDictionary *jsonList = [NSJSONSerialization JSONObjectWithData:dataList
+//                                                                 options:kNilOptions
+//                                                                   error:&error];
+//        
+//        NSArray *dataListArray = [jsonList objectForKey:@"list"];
+//    }
 }
 
 - (void) viewDidAppear:(BOOL)animated {

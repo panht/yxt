@@ -43,6 +43,7 @@
     
     // 重新布局、初始值
     [self resettle];
+
     [self loadData];
 }
 
@@ -145,35 +146,110 @@
         content = [yxtUtil urlEncode:content];
         coursename = [yxtUtil urlEncode:coursename];
         
-        // 处理图片
-        NSData *dataImage;
-        NSString *bytesImage;
-        for (UIImage *image in self.files) {
-            dataImage = UIImagePNGRepresentation(image);
-            if (bytesImage == nil) {
-                bytesImage = [GTMBase64 stringByEncodingData:dataImage];
-            } else {
-                bytesImage = [bytesImage stringByAppendingFormat:@"%@", [GTMBase64 stringByEncodingData:dataImage]];
-            }
-        }
-        
         NSString *requestInfo;
         NSString *data;
         NSString *identityInfo;
-        
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userid\":\"%@\", \"assTitle\":\"%@\", \"assContent\":\"%@\", \"classCourse\":\"%@\", \"chkSms\":\"%@\", \"userName\":\"%@\", \"classCourseName\":\"%@\", \"blocToken\":\"%@\", \"userAccount\":\"%@\", \"blocFlag\":\"%@\", \"Files\":\"%@\"}]", app.userId, title, content, courseid, chksms, [yxtUtil urlEncode:app.username], coursename, app.token, app.userId, blocflag, bytesImage]];
+        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userid\":\"%@\", \"assTitle\":\"%@\", \"assContent\":\"%@\", \"classCourse\":\"%@\", \"chkSms\":\"%@\", \"userName\":\"%@\", \"classCourseName\":\"%@\", \"blocToken\":\"%@\", \"userAccount\":\"%@\", \"blocFlag\":\"%@\"}]", app.userId, title, content, courseid, chksms, [yxtUtil urlEncode:app.username], coursename, app.blocToken, app.acc, blocflag]];
         requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"addHomeWork" :@"0" :@"0" :identityInfo :data]];
         NSLog(@"requestInfo   %@", requestInfo);
         NSLog(@"identityInfo   %@", identityInfo);
         NSLog(@"data   %@", data);
         
+
+        NSMutableDictionary* _params = [[NSMutableDictionary alloc] init];
+        [_params setObject:requestInfo forKey:@"RequestInfo"];
+        [_params setObject:identityInfo forKey:@"IdentityInfo"];
+        [_params setObject:data forKey:@"data"];
+        
+        NSString *boundary = @"----------V2ymHFg03ehbqgZCaKO6jy";
+        
+        // string constant for the post parameter 'file'. My server uses this name: `file`. Your's may differ
+        NSString* FileParamConstant = @"Files";
+        
+        NSURL* requestURL = [NSURL URLWithString:app.urlService]; 
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
+        [request setHTTPShouldHandleCookies:NO];
+        [request setTimeoutInterval:30];
+        [request setHTTPMethod:@"POST"];
+        NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+        [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
+        
+        // post body
+        NSMutableData *body = [NSMutableData data];
+        
+        for (NSString *param in _params) {
+            [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+            [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\r\n\r\n", [_params objectForKey:param]] dataUsingEncoding:NSUTF8StringEncoding]];
+            [body appendData:[@"Content-Type: text/plain; charset=UTF-8\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+            [body appendData:[@"Content-Transfer-Encoding: 8bit\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+            [body appendData:[[NSString stringWithFormat:@"%@\r\n", param] dataUsingEncoding:NSUTF8StringEncoding]];
+        }
+        
+
+        // 处理图片
+//        NSData *dataImage;
+//        NSString *bytesImage = @"";
+        NSInteger i = 0;
+        for (UIImage *image in self.files) {
+//            dataImage = UIImagePNGRepresentation(image);
+//            if (bytesImage == nil) {
+//                bytesImage = [GTMBase64 stringByEncodingData:dataImage];
+//            } else {
+//                bytesImage = [bytesImage stringByAppendingFormat:@"%@", [GTMBase64 stringByEncodingData:dataImage]];
+//            }
+            
+            NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+            if (imageData) {
+                i++;
+                [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+                [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"image%d.jpg\"\r\n", FileParamConstant, i] dataUsingEncoding:NSUTF8StringEncoding]];
+                [body appendData:[@"Content-Type: application/octet-stream; charset=UTF-8\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+                [body appendData:[@"Content-Transfer-Encoding: 8bit\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+//                [body appendData:[@"Content-Type: image/jpeg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+                [body appendData:imageData];
+                [body appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+            }
+        }
+        
+        [body appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+        [request setHTTPBody:body];
+        NSString *postLength = [NSString stringWithFormat:@"%d", [body length]];
+        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+        [request setURL:requestURL];
+        
+        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+        
+        // 返回数据转json
+        NSError* error;
+        NSDictionary* json = [NSJSONSerialization JSONObjectWithData:responseData
+                                                             options:kNilOptions
+                                                               error:&error];
+        // responseinfo段再转json
+        NSString* responseinfo = [json objectForKey:@"responseinfo"];
+        NSData *dataResponseinfo = [responseinfo dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary* jsonResponseinfo = [NSJSONSerialization JSONObjectWithData:dataResponseinfo
+                                                                         options:kNilOptions
+                                                                           error:&error];
+        
+        // 返回数据
+        NSString *resultData = [json objectForKey:@"resultdata"];
+        NSData *dataResultData = [resultData dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *jsonResultData = [NSJSONSerialization JSONObjectWithData:dataResultData
+                                                                       options:kNilOptions
+                                                                         error:&error];
+        
+        
+        NSLog(@"resultdata %@", resultData);
+        
+        
         // 从服务端获取数据
-        NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
+//        NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
-        if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
+        if ([[jsonResultData objectForKey:@"resultcode"] isEqualToString: @"0"]) {
             // 关闭当前视图，在父视图弹出消息
             UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
             UIView *listView = [topWindow viewWithTag:200];
@@ -186,7 +262,7 @@
             [list1View removeFromSuperview];
 
         } else {
-            [yxtUtil warning:self.view :[dataResponse objectForKey:@"resultdes"]];
+            [yxtUtil warning:self.view :[jsonResultData objectForKey:@"resultdes"]];
         }
     });
 }
@@ -224,6 +300,9 @@
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)aImage editingInfo:(NSDictionary *)editingInfo {
+    // resize
+    aImage = [yxtUtil resizeImage: aImage];
+    
     // 存放到数组
     [self.files addObject:aImage];
     // 绘制图片
@@ -231,6 +310,16 @@
     
     [picker dismissModalViewControllerAnimated:YES];
 }
+
++ (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
+    //UIGraphicsBeginImageContext(newSize);
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
 
 - (void) drawImage: (UIImage *)image :(NSInteger)seqNo {
     int xOffset = seqNo * 60;

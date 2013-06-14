@@ -111,6 +111,9 @@
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)aImage editingInfo:(NSDictionary *)editingInfo {
+    // resize
+    aImage = [yxtUtil resizeImage: aImage];
+    
     self.imageNew = aImage;
     self.imageHead.image = aImage;
     [picker dismissModalViewControllerAnimated:YES];
@@ -141,7 +144,7 @@
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         NSString *bytesImage;
         if (self.imageOld != self.imageNew && self.imageNew != NULL) {
-            NSData *dataImage = UIImagePNGRepresentation(self.imageHead.image);
+            NSData *dataImage = UIImageJPEGRepresentation(self.imageHead.image, 1.0);
             bytesImage = [GTMBase64 stringByEncodingData:dataImage];
 
             // 判断本地是否已保存头像文件

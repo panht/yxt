@@ -21,5 +21,5 @@
 + (NSString*) md5:(NSString *) input;
 + (void) message:(UIView *) view :(NSString *) message;
 + (void) warning:(UIView *) view :(NSString *) message;
-
++ (UIImage*) resizeImage:(UIImage *) image;
 @end

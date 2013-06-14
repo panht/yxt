@@ -375,41 +375,10 @@
     
     // 根据action设置相关信息
     [self setByAction:self.action];
-    
+
     // 载入数据
     [self loadData];
-    
-    // 手势事件
-//    UISwipeGestureRecognizer *recognizer;
-//    recognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeFrom:)];
-//    [recognizer setDirection:(UISwipeGestureRecognizerDirectionUp)];
-//    [self.tableView1 addGestureRecognizer:recognizer];
-    
-//    recognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeFrom:)];
-//    [recognizer setDirection:(UISwipeGestureRecognizerDirectionDown)];
-//    [[self tableView1] addGestureRecognizer:recognizer];
 }
-
-// 上下滑动手势
-//-(void)handleSwipeFrom:(UISwipeGestureRecognizer *)recognizer{
-//    NSInteger intPageIndex = [self.pageIndex integerValue];
-//    
-//    if(recognizer.direction == UISwipeGestureRecognizerDirectionUp) {
-//        // 上滑页号加1
-//        intPageIndex++;
-//    }
-//    else if(recognizer.direction == UISwipeGestureRecognizerDirectionDown) {
-//        // 下滑页号减1
-//        intPageIndex--;
-//        if (intPageIndex < 1) {
-//            intPageIndex = 1;
-//        }
-//    }
-//    
-//    [self setPageIndex:[NSString stringWithFormat:@"%d", intPageIndex]];
-//    [self loadData];
-//    [self.tableView1 reloadData];
-//}
 
 - (IBAction)homeTapped:(id)sender {
     [self.view removeFromSuperview];
