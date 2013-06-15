@@ -108,18 +108,26 @@
                                                              options:kNilOptions
                                                                error:&error];
         // responseinfo段再转json
-        NSString* responseinfo = [json objectForKey:@"responseinfo"];
-        NSData *dataResponseinfo = [responseinfo dataUsingEncoding:NSUTF8StringEncoding];
-        NSDictionary* jsonResponseinfo = [NSJSONSerialization JSONObjectWithData:dataResponseinfo
-                                                                         options:kNilOptions
-                                                                           error:&error];
+        NSDictionary* jsonResponseinfo;
+        if ([json objectForKey:@"responseinfo"] != nil) {
+            NSString* responseinfo = [json objectForKey:@"responseinfo"];
+            NSData *dataResponseinfo = [responseinfo dataUsingEncoding:NSUTF8StringEncoding];
+            jsonResponseinfo = [NSJSONSerialization JSONObjectWithData:dataResponseinfo
+                                                                             options:kNilOptions
+                                                                               error:&error];
+        }
         
         // 返回数据
-        NSString *resultData = [json objectForKey:@"resultdata"];
-        NSData *dataResultData = [resultData dataUsingEncoding:NSUTF8StringEncoding];
-        NSDictionary *jsonResultData = [NSJSONSerialization JSONObjectWithData:dataResultData
-                                                                       options:kNilOptions
-                                                                         error:&error];
+        NSDictionary *jsonResultData;
+        if ([json objectForKey:@"responseinfo"] != nil) {
+            NSString *resultData = [json objectForKey:@"resultdata"];
+            NSData *dataResultData = [resultData dataUsingEncoding:NSUTF8StringEncoding];
+            jsonResultData = [NSJSONSerialization JSONObjectWithData:dataResultData
+                                                                           options:kNilOptions
+                                                               error:&error];
+            
+            NSLog(@"resultdata = %@", resultData);
+        }
         
         
         // 将responseinfo中的recordcount附加到data
@@ -129,7 +137,13 @@
             jsonResultData = [NSDictionary dictionaryWithDictionary:jsonResultData1];
         }
         
-        NSLog(@"resultdata = %@", resultData);
+        if (![jsonResultData isKindOfClass:[NSDictionary class]] == YES || [jsonResultData objectForKey:@"resultcode"] == NULL) {
+            NSMutableDictionary *jsonResultData1 = [[NSMutableDictionary alloc] init];
+            [jsonResultData1 setObject:@"-998" forKey:@"resultcode"];
+            [jsonResultData1 setObject:@"服务器异常，请稍候重试" forKey:@"resultdes"];
+            jsonResultData = [NSDictionary dictionaryWithDictionary:jsonResultData1];
+        }
+        
         return jsonResultData;
     }
 }
