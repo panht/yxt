@@ -32,20 +32,25 @@
 
 @implementation ALPickerView
 
+@synthesize uncheckableRow;
 @synthesize delegate = delegate_;
 @synthesize allOptionTitle;
+
 
 
 #pragma mark - NSObject stuff
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)init {
+    uncheckableRow = [[NSMutableArray alloc] init];
 	return [self initWithFrame:CGRectMake(0, 0, 320, 216)];
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)initWithFrame:(CGRect)frame {
+    uncheckableRow = [[NSMutableArray alloc] init];
+    
 	// Set fix width and height
 	if ((self = [super initWithFrame:CGRectMake(frame.origin.x, frame.origin.y, 320, 216)])) {
         self.backgroundColor = [UIColor blackColor];
@@ -130,6 +135,11 @@
             int actualRow = indexPath.row - (allOptionTitle ? 3 : 2);
             cell.textLabel.text = [delegate_ pickerView:self textForRow:actualRow];
             cell.selectionState = [delegate_ pickerView:self selectionStateForRow:actualRow];
+            
+            // 加入不可选数组
+            if ([cell.textLabel.text hasSuffix:@"(未开通业务)"]) {
+                [self.uncheckableRow addObject: [NSString stringWithFormat:@"%d", actualRow + (allOptionTitle ? 3 : 2)]];
+            }
         }
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     }
@@ -140,6 +150,17 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    // 是否不可选
+    NSString *row = [NSString stringWithFormat:@"%d", indexPath.row];
+    if ([self.uncheckableRow containsObject:row]) {
+        // Set selection state
+        ALPickerViewCell *cell = (ALPickerViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+        cell.imageView.image = Nil;
+        cell.imageView.highlightedImage = Nil;
+
+        return;
+    }
+    
     if (indexPath.row > 1 && indexPath.row < ([delegate_ numberOfRowsForPickerView:self] + (allOptionTitle ? 3 : 2))) {
         // Set selection state
         ALPickerViewCell *cell = (ALPickerViewCell *)[tableView cellForRowAtIndexPath:indexPath];

@@ -32,13 +32,14 @@
 
 
 @interface ALPickerView : UIView <UITableViewDataSource, UITableViewDelegate> {
-@private
+@public
     //    id<ALPickerViewDelegate> __weak delegate_;
     id<ALPickerViewDelegate> __weak delegate_;
     
     UITableView *internalTableView_;
 }
 
+@property (strong, nonatomic) NSMutableArray *uncheckableRow;
 // Set a delegate conforming to ALPickerViewDelegate protocol
 @property (nonatomic, weak) id<ALPickerViewDelegate> delegate;
 // If set to nil the all option row is hidden at all, default is 'All'

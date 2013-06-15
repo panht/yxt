@@ -30,6 +30,8 @@
         self.entriesSelectedArray = [[NSMutableArray alloc] initWithCapacity:100];
         
         self.selectedArray = [[NSMutableArray alloc] init];
+        
+        self.pickerView.delegate = self;
     }
     return self;
 }
@@ -129,16 +131,19 @@
 }
 
 - (void)pickerView:(ALPickerView *)pickerView didCheckRow:(NSInteger)row {
-	// Check whether all rows are checked or only one
-	if (row == -1) {
-		for (id key in [self.selectionStatesDic allKeys]) {
-			[self.selectionStatesDic setObject:[NSNumber numberWithBool:YES] forKey:key];
-        }
+    // 未开通状态不可选
+    if ([[self.entriesArray objectAtIndex:row] objectForKey:@"is_open"] == 0) {
     } else {
-		[self.selectionStatesDic setObject:[NSNumber numberWithBool:YES] forKey:[self.entriesArray objectAtIndex:row]];
+        if (row == -1) {
+            for (id key in [self.selectionStatesDic allKeys]) {
+                [self.selectionStatesDic setObject:[NSNumber numberWithBool:YES] forKey:key];
+            }
+        } else {
+            [self.selectionStatesDic setObject:[NSNumber numberWithBool:YES] forKey:[self.entriesArray objectAtIndex:row]];
+        }
+        
+        [self.selectedArray addObject: [NSString stringWithFormat:@"%d", row]];
     }
-    
-    [self.selectedArray addObject: [NSString stringWithFormat:@"%d", row]];
 }
 
 - (void)pickerView:(ALPickerView *)pickerView didUncheckRow:(NSInteger)row {

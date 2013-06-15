@@ -375,7 +375,9 @@
     
     // 根据action设置相关信息
     [self setByAction:self.action];
+}
 
+- (void) viewDidAppear:(BOOL)animated{
     // 载入数据
     [self loadData];
 }

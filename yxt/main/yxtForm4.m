@@ -136,7 +136,7 @@
             }
             
             //    multiPickerView = [[CYCustomMultiSelectPickerView alloc] initWithFrame:CGRectMake(0,[UIScreen mainScreen].bounds.size.height - 360 - 20, 320, 260 + 44)];
-            self.multiPickerView = [[CYCustomMultiSelectPickerView alloc] initWithFrame:CGRectMake(0, 50, 320, 216)];
+            self.multiPickerView = [[CYCustomMultiSelectPickerView alloc] initWithFrame:CGRectMake(0, 50, 320, 260)];
             self.multiPickerView.entriesArray = self.dataSource2;
             self.multiPickerView.entriesSelectedArray = self.dataSource2Selected;
             self.multiPickerView.multiPickerDelegate = self;
@@ -251,13 +251,24 @@
 #pragma mark - Delegate
 //获取到选中的数据
 -(void)returnChoosedPickerString:(NSMutableArray *)selectedEntriesArr {
+    NSString *names = [[NSString alloc] init];
+    
     for (NSString *row in self.multiPickerView.selectedArray) {
+        NSDictionary *rowData = [self.dataSource2 objectAtIndex:[row integerValue]];
+        
         if (self.ids == nil) {
-            self.ids = [[self.dataSource2 objectAtIndex:[row integerValue]] objectForKey:@"user_id"];
+            self.ids = [rowData objectForKey:@"user_id"];
         } else {
-            self.ids = [self.ids stringByAppendingFormat:@",%@", [[self.dataSource2 objectAtIndex:[row integerValue]] objectForKey:@"user_id"]];
+            self.ids = [self.ids stringByAppendingFormat:@",%@", [rowData objectForKey:@"user_id"]];
         }
+        
+        names = [names stringByAppendingFormat:@"%@,", [rowData objectForKey:@"user_name"]];
     }
+    
+    if ([names isEqualToString:@""]) {
+        names = @"请选择用户";
+    }
+    [self.inputUser setTitle:names forState:UIControlStateNormal];
     
     // 再次初始化选中的数据
     self.dataSource2Selected = [NSArray arrayWithArray:selectedEntriesArr];

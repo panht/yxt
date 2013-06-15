@@ -169,7 +169,7 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
         if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
-            // 关闭当前视图，在父视图弹出消息
+            // 关闭当前视图，刷新父视图，并在父视图弹出消息
             UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
             UIView *listView = [topWindow viewWithTag:300];
             [yxtUtil message:listView :@"发送成功"];
