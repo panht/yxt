@@ -158,8 +158,8 @@
     } else if ([self.inputContent.text isEqualToString:@""]) {
         [yxtUtil warning:self.view :@"请输入内容"];
         return;
-    }else if ([self.ids isEqualToString:@""]) {
-        [yxtUtil warning:self.view :@"请选择学生"];
+    }else if ([self.ids isEqualToString:@""] || self.ids == nil) {
+        [yxtUtil warning:self.view :@"请选择接收用户"];
         return;
     }
     
@@ -174,13 +174,14 @@
         NSString *content = self.inputContent.text;
         title = [yxtUtil urlEncode:title];
         content = [yxtUtil urlEncode:content];
+        NSString *blocToken = [yxtUtil retrieveBlocToken];
         
         NSString *requestInfo;
         NSString *data;
         NSString *identityInfo;
         
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"title\":\"%@\", \"content\":\"%@\", \"classid\":\"%@\", \"ids\":\"%@\", \"chksms\":\"%@\", \"userName\":\"%@\", \"blocToken\":\"%@\", \"userAccount\":\"%@\", \"blocFlag\":\"%@\"}]", title, content, self.classId, ids, chksms, [yxtUtil urlEncode:app.username], app.blocToken, app.acc, blocflag]];
+        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"title\":\"%@\", \"content\":\"%@\", \"classid\":\"%@\", \"ids\":\"%@\", \"chksms\":\"%@\", \"userName\":\"%@\", \"blocToken\":\"%@\", \"userAccount\":\"%@\", \"blocFlag\":\"%@\"}]", title, content, self.classId, ids, chksms, [yxtUtil urlEncode:app.username], blocToken, app.acc, blocflag]];
         requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"addReviews" :@"0" :@"0" :identityInfo :data]];
         // 从服务端获取数据
         NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];

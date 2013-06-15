@@ -234,4 +234,22 @@
     return image;
 }
 
+// 获取集中平台token
++ (NSString *) retrieveBlocToken {
+    NSString *blocToken;
+    yxtAppDelegate *app = (yxtAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    NSString *identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
+    NSString *data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"token\":\"%@\"}]", app.token]];
+    NSString *requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"getAppSession" :@"0" :@"0" :identityInfo :data]];
+    NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
+    
+    if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
+        blocToken = [dataResponse objectForKey:@"data"];
+//        [app setBlocToken:blocToken];
+    }
+    
+    return blocToken;
+}
+
 @end

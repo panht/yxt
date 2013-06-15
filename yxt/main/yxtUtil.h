@@ -22,4 +22,6 @@
 + (void) message:(UIView *) view :(NSString *) message;
 + (void) warning:(UIView *) view :(NSString *) message;
 + (UIImage*) resizeImage:(UIImage *) image;
++ (NSString *) retrieveBlocToken;
+
 @end

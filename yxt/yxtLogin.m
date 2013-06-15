@@ -211,18 +211,6 @@
             [userDefaults setValue:[NSString stringWithFormat:@"%d", self.inputDisplayPassword.selectedSegmentIndex] forKey: @"displayPassword"];
             [userDefaults setValue:[NSString stringWithFormat:@"%d", self.inputAutoLogin.selectedSegmentIndex] forKey: @"autoLogin"];
             
-            
-            // 获取集中平台token
-            identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-            data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"token\":\"%@\"}]", app.token]];
-            requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"getAppSession" :@"0" :@"0" :identityInfo :data]];
-            NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
-            
-            if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
-                NSString *blocToken = [dataResponse objectForKey:@"data"];
-                [app setBlocToken:blocToken];
-            }
-            
             // 跳转到入口界面
             [app showWelcome];
             [self.view removeFromSuperview];

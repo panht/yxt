@@ -154,13 +154,14 @@
         NSString *chkSendParents = self.inputMessage.on ? @"1" : @"0";
         NSString *chksms = self.inputSMS.on ? @"1" : @"0";
         NSString *blocflag = self.inputWeibo.on ? @"1" : @"0";
+        NSString *blocToken = [yxtUtil retrieveBlocToken];
         
         NSString *requestInfo;
         NSString *data;
         NSString *identityInfo;
         
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"classid\":\"%@\", \"courseid\":\"%@\", \"examid\":\"%@\", \"sendparents\":\"%@\", \"sendparentsmsg\":\"%@\", \"sendremark\":\"%@\", \"sendstudent\":\"%@\", \"bloctoken\":\"%@\", \"useraccount\":\"%@\", \"blocflag\":\"%@\"}]", classId, courseId, examId, chkSendParents, chksms, chkSendRemark, @"0", app.blocToken, app.acc, blocflag]];
+        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"classid\":\"%@\", \"courseid\":\"%@\", \"examid\":\"%@\", \"sendparents\":\"%@\", \"sendparentsmsg\":\"%@\", \"sendremark\":\"%@\", \"sendstudent\":\"%@\", \"bloctoken\":\"%@\", \"useraccount\":\"%@\", \"blocflag\":\"%@\"}]", classId, courseId, examId, chkSendParents, chksms, chkSendRemark, @"0", blocToken, app.acc, blocflag]];
         requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"addExamSendMsg" :@"0" :@"0" :identityInfo :data]];
         
         // 从服务端获取数据
