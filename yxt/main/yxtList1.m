@@ -393,6 +393,8 @@
 // 点击发件箱
 - (IBAction)btn1Tapped:(id)sender {
     if ([self.action isEqualToString:@"bulletin"]) {
+        self.image12 = [UIImage imageNamed:@"list1Bulletin12.png"];
+        self.image21 = [UIImage imageNamed:@"list1Bulletin21.png"];
         [self.btn1 setBackgroundImage:self.image12 forState:UIControlStateNormal];
         [self.btn2 setBackgroundImage:self.image21 forState:UIControlStateNormal];
         
@@ -409,6 +411,8 @@
 // 点击收件箱
 - (IBAction)btn2Tapped:(id)sender {
     if ([self.action isEqualToString:@"bulletin"]) {
+        self.image11 = [UIImage imageNamed:@"list1Bulletin11.png"];
+        self.image22 = [UIImage imageNamed:@"list1Bulletin22.png"];
         [self.btn1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
         [self.btn2 setBackgroundImage:self.image22 forState:UIControlStateNormal];
         

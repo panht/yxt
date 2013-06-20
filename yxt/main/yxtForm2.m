@@ -165,9 +165,6 @@
         
         NSString *boundary = @"----------V2ymHFg03ehbqgZCaKO6jy";
         
-        // string constant for the post parameter 'file'. My server uses this name: `file`. Your's may differ
-        NSString* FileParamConstant = @"Files";
-        
         NSURL* requestURL = [NSURL URLWithString:app.urlService]; 
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
@@ -191,7 +188,10 @@
 
         // 处理图片
 //        NSData *dataImage;
-//        NSString *bytesImage = @"";
+        //        NSString *bytesImage = @"";
+        
+        // string constant for the post parameter 'file'. My server uses this name: `file`. Your's may differ
+        NSString* FileParamConstant = @"pic";
         NSInteger i = 0;
         for (UIImage *image in self.files) {
 //            dataImage = UIImagePNGRepresentation(image);
@@ -234,6 +234,7 @@
                                                                          options:kNilOptions
                                                                            error:&error];
         
+        NSLog(@"responseinfo %@", responseinfo);
         // 返回数据
         NSString *resultData = [json objectForKey:@"resultdata"];
         NSData *dataResultData = [resultData dataUsingEncoding:NSUTF8StringEncoding];

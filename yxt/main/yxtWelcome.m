@@ -42,6 +42,13 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        
+        self.image11 = [UIImage imageNamed:@"indextab11.png"];
+        self.image12 = [UIImage imageNamed:@"indextab12.png"];
+        self.image21 = [UIImage imageNamed:@"indextab21.png"];
+        self.image22 = [UIImage imageNamed:@"indextab22.png"];
+        self.image31 = [UIImage imageNamed:@"indextab31.png"];
+        self.image32 = [UIImage imageNamed:@"indextab32.png"];
     }
     return self;
 }
@@ -88,7 +95,7 @@
     
     // 向服务器验证token
     NSString *identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-    NSString *data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"token\":\"%@\", \"isbloc\":\"1\"}]", app.token]];
+    NSString *data = [[NSString alloc] initWithFormat:@"[{\"token\":\"%@\", \"isbloc\":\"1\"}]", app.token];
     NSString *requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"tokenVerify" :@"0" :@"0" :identityInfo :data]];
 //    NSLog(@"%@", requestInfo);
 //    NSLog(@"%@", identityInfo);
@@ -97,7 +104,7 @@
     
     // 获取集中平台推送信息
     identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-    data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userAccount\":\"%@\"}]", app.acc]];
+    data = [[NSString alloc] initWithFormat:@"[{\"userAccount\":\"%@\"}]", app.acc];
     requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"pushBlocMessage" :@"0" :@"0" :identityInfo :data]];
     //    NSLog(@"%@", requestInfo);
     //    NSLog(@"%@", identityInfo);
@@ -196,12 +203,12 @@
         }  completion:^(BOOL finished) {
             if (finished) {
                 self.tabCurrent = self.tab1;
+                self.image12 = [UIImage imageNamed:@"indextab12.png"];
+                self.image21 = [UIImage imageNamed:@"indextab21.png"];
+                self.image31 = [UIImage imageNamed:@"indextab31.png"];
                 [self.button1 setImage: self.image12];
                 [self.button2 setImage: self.image21];
                 [self.button3 setImage: self.image31];
-//                [self.button1 setBackgroundImage:self.image12 forState:UIControlStateNormal];
-//                [self.button2 setBackgroundImage:self.image21 forState:UIControlStateNormal];
-//                [self.button3 setBackgroundImage:self.image31 forState:UIControlStateNormal];
             }
         }];
     }
@@ -214,12 +221,12 @@
         }  completion:^(BOOL finished) {
             if (finished) {
                 self.tabCurrent = self.tab2;
+                self.image11 = [UIImage imageNamed:@"indextab11.png"];
+                self.image22 = [UIImage imageNamed:@"indextab22.png"];
+                self.image31 = [UIImage imageNamed:@"indextab31.png"];
                 [self.button1 setImage: self.image11];
                 [self.button2 setImage: self.image22];
                 [self.button3 setImage: self.image31];
-//                [self.button1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
-//                [self.button2 setBackgroundImage:self.image22 forState:UIControlStateNormal];
-//                [self.button3 setBackgroundImage:self.image31 forState:UIControlStateNormal];
             }
         }];
     }
@@ -232,12 +239,12 @@
         }  completion:^(BOOL finished) {
             if (finished) {
                 self.tabCurrent = self.tab3;
+                self.image11 = [UIImage imageNamed:@"indextab11.png"];
+                self.image21 = [UIImage imageNamed:@"indextab21.png"];
+                self.image32 = [UIImage imageNamed:@"indextab32.png"];
                 [self.button1 setImage: self.image11];
                 [self.button2 setImage: self.image21];
                 [self.button3 setImage: self.image32];
-//                [self.button1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
-//                [self.button2 setBackgroundImage:self.image21 forState:UIControlStateNormal];
-//                [self.button3 setBackgroundImage:self.image32 forState:UIControlStateNormal];
             }
         }];
     }
@@ -272,18 +279,12 @@
     //    self.button1.title = @"家校互动";
     //    self.button2.title = @"校园交流";
     //    self.button3.title = @"特色应用";
-    self.image11 = [UIImage imageNamed:@"indextab11.png"];
     self.image12 = [UIImage imageNamed:@"indextab12.png"];
     self.image21 = [UIImage imageNamed:@"indextab21.png"];
-    self.image22 = [UIImage imageNamed:@"indextab22.png"];
     self.image31 = [UIImage imageNamed:@"indextab31.png"];
-    self.image32 = [UIImage imageNamed:@"indextab32.png"];
     [self.button1 setImage: self.image12];
     [self.button2 setImage: self.image21];
     [self.button3 setImage: self.image31];
-//    [self.button1 setBackgroundImage:self.image12 forState:UIControlStateNormal];
-//    [self.button2 setBackgroundImage:self.image21 forState:UIControlStateNormal];
-//    [self.button3 setBackgroundImage:self.image31 forState:UIControlStateNormal];
     
     // 获得屏幕宽高
     int screenWidth = [[UIScreen mainScreen] bounds].size.width;
@@ -341,12 +342,12 @@
             }  completion:^(BOOL finished) {
                 if (finished) {
                     self.tabCurrent = self.tab1;
+                    self.image12 = [UIImage imageNamed:@"indextab12.png"];
+                    self.image21 = [UIImage imageNamed:@"indextab21.png"];
+                    self.image31 = [UIImage imageNamed:@"indextab31.png"];
                     [self.button1 setImage: self.image12];
                     [self.button2 setImage: self.image21];
                     [self.button3 setImage: self.image31];
-//                    [self.button1 setBackgroundImage:self.image12 forState:UIControlStateNormal];
-//                    [self.button2 setBackgroundImage:self.image21 forState:UIControlStateNormal];
-//                    [self.button3 setBackgroundImage:self.image31 forState:UIControlStateNormal];
                 }
             }];
             
@@ -355,12 +356,12 @@
             }  completion:^(BOOL finished) {
                 if (finished) {
                     self.tabCurrent = self.tab2;
+                    self.image11 = [UIImage imageNamed:@"indextab11.png"];
+                    self.image22 = [UIImage imageNamed:@"indextab22.png"];
+                    self.image31 = [UIImage imageNamed:@"indextab31.png"];
                     [self.button1 setImage: self.image11];
                     [self.button2 setImage: self.image22];
                     [self.button3 setImage: self.image31];
-//                    [self.button1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
-//                    [self.button2 setBackgroundImage:self.image22 forState:UIControlStateNormal];
-//                    [self.button3 setBackgroundImage:self.image31 forState:UIControlStateNormal];
                 }
             }];
         }
@@ -372,12 +373,12 @@
             }  completion:^(BOOL finished) {
                 if (finished) {
                     self.tabCurrent = self.tab2;
+                    self.image11 = [UIImage imageNamed:@"indextab11.png"];
+                    self.image22 = [UIImage imageNamed:@"indextab22.png"];
+                    self.image31 = [UIImage imageNamed:@"indextab31.png"];
                     [self.button1 setImage: self.image11];
                     [self.button2 setImage: self.image22];
                     [self.button3 setImage: self.image31];
-//                    [self.button1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
-//                    [self.button2 setBackgroundImage:self.image22 forState:UIControlStateNormal];
-//                    [self.button3 setBackgroundImage:self.image31 forState:UIControlStateNormal];
                 }
             }];
         } else if (self.tabCurrent == self.tab2) {
@@ -385,12 +386,12 @@
             }  completion:^(BOOL finished) {
                 if (finished) {
                     self.tabCurrent = self.tab3;
+                    self.image11 = [UIImage imageNamed:@"indextab11.png"];
+                    self.image21 = [UIImage imageNamed:@"indextab21.png"];
+                    self.image32 = [UIImage imageNamed:@"indextab32.png"];
                     [self.button1 setImage: self.image11];
                     [self.button2 setImage: self.image21];
                     [self.button3 setImage: self.image32];
-//                    [self.button1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
-//                    [self.button2 setBackgroundImage:self.image21 forState:UIControlStateNormal];
-//                    [self.button3 setBackgroundImage:self.image32 forState:UIControlStateNormal];
                 }
             }];
         } else if (self.tabCurrent == self.tab3) {

@@ -258,6 +258,8 @@
 }
 
 - (IBAction)btn1Tapped:(id)sender {
+    self.image11 = [UIImage imageNamed:@"list1Bulletin11.png"];
+    self.image12 = [UIImage imageNamed:@"list1Bulletin12.png"];
     [self.btn1 setBackgroundImage:self.image12 forState:UIControlStateNormal];
     [self.btn2 setBackgroundImage:self.image11 forState:UIControlStateNormal];
     [self.btn3 setBackgroundImage:self.image11 forState:UIControlStateNormal];
@@ -271,6 +273,8 @@
 }
 
 - (IBAction)btn2Tapped:(id)sender {
+    self.image11 = [UIImage imageNamed:@"list1Bulletin11.png"];
+    self.image12 = [UIImage imageNamed:@"list1Bulletin12.png"];
     [self.btn1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
     [self.btn2 setBackgroundImage:self.image12 forState:UIControlStateNormal];
     [self.btn3 setBackgroundImage:self.image11 forState:UIControlStateNormal];
@@ -284,6 +288,8 @@
 }
 
 - (IBAction)btn3Tapped:(id)sender {
+    self.image11 = [UIImage imageNamed:@"list1Bulletin11.png"];
+    self.image12 = [UIImage imageNamed:@"list1Bulletin12.png"];
     [self.btn1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
     [self.btn2 setBackgroundImage:self.image11 forState:UIControlStateNormal];
     [self.btn3 setBackgroundImage:self.image12 forState:UIControlStateNormal];

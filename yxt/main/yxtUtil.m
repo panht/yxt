@@ -102,39 +102,42 @@
         //[NSURLConnection connectionWithRequest:request delegate:self ];
         NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
         
-        // 返回数据转json
-        NSError* error;
-        NSDictionary* json = [NSJSONSerialization JSONObjectWithData:responseData
-                                                             options:kNilOptions
-                                                               error:&error];
-        // responseinfo段再转json
-        NSDictionary* jsonResponseinfo;
-        if ([json objectForKey:@"responseinfo"] != nil) {
-            NSString* responseinfo = [json objectForKey:@"responseinfo"];
-            NSData *dataResponseinfo = [responseinfo dataUsingEncoding:NSUTF8StringEncoding];
-            jsonResponseinfo = [NSJSONSerialization JSONObjectWithData:dataResponseinfo
-                                                                             options:kNilOptions
-                                                                               error:&error];
-        }
         
-        // 返回数据
         NSDictionary *jsonResultData;
-        if ([json objectForKey:@"responseinfo"] != nil) {
-            NSString *resultData = [json objectForKey:@"resultdata"];
-            NSData *dataResultData = [resultData dataUsingEncoding:NSUTF8StringEncoding];
-            jsonResultData = [NSJSONSerialization JSONObjectWithData:dataResultData
-                                                                           options:kNilOptions
-                                                               error:&error];
+        if (responseData != nil) {
+            // 返回数据转json
+            NSError* error;
+            NSDictionary* json = [NSJSONSerialization JSONObjectWithData:responseData
+                                                                 options:kNilOptions
+                                                                   error:&error];
+            // responseinfo段再转json
+            NSDictionary* jsonResponseinfo;
+            if ([json objectForKey:@"responseinfo"] != nil) {
+                NSString* responseinfo = [json objectForKey:@"responseinfo"];
+                NSData *dataResponseinfo = [responseinfo dataUsingEncoding:NSUTF8StringEncoding];
+                jsonResponseinfo = [NSJSONSerialization JSONObjectWithData:dataResponseinfo
+                                                                   options:kNilOptions
+                                                                     error:&error];
+            }
             
-            NSLog(@"resultdata = %@", resultData);
-        }
-        
-        
-        // 将responseinfo中的recordcount附加到data
-        if ([jsonResponseinfo objectForKey:@"recordcount"] != NULL && [jsonResultData isKindOfClass:[NSDictionary class]] == YES) {
-            NSMutableDictionary *jsonResultData1 = [jsonResultData mutableCopy];
-            [jsonResultData1 setObject:[jsonResponseinfo objectForKey:@"recordcount"] forKey:@"recordcount"];
-            jsonResultData = [NSDictionary dictionaryWithDictionary:jsonResultData1];
+            // 返回数据
+            if ([json objectForKey:@"responseinfo"] != nil) {
+                NSString *resultData = [json objectForKey:@"resultdata"];
+                NSData *dataResultData = [resultData dataUsingEncoding:NSUTF8StringEncoding];
+                jsonResultData = [NSJSONSerialization JSONObjectWithData:dataResultData
+                                                                 options:kNilOptions
+                                                                   error:&error];
+                
+                NSLog(@"resultdata = %@", resultData);
+            }
+            
+            
+            // 将responseinfo中的recordcount附加到data
+            if ([jsonResponseinfo objectForKey:@"recordcount"] != NULL && [jsonResultData isKindOfClass:[NSDictionary class]] == YES) {
+                NSMutableDictionary *jsonResultData1 = [jsonResultData mutableCopy];
+                [jsonResultData1 setObject:[jsonResponseinfo objectForKey:@"recordcount"] forKey:@"recordcount"];
+                jsonResultData = [NSDictionary dictionaryWithDictionary:jsonResultData1];
+            }
         }
         
         if (![jsonResultData isKindOfClass:[NSDictionary class]] == YES || [jsonResultData objectForKey:@"resultcode"] == NULL) {

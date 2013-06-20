@@ -279,7 +279,7 @@
 				F2A770671720FA6B00CCEE55 /* Classes */,
 				F2A7702D1720F5FD00CCEE55 /* Frameworks */,
 				F2A7702C1720F5FD00CCEE55 /* Products */,
-				F2A770511720F67500CCEE55 /* Resouces */,
+				F2A770511720F67500CCEE55 /* Resources */,
 			);
 			sourceTree = "<group>";
 		};
@@ -319,7 +319,7 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
-		F2A770511720F67500CCEE55 /* Resouces */ = {
+		F2A770511720F67500CCEE55 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				F2A6061517671D2D00D9331B /* 37x-Checkmark.png */,
@@ -334,10 +334,10 @@
 				F287B053176313200068FAEB /* backgroundNav.png */,
 				F23A5EDA1764D52700BD0993 /* delete.png */,
 				F27499C0176085E8008F62A7 /* home1.png */,
-				F27499C31760862E008F62A7 /* iconLogin.png */,
-				F28C978E172145B4009D8F1C /* index1BtnGrade.png */,
 				F2D19B5B176894F700D0D4C5 /* Icon.png */,
 				F2D19B5C176894F700D0D4C5 /* Icon@2x.png */,
+				F27499C31760862E008F62A7 /* iconLogin.png */,
+				F28C978E172145B4009D8F1C /* index1BtnGrade.png */,
 				F28C978F172145B4009D8F1C /* index1BtnMessage.png */,
 				F28C9790172145B4009D8F1C /* index1BtnNotice.png */,
 				F28C9791172145B4009D8F1C /* index1BtnWork.png */,
@@ -367,7 +367,7 @@
 				F287B07C1763A02B0068FAEB /* sms.png */,
 				F2A770351720F5FD00CCEE55 /* Supporting Files */,
 			);
-			name = Resouces;
+			name = Resources;
 			path = yxt/res;
 			sourceTree = "<group>";
 		};
