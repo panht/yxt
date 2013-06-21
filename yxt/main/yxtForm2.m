@@ -112,7 +112,7 @@
             
             // 作业课程初始值
             [self.inputCourse setTitle:[row objectForKey:@"name"] forState:UIControlStateNormal];
-            [self.inputCourse setTag:[[row objectForKey:@"value"] integerValue]];
+//            [self.inputCourse setTag:[[row objectForKey:@"value"] integerValue]];
         }
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -136,8 +136,14 @@
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
-        NSString *courseid = [NSString stringWithFormat:@"%d", self.inputCourse.tag];
+        NSString *courseid = @"";
         NSString *coursename = self.inputCourse.currentTitle;
+        for (NSDictionary *rowData in self.dataListArray) {
+            if ([[rowData objectForKey:@"name"] isEqualToString:self.inputCourse.currentTitle]) {
+                courseid = [rowData objectForKey:@"value"];
+                break;
+            }
+        }
         NSString *chksms = self.inputSMS.on ? @"1" : @"0";
         NSString *blocflag = self.inputWeibo.on ? @"1" : @"0";
         NSString *title = self.inputTitle.text;
@@ -146,26 +152,28 @@
         content = [yxtUtil urlEncode:content];
         coursename = [yxtUtil urlEncode:coursename];
         NSString *blocToken = [yxtUtil retrieveBlocToken];
+        if (blocToken == nil || blocToken == NULL || blocToken == Nil) {
+            blocToken = @"";
+        }
         
         NSString *requestInfo;
         NSString *data;
         NSString *identityInfo;
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userid\":\"%@\", \"assTitle\":\"%@\", \"assContent\":\"%@\", \"classCourse\":\"%@\", \"chkSms\":\"%@\", \"userName\":\"%@\", \"classCourseName\":\"%@\", \"blocToken\":\"%@\", \"userAccount\":\"%@\", \"blocFlag\":\"%@\", \"Files\":\"\"}]", app.userId, title, content, courseid, chksms, [yxtUtil urlEncode:app.username], coursename, blocToken, app.acc, blocflag]];
+        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userid\":\"%@\", \"assTitle\":\"%@\", \"assContent\":\"%@\", \"classCourse\":\"%@\", \"chkSms\":\"%@\", \"userName\":\"%@\", \"classCourseName\":\"%@\", \"blocToken\":\"%@\", \"userAccount\":\"%@\", \"blocFlag\":\"%@\"}]", app.userId, title, content, courseid, chksms, [yxtUtil urlEncode:app.username], coursename, blocToken, app.acc, blocflag]];
         requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"addHomeWork" :@"0" :@"0" :identityInfo :data]];
-        NSLog(@"requestInfo   %@", requestInfo);
-        NSLog(@"identityInfo   %@", identityInfo);
-        NSLog(@"data   %@", data);
+//        NSLog(@"requestInfo   %@", requestInfo);
+//        NSLog(@"identityInfo   %@", identityInfo);
+//        NSLog(@"data   %@", data);
         
-
         NSMutableDictionary* _params = [[NSMutableDictionary alloc] init];
         [_params setObject:requestInfo forKey:@"RequestInfo"];
         [_params setObject:identityInfo forKey:@"IdentityInfo"];
         [_params setObject:data forKey:@"data"];
         
         NSString *boundary = @"----------V2ymHFg03ehbqgZCaKO6jy";
+        NSURL* requestURL = [NSURL URLWithString:app.urlService];
         
-        NSURL* requestURL = [NSURL URLWithString:app.urlService]; 
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
         [request setHTTPShouldHandleCookies:NO];
@@ -179,28 +187,16 @@
         
         for (NSString *param in _params) {
             [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-            [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\r\n\r\n", [_params objectForKey:param]] dataUsingEncoding:NSUTF8StringEncoding]];
+            [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n", param] dataUsingEncoding:NSUTF8StringEncoding]];
             [body appendData:[@"Content-Type: text/plain; charset=UTF-8\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
             [body appendData:[@"Content-Transfer-Encoding: 8bit\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-            [body appendData:[[NSString stringWithFormat:@"%@\r\n", param] dataUsingEncoding:NSUTF8StringEncoding]];
+            [body appendData:[[NSString stringWithFormat:@"%@\r\n", [_params objectForKey:param]] dataUsingEncoding:NSUTF8StringEncoding]];
         }
-        
 
         // 处理图片
-//        NSData *dataImage;
-        //        NSString *bytesImage = @"";
-        
-        // string constant for the post parameter 'file'. My server uses this name: `file`. Your's may differ
         NSString* FileParamConstant = @"pic";
         NSInteger i = 0;
         for (UIImage *image in self.files) {
-//            dataImage = UIImagePNGRepresentation(image);
-//            if (bytesImage == nil) {
-//                bytesImage = [GTMBase64 stringByEncodingData:dataImage];
-//            } else {
-//                bytesImage = [bytesImage stringByAppendingFormat:@"%@", [GTMBase64 stringByEncodingData:dataImage]];
-//            }
-            
             NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
             if (imageData) {
                 i++;
@@ -244,10 +240,6 @@
         
         
         NSLog(@"resultdata %@", resultData);
-        
-        
-        // 从服务端获取数据
-//        NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
@@ -392,7 +384,7 @@
         if (self.inputPicker.tag == 1) {
             NSDictionary *rowData = [self.dataSource objectAtIndex:row];
             result = [rowData objectForKey:@"name"];
-            [self.inputCourse setTag:[[rowData objectForKey:@"value"] integerValue]];
+//            [self.inputCourse setTag:[[rowData objectForKey:@"value"] integerValue]];
         }
     }
     
