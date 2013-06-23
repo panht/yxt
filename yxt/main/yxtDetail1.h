@@ -43,9 +43,9 @@
 - (IBAction)homeTapped:(id)sender;
 - (IBAction)backTapped:(id)sender;
 
--(void) resettle;
--(void) loadData;
--(void) setByAction: (NSString *)action;
+- (void) resettle;
+- (void) loadData;
+- (void) setByAction: (NSString *)action;
 - (void) drawImage: (NSData *)imageData :(NSString *)imageName :(NSInteger)seqNo;
 
 @end

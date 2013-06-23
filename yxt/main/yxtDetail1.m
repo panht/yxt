@@ -310,9 +310,6 @@
     if ([[imageName pathExtension] isEqualToString:@"jpg"] || [[imageName pathExtension] isEqualToString:@"jpeg"] || [[imageName pathExtension] isEqualToString:@"png"] ||[[imageName pathExtension] isEqualToString:@"bmp"] ||[[imageName pathExtension] isEqualToString:@"gif"]) {
         image = [UIImage imageWithData:imageData];
         
-        // 点击下载
-//        UITapGestureRecognizer *saveTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(saveFile:)];
-        //        [imageView addGestureRecognizer:saveTap];
         [btn addTarget:self action:@selector(saveFile:) forControlEvents:UIControlEventTouchUpInside];
     } else {
         image = [UIImage imageNamed:@"messageRead.png"];
@@ -321,14 +318,22 @@
     [btn setImage:image forState:UIControlStateNormal];
     btn.frame = CGRectMake(15 - 10 + xOffset, 5, 50, 50);
     
-//    [imageView setImage:image];
-//    imageView.frame = CGRectMake(5 + xOffset, 5, 50, 50);
     [self.scrollView addSubview:btn];
 }
 
+// 保存到相册
 - (void) saveFile:(id)sender {
     UIButton *btn = (UIButton*)sender;
-    UIImageWriteToSavedPhotosAlbum(btn.imageView.image, nil, nil, nil);
+    UIImageWriteToSavedPhotosAlbum(btn.imageView.image, self, @selector(thisImage:hasBeenSavedInPhotoAlbumWithError:usingContextInfo:), nil);
+}
+
+// 保存完成
+- (void)thisImage:(UIImage *)image hasBeenSavedInPhotoAlbumWithError:(NSError *)error usingContextInfo:(void*)ctxInfo {
+    if (error) {
+        // Do anything needed to handle the error or display it to the user
+    } else {
+         [yxtUtil message:self.view :@"已保存到相册"];
+    }
 }
 
 - (void) resettle {
