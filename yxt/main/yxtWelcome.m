@@ -106,11 +106,11 @@
     identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
     data = [[NSString alloc] initWithFormat:@"[{\"userAccount\":\"%@\"}]", app.acc];
     requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"pushBlocMessage" :@"0" :@"0" :identityInfo :data]];
-    //    NSLog(@"%@", requestInfo);
-    //    NSLog(@"%@", identityInfo);
-    //    NSLog(@"%@", data);
+//        NSLog(@"%@", requestInfo);
+//        NSLog(@"%@", identityInfo);
+//        NSLog(@"%@", data);
 //    NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
-//    
+//
 //    if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
 //        NSData *dataList = [[dataResponse objectForKey:@"data"] dataUsingEncoding:NSUTF8StringEncoding];
 //        NSError *error;

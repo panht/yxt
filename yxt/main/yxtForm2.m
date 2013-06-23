@@ -223,6 +223,10 @@
         NSDictionary* json = [NSJSONSerialization JSONObjectWithData:responseData
                                                              options:kNilOptions
                                                                error:&error];
+        
+        
+        NSString *stringTemp = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+        
         // responseinfo段再转json
         NSString* responseinfo = [json objectForKey:@"responseinfo"];
         NSData *dataResponseinfo = [responseinfo dataUsingEncoding:NSUTF8StringEncoding];
@@ -230,16 +234,15 @@
                                                                          options:kNilOptions
                                                                            error:&error];
         
-        NSLog(@"responseinfo %@", responseinfo);
+//        NSLog(@"responseinfo %@", responseinfo);
         // 返回数据
         NSString *resultData = [json objectForKey:@"resultdata"];
         NSData *dataResultData = [resultData dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary *jsonResultData = [NSJSONSerialization JSONObjectWithData:dataResultData
                                                                        options:kNilOptions
                                                                          error:&error];
-        
-        
-        NSLog(@"resultdata %@", resultData);
+
+//        NSLog(@"resultdata %@", resultData);
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
@@ -254,7 +257,6 @@
             [formView removeFromSuperview];
             UIView *list1View = [topWindow viewWithTag:400];
             [list1View removeFromSuperview];
-
         } else {
             [yxtUtil warning:self.view :[jsonResultData objectForKey:@"resultdes"]];
         }
@@ -293,6 +295,7 @@
     }
 }
 
+// 拍照或相册选中图片后返回
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)aImage editingInfo:(NSDictionary *)editingInfo {
     // resize
     aImage = [yxtUtil resizeImage: aImage];
@@ -305,16 +308,18 @@
     [picker dismissModalViewControllerAnimated:YES];
 }
 
-+ (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
-    //UIGraphicsBeginImageContext(newSize);
-    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
-    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return newImage;
-}
+//
+//+ (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
+//    //UIGraphicsBeginImageContext(newSize);
+//    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+//    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+//    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    return newImage;
+//}
 
 
+// 显示图片和删除角标
 - (void) drawImage: (UIImage *)image :(NSInteger)seqNo {
     int xOffset = seqNo * 60;
     
@@ -335,6 +340,7 @@
     [self.scrollView addSubview:btnDel];
 }
 
+// 删除图片
 - (void) delImage: (id)sender; {
     // 从界面删除所有图片
     for (UIView *v in self.scrollView.subviews) {

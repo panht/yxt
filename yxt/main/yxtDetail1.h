@@ -32,6 +32,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *btn2;
 @property (weak, nonatomic) IBOutlet UIButton *btn3;
 @property (weak, nonatomic) IBOutlet UIButton *btn4;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+
 
 - (IBAction)btn1Tapped:(id)sender;
 - (IBAction)btn2Tapped:(id)sender;
@@ -44,6 +46,6 @@
 -(void) resettle;
 -(void) loadData;
 -(void) setByAction: (NSString *)action;
-
+- (void) drawImage: (NSData *)imageData :(NSString *)imageName :(NSInteger)seqNo;
 
 @end

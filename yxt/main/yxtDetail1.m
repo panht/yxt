@@ -112,7 +112,10 @@
         NSString *identityInfo;
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
         requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:self.action :self.pageIndex :self.pageSize :identityInfo :self.data]];
-        
+    
+//    NSLog(@"requestInfo    %@", requestInfo);
+//    NSLog(@"identityInfo    %@", identityInfo);
+//    NSLog(@"data     %@", self.data);
         // 从服务端获取数据
         NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :self.data];
         
@@ -179,12 +182,54 @@
                 self.label2.frame = CGRectMake(x, y + height, width, height);
                 self.label3.frame = CGRectMake(x, y + height * 2, width, height);
                 self.label4.frame = CGRectMake(x, y + height * 3, width, height);
-                self.labelContent.frame = CGRectMake(x, y + height * 4, width, self.view.frame.size.height - height * 4 - self.navBar.frame.size.height * 2);
+                self.labelContent.frame = CGRectMake(x, y + height * 4, width, self.view.frame.size.height - height * 4 - self.navBar.frame.size.height * 2 - self.scrollView.frame.size.height);
+                self.scrollView.frame = CGRectMake(0, self.view.frame.size.height - 64 - self.scrollView.frame.size.height, self.scrollView.frame.size.width, self.scrollView.frame.size.height);
+                
                 
                 self.label1.textAlignment = UITextAlignmentLeft;
                 self.label2.textAlignment = UITextAlignmentLeft;
                 self.label3.textAlignment = UITextAlignmentLeft;
                 self.label4.textAlignment = UITextAlignmentLeft;
+                
+                // 家庭作业需要判断是否有附件
+                NSString *dataHomework = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"assignmentid\":\"%@\"}]", [row objectForKey:@"assignment_id"]]];
+                requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"getHomeWorkFile" :@"1" :@"5" :identityInfo :dataHomework]];
+                NSDictionary *dataHomeworkResponse = [yxtUtil getResponse:requestInfo :identityInfo :dataHomework];
+                
+                if ([[dataHomeworkResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
+                    NSData *dataList = [[dataHomeworkResponse objectForKey:@"data"] dataUsingEncoding:NSUTF8StringEncoding];
+                    NSError *error;
+                    NSDictionary *jsonList = [NSJSONSerialization JSONObjectWithData:dataList
+                                                                             options:kNilOptions
+                                                                               error:&error];
+                    
+                    NSArray *dataListArray = [jsonList objectForKey:@"list"];
+                    
+                    // 遍历数组，将附件显示到界面
+                    yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
+                    NSInteger i = 0;
+                    NSString *filename, *filepath;
+                    NSURL *fileURL;
+                    NSData *fileData;
+                    
+                    for (NSDictionary *rowData in dataListArray) {
+                        filename = [rowData objectForKey:@"filename"];
+                        filepath = [rowData objectForKey:@"filepath"];
+                        
+                        // 从服务器获取
+                        fileURL = [NSURL URLWithString:[[NSString alloc] initWithFormat:@"%@%@", app.urlFile, filepath]];
+                        fileData = [NSData dataWithContentsOfURL:fileURL];
+                        
+                        // 文件是否存在
+                        if (fileData != NULL) {
+                            [self drawImage:fileData :filename :i];
+                        }
+                        i++;
+                    }
+                    [self.scrollView setNeedsDisplay];
+                } else {
+                    [yxtUtil warning:self.view :[dataHomeworkResponse objectForKey:@"resultdes"]];
+                }
             } else if ([self.action isEqualToString:@"selectExamSendMsg"]) {
                 self.label1.text = [NSString stringWithFormat:@"标题：%@", [row objectForKey:@"msg_title"]];
                 self.label2.text = [NSString stringWithFormat:@"考试班级：%@", [row objectForKey:@"class_name"]];
@@ -242,14 +287,48 @@
             }
             
 //            [self.labelContent sizeToFit];
+        } else {
+            [yxtUtil warning:self.view :[dataResponse objectForKey:@"resultdes"]];
         }
     
     // 如果是成绩信息，置为已读
-    if ([self.action isEqualToString:@"selectExamReceiveMsgDetail"]) {
-    }
+//    if ([self.action isEqualToString:@"selectExamReceiveMsgDetail"]) {
+//    }
     
 //        [MBProgressHUD hideHUDForView:self.view animated:YES];
 //    });
+}
+
+// 显示图片
+- (void) drawImage: (NSData *)imageData :(NSString *)imageName :(NSInteger)seqNo {
+    int xOffset = seqNo * 60;
+    // 添加imgaeView
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIImage *image;
+    
+    // 判断是否图片
+    if ([[imageName pathExtension] isEqualToString:@"jpg"] || [[imageName pathExtension] isEqualToString:@"jpeg"] || [[imageName pathExtension] isEqualToString:@"png"] ||[[imageName pathExtension] isEqualToString:@"bmp"] ||[[imageName pathExtension] isEqualToString:@"gif"]) {
+        image = [UIImage imageWithData:imageData];
+        
+        // 点击下载
+//        UITapGestureRecognizer *saveTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(saveFile:)];
+        //        [imageView addGestureRecognizer:saveTap];
+        [btn addTarget:self action:@selector(saveFile:) forControlEvents:UIControlEventTouchUpInside];
+    } else {
+        image = [UIImage imageNamed:@"messageRead.png"];
+    }
+    
+    [btn setImage:image forState:UIControlStateNormal];
+    btn.frame = CGRectMake(15 - 10 + xOffset, 5, 50, 50);
+    
+//    [imageView setImage:image];
+//    imageView.frame = CGRectMake(5 + xOffset, 5, 50, 50);
+    [self.scrollView addSubview:btn];
+}
+
+- (void) saveFile:(id)sender {
+    UIButton *btn = (UIButton*)sender;
+    UIImageWriteToSavedPhotosAlbum(btn.imageView.image, nil, nil, nil);
 }
 
 - (void) resettle {
@@ -303,6 +382,7 @@
     [self setBtn2:nil];
     [self setBtn3:nil];
     [self setBtn4:nil];
+    [self setScrollView:nil];
     [super viewDidUnload];
 }
 @end

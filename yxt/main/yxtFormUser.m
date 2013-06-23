@@ -12,6 +12,7 @@
 #import "GTMBase64.h"
 #import "yxtWelcome.h"
 #import "MBProgressHUD.h"
+#import "ThreeDES.h"
 
 @interface yxtFormUser ()
 
@@ -163,10 +164,17 @@
         NSString *requestInfo;
         NSString *identityInfo;
         NSString *data;
+        
+        
+        //  3DES加密
+        yxtAppDelegate *app = (yxtAppDelegate *)[[UIApplication sharedApplication] delegate];
+        NSString *oldpwd = [ThreeDES encrypt:self.oldpwd.text withKey:app.ThreeDesKey];
+        NSString *newpwd = [ThreeDES encrypt:self.newpwd1.text withKey:app.ThreeDesKey];
+        
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"picstream\":\"%@\", \"oldPass\":\"%@\", \"newPass\":\"%@\"}]", bytesImage, self.oldpwd.text, self.newpwd1.text]];
+        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"picstream\":\"%@\", \"oldPass\":\"%@\", \"newPass\":\"%@\"}]", bytesImage, oldpwd, newpwd]];
         requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"updateUserInfo" :@"0" :@"0" :identityInfo :data]];
-        NSLog(@"%@", data);
+//        NSLog(@"%@", data);
         
         NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
         

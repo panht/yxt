@@ -253,7 +253,6 @@
             [self autoLogin];
         }
     }
-    
 }
 
 // 版本检查
