@@ -26,6 +26,7 @@
 @synthesize pageIndex;
 @synthesize pageSize;
 @synthesize recordCount;
+@synthesize dataFiles;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -231,16 +232,16 @@
                                                                              options:kNilOptions
                                                                                error:&error];
                     
-                    NSArray *dataListArray = [jsonList objectForKey:@"list"];
+                    self.dataFiles = [jsonList objectForKey:@"list"];
                     
                     // 遍历数组，将附件显示到界面
                     yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
-                    NSInteger i = 0;
+                    NSInteger i = 0, j = 0;
                     NSString *filename, *filepath;
                     NSURL *fileURL;
                     NSData *fileData;
                     
-                    for (NSDictionary *rowData in dataListArray) {
+                    for (NSDictionary *rowData in self.dataFiles) {
                         filename = [rowData objectForKey:@"filename"];
                         filepath = [rowData objectForKey:@"filepath"];
                         
@@ -250,13 +251,22 @@
                         
                         // 文件是否存在
                         if (fileData != NULL) {
-                            if ([[filename pathExtension] isEqualToString:@"jpg"] || [[filename pathExtension] isEqualToString:@"jpeg"] || [[filename pathExtension] isEqualToString:@"png"] ||[[filename pathExtension] isEqualToString:@"bmp"] ||[[filename pathExtension] isEqualToString:@"gif"]) {
-                                [self drawImage:fileData :filename :i];
-                                i++;
-                            }
+                            [self drawImage:fileData :filename :i :j];
+                            i++;
                         }
+                        j++;
                     }
                     [self.scrollView setNeedsDisplay];
+                    
+                    // 处理webview
+                    int screenWidth = [[UIScreen mainScreen] bounds].size.width;
+                    int screenHeight = [[UIScreen mainScreen] bounds].size.height;
+                    
+                    webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 44, screenWidth, screenHeight - 44)];
+                    [webView setDelegate:self];
+                    [webView setScalesPageToFit:YES];
+                    [self.view addSubview:webView];
+                    [webView setHidden:YES];
                 } else {
                     [yxtUtil warning:self.view :[dataHomeworkResponse objectForKey:@"resultdes"]];
                 }
@@ -278,9 +288,7 @@
                 self.label3.textAlignment = UITextAlignmentLeft;
                 self.label4.textAlignment = UITextAlignmentLeft;
                 self.label5.textAlignment = UITextAlignmentLeft;
-//                self.labelContent.text = [row objectForKey:@"bulletin_content"];
             } else if ([self.action isEqualToString:@"selectExamReceiveMsgDetail"]) {
-//                self.label1.text = [row objectForKey:@"msg_content"];
                 self.label1.text = [NSString stringWithFormat:@"发送者：%@", [row objectForKey:@"user_name"]];
                 self.label2.text = [NSString stringWithFormat:@"发送时间：%@", [row objectForKey:@"op_date"]];
                 self.labelContent.text = [row objectForKey:@"msg_content"];
@@ -315,8 +323,6 @@
                 self.label3.textColor =  [UIColor grayColor];
                 self.label3.font = [UIFont systemFontOfSize:12];
             }
-            
-//            [self.labelContent sizeToFit];
         } else {
             [yxtUtil warning:self.view :[dataResponse objectForKey:@"resultdes"]];
         }
@@ -330,42 +336,103 @@
 }
 
 // 显示图片
-- (void) drawImage: (NSData *)imageData :(NSString *)imageName :(NSInteger)seqNo {
+- (void) drawImage: (NSData *)fileData :(NSString *)imageName :(NSInteger)seqNo :(NSInteger)tagNo {
     int xOffset = seqNo * 60;
     // 添加imgaeView
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *image;
     
     // 判断是否图片
-//    if ([[imageName pathExtension] isEqualToString:@"jpg"] || [[imageName pathExtension] isEqualToString:@"jpeg"] || [[imageName pathExtension] isEqualToString:@"png"] ||[[imageName pathExtension] isEqualToString:@"bmp"] ||[[imageName pathExtension] isEqualToString:@"gif"]) {
-        image = [UIImage imageWithData:imageData];
-        
-        [btn addTarget:self action:@selector(saveFile:) forControlEvents:UIControlEventTouchUpInside];
-        
-        [btn setImage:image forState:UIControlStateNormal];
-        btn.frame = CGRectMake(15 - 10 + xOffset, 5, 50, 50);
-        
-        [self.scrollView addSubview:btn];
-//    }
-//    else {
-//        image = [UIImage imageNamed:@"messageRead.png"];
-//    }
+    if ([[imageName pathExtension] isEqualToString:@"jpg"] || [[imageName pathExtension] isEqualToString:@"jpeg"] || [[imageName pathExtension] isEqualToString:@"png"] ||[[imageName pathExtension] isEqualToString:@"bmp"] ||[[imageName pathExtension] isEqualToString:@"gif"]) {
+        image = [UIImage imageWithData:fileData];
+//        [btn addTarget:self action:@selector(saveFile:) forControlEvents:UIControlEventTouchUpInside];
+    } else if ([[imageName pathExtension] isEqualToString:@"doc"] || [[imageName pathExtension] isEqualToString:@"docx"] || [[imageName pathExtension] isEqualToString:@"xls"] || [[imageName pathExtension] isEqualToString:@"xlsx"] || [[imageName pathExtension] isEqualToString:@"pdf"] || [[imageName pathExtension] isEqualToString:@"txt"] || [[imageName pathExtension] isEqualToString:@"ppt"] || [[imageName pathExtension] isEqualToString:@"pptx"]) {
+        image = [UIImage imageNamed:@"attachment.png"];
+    }
+    [btn addTarget:self action:@selector(loadDocument:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [btn setTag:tagNo];
+    [btn setImage:image forState:UIControlStateNormal];
+    btn.frame = CGRectMake(15 - 10 + xOffset, 5, 50, 50);
+    [self.scrollView addSubview:btn];
 }
+
+// 在webview打开
+- (void) loadDocument:(UIButton *)button {
+    yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
+    NSDictionary *rowData = [self.dataFiles objectAtIndex:button.tag];
+    NSString *filepath = [[NSString alloc] initWithFormat:@"%@%@", app.urlFile, [rowData objectForKey:@"filepath"]];
+    NSURL *fileURL = [NSURL URLWithString:filepath];
+    NSURLRequest *request = [NSURLRequest requestWithURL:fileURL];
+    
+    [self.btnBack removeTarget:self action:@selector(backTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.btnBack  addTarget:self action:@selector(closeWebView) forControlEvents:UIControlEventTouchUpInside];
+    [webView loadRequest:request];
+    [webView setHidden:NO];
+}
+
+- (void) closeWebView {
+    [self.btnBack removeTarget:self action:@selector(closeWebView) forControlEvents:UIControlEventTouchUpInside];
+    [self.btnBack addTarget:self action:@selector(backTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [webView setHidden:YES];
+}
+
+// 调用app打开文件
+//- (void) loadDocument2:(UIButton *)button {
+//    yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
+//    NSDictionary *rowData = [self.dataFiles objectAtIndex:button.tag];
+//    NSString *filepath = [[NSString alloc] initWithFormat:@"%@%@", app.urlFile, [rowData objectForKey:@"filepath"]];
+//    // 从服务器获取
+//    NSURL *fileURL = [NSURL URLWithString:filepath];
+//    
+//    if ([[UIApplication sharedApplication] canOpenURL:fileURL]) {
+//        uidController = [[UIDocumentInteractionController alloc] init];
+//        uidController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:filepath]];
+//        
+//        
+//        // 判断扩展名
+//        NSString *filename = [rowData objectForKey:@"filename"];
+//        if ([[filename pathExtension] isEqualToString:@"doc"] || [[filename pathExtension] isEqualToString:@"docx"]) {
+//            uidController.UTI = @"com.microsoft.word.doc";
+//        } else if ([[filename pathExtension] isEqualToString:@"xls"] || [[filename pathExtension] isEqualToString:@"xlsx"]) {
+//            uidController.UTI = @"com.microsoft.excel.xls";
+//        } else if ([[filename pathExtension] isEqualToString:@"ppt"] || [[filename pathExtension] isEqualToString:@"pptx"]) {
+//            uidController.UTI = @"com.microsoft.powerpoint.ppt";
+//        } else if ([[filename pathExtension] isEqualToString:@"pdf"]) {
+//            uidController.UTI = @"com.adobe.pdf";
+//        } else if ([[filename pathExtension] isEqualToString:@"txt"]) {
+//            uidController.UTI = @"public.plain-text";
+//        } else if ([[filename pathExtension] isEqualToString:@"gif"]) {
+//            uidController.UTI = @"com.compuserve.gif";
+//        } else if ([[filename pathExtension] isEqualToString:@"png"]) {
+//            uidController.UTI = @"public.png";
+//        } else if ([[filename pathExtension] isEqualToString:@"bmp"]) {
+//            uidController.UTI = @"com.microsoft";
+//        } else if ([[filename pathExtension] isEqualToString:@"jpg"] || [[filename pathExtension] isEqualToString:@"jpeg"]) {
+//            uidController.UTI = @"public.jpeg";
+//        }
+//        
+//        uidController.delegate = self;
+//        CGRect navRect = self.view.frame;
+//        
+//        [uidController presentOpenInMenuFromRect:navRect inView:self.view animated:YES];
+//    }
+//}
 
 // 保存到相册
-- (void) saveFile:(id)sender {
-    UIButton *btn = (UIButton*)sender;
-    UIImageWriteToSavedPhotosAlbum(btn.imageView.image, self, @selector(thisImage:hasBeenSavedInPhotoAlbumWithError:usingContextInfo:), nil);
-}
-
-// 保存完成
-- (void)thisImage:(UIImage *)image hasBeenSavedInPhotoAlbumWithError:(NSError *)error usingContextInfo:(void*)ctxInfo {
-    if (error) {
-        // Do anything needed to handle the error or display it to the user
-    } else {
-         [yxtUtil message:self.view :@"已保存到相册"];
-    }
-}
+//- (void) saveFile:(id)sender {
+//    UIButton *btn = (UIButton*)sender;
+//    UIImageWriteToSavedPhotosAlbum(btn.imageView.image, self, @selector(thisImage:hasBeenSavedInPhotoAlbumWithError:usingContextInfo:), nil);
+//}
+//
+//// 保存完成
+//- (void)thisImage:(UIImage *)image hasBeenSavedInPhotoAlbumWithError:(NSError *)error usingContextInfo:(void*)ctxInfo {
+//    if (error) {
+//        // Do anything needed to handle the error or display it to the user
+//    } else {
+//         [yxtUtil message:self.view :@"已保存到相册"];
+//    }
+//}
 
 - (void) resettle {
     // 导航栏背景图
@@ -419,6 +486,7 @@
     [self setBtn3:nil];
     [self setBtn4:nil];
     [self setScrollView:nil];
+    [self setBtnBack:nil];
     [super viewDidUnload];
 }
 @end

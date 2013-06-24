@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface yxtDetail1 : UIViewController
+@interface yxtDetail1 : UIViewController <UIWebViewDelegate>{
+    UIWebView *webView;
+}
+
 
 @property (strong, nonatomic) NSString *action;
 @property (strong, nonatomic) NSString *type;
@@ -19,6 +22,7 @@
 @property (strong, nonatomic) NSString *pageSize;
 @property (strong, nonatomic) NSString *pageIndex;
 @property (strong, nonatomic) NSString *recordCount;
+@property (strong, nonatomic) NSArray *dataFiles;
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navBar;
 @property (weak, nonatomic) IBOutlet UINavigationItem *navTitle;
@@ -33,6 +37,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btn3;
 @property (weak, nonatomic) IBOutlet UIButton *btn4;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIButton *btnBack;
 
 
 - (IBAction)btn1Tapped:(id)sender;
@@ -46,6 +51,8 @@
 - (void) resettle;
 - (void) loadData;
 - (void) setByAction: (NSString *)action;
-- (void) drawImage: (NSData *)imageData :(NSString *)imageName :(NSInteger)seqNo;
+- (void) drawImage: (NSData *)fileData :(NSString *)imageName :(NSInteger)seqNo :(NSInteger)tagNo;
+- (void) loadDocument:(UIButton *)button;
+- (void) closeWebView;
 
 @end
