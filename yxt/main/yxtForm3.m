@@ -83,13 +83,15 @@
                                                                      options:kNilOptions
                                                                        error:&error];
             self.dataListArray1 = [jsonList objectForKey:@"list"];
-            NSDictionary *row = [self.dataListArray1 objectAtIndex:0];
-            
-            // 考试名称
-            [self.inputName setTitle:[row objectForKey:@"exam_name"] forState:UIControlStateNormal];
-            
-            examid = [row objectForKey:@"exam_id"];
-            [self.inputName setTag:[examid integerValue]];
+            if ([self.dataListArray1 count] > 0) {
+                NSDictionary *row = [self.dataListArray1 objectAtIndex:0];
+                
+                // 考试名称
+                [self.inputName setTitle:[row objectForKey:@"exam_name"] forState:UIControlStateNormal];
+                
+                examid = [row objectForKey:@"exam_id"];
+                [self.inputName setTag:[examid integerValue]];
+            }
         }
         
         // 获取考试班级
@@ -106,12 +108,14 @@
                                                                      options:kNilOptions
                                                                        error:&error];
             self.dataListArray2 = [jsonList objectForKey:@"list"];
-            NSDictionary *row = [self.dataListArray2 objectAtIndex:0];
-            
-            // 考试名称
-            [self.inputClass setTitle:[row objectForKey:@"class_name"] forState:UIControlStateNormal];
-            classid = [row objectForKey:@"class_id"];
-            [self.inputClass setTag:[classid integerValue]];
+            if ([self.dataListArray2 count] > 0) {
+                NSDictionary *row = [self.dataListArray2 objectAtIndex:0];
+                
+                // 考试名称
+                [self.inputClass setTitle:[row objectForKey:@"class_name"] forState:UIControlStateNormal];
+                classid = [row objectForKey:@"class_id"];
+                [self.inputClass setTag:[classid integerValue]];
+            }
         }
         
         // 获取考试科目
@@ -128,11 +132,13 @@
                                                                      options:kNilOptions
                                                                        error:&error];
             self.dataListArray3 = [jsonList objectForKey:@"list"];
-            NSDictionary *row = [self.dataListArray3 objectAtIndex:0];
-            
-            // 考试名称
-            [self.inputSubject setTitle:[row objectForKey:@"course_name"] forState:UIControlStateNormal];
-            [self.inputSubject setTag:[[row objectForKey:@"course_id"] integerValue]];
+            if ([self.dataListArray3 count] > 0) {
+                NSDictionary *row = [self.dataListArray3 objectAtIndex:0];
+                
+                // 考试名称
+                [self.inputSubject setTitle:[row objectForKey:@"course_name"] forState:UIControlStateNormal];
+                [self.inputSubject setTag:[[row objectForKey:@"course_id"] integerValue]];
+            }
         }
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -161,7 +167,7 @@
         NSString *identityInfo;
         
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"classid\":\"%@\", \"courseid\":\"%@\", \"examid\":\"%@\", \"sendparents\":\"%@\", \"sendparentsmsg\":\"%@\", \"sendremark\":\"%@\", \"sendstudent\":\"%@\", \"bloctoken\":\"%@\", \"useraccount\":\"%@\", \"blocflag\":\"%@\"}]", classId, courseId, examId, chkSendParents, chksms, chkSendRemark, @"0", blocToken, app.acc, blocflag]];
+        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"classid\":\"%@\", \"courseid\":\"%@\", \"examid\":\"%@\", \"sendparents\":\"%@\", \"sendparentsmsg\":\"%@\", \"sendremark\":\"%@\", \"sendstudent\":\"%@\", \"bloctoken\":\"%@\", \"useraccount\":\"%@\", \"blocflag\":\"%@\"}]", classId, courseId, examId, chkSendParents, chksms, chkSendRemark, @"1", blocToken, app.acc, blocflag]];
         requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"addExamSendMsg" :@"0" :@"0" :identityInfo :data]];
         
         // 从服务端获取数据
@@ -242,17 +248,20 @@
 // 点击关闭picker
 - (void) closePicker {
     NSInteger row = [self.picker selectedRowInComponent:0];
-    NSDictionary *value = [self.dataSource objectAtIndex:row];
     
-    if (self.picker.tag == 1) {
-        [self.inputName setTitle:[value objectForKey:@"exam_name"]  forState:UIControlStateNormal];
-        [self.inputName setTag:[[value objectForKey:@"exam_id"] integerValue]];
-    } else if (self.picker.tag == 2) {
-        [self.inputClass setTitle:[value objectForKey:@"class_name"]  forState:UIControlStateNormal];
-        [self.inputClass setTag:[[value objectForKey:@"class_id"] integerValue]];
-    } else if (self.picker.tag == 3) {
-        [self.inputSubject setTitle:[value objectForKey:@"course_name"]  forState:UIControlStateNormal];
-        [self.inputSubject setTag:[[value objectForKey:@"course_id"] integerValue]];
+    if ([self.dataSource count] > 0) {
+        NSDictionary *value = [self.dataSource objectAtIndex:row];
+        
+        if (self.picker.tag == 1) {
+            [self.inputName setTitle:[value objectForKey:@"exam_name"]  forState:UIControlStateNormal];
+            [self.inputName setTag:[[value objectForKey:@"exam_id"] integerValue]];
+        } else if (self.picker.tag == 2) {
+            [self.inputClass setTitle:[value objectForKey:@"class_name"]  forState:UIControlStateNormal];
+            [self.inputClass setTag:[[value objectForKey:@"class_id"] integerValue]];
+        } else if (self.picker.tag == 3) {
+            [self.inputSubject setTitle:[value objectForKey:@"course_name"]  forState:UIControlStateNormal];
+            [self.inputSubject setTag:[[value objectForKey:@"course_id"] integerValue]];
+        }
     }
     [self.picker setHidden:YES];
 }

@@ -253,7 +253,7 @@
 
 // 获取集中平台token
 + (NSString *) retrieveBlocToken {
-    NSString *blocToken;
+    id blocToken;
     yxtAppDelegate *app = (yxtAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     NSString *identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
@@ -265,6 +265,14 @@
         blocToken = [dataResponse objectForKey:@"data"];
 //        [app setBlocToken:blocToken];
     }
+    
+    NSString *blocTokenValue = @"";
+    if (blocToken == [NSNull null]) {
+        blocToken = (NSString *)blocTokenValue;
+    }
+//    if (blocToken == [NSNull null] ||blocToken == NULL || blocToken == nil || [blocToken isEqualToString:@"<null>"]) {
+//        blocToken = @"";
+//    }
     
     return blocToken;
 }

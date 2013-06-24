@@ -59,11 +59,25 @@
 }
 
 - (IBAction)btn1Tapped:(id)sender {
+    // 从界面删除所有图片
+    for (UIView *v in self.scrollView.subviews) {
+        if ([v isKindOfClass:[UIButton class]]) {
+            [v removeFromSuperview];
+        }
+    }
+    
     [self setPageIndex:@"1"];
     [self loadData];
 }
 
 - (IBAction)btn2Tapped:(id)sender {
+    // 从界面删除所有图片
+    for (UIView *v in self.scrollView.subviews) {
+        if ([v isKindOfClass:[UIButton class]]) {
+            [v removeFromSuperview];
+        }
+    }
+    
     NSInteger intPageIndex = [self.pageIndex integerValue];
     
     intPageIndex--;
@@ -76,6 +90,13 @@
 }
 
 - (IBAction)btn3Tapped:(id)sender {
+    // 从界面删除所有图片
+    for (UIView *v in self.scrollView.subviews) {
+        if ([v isKindOfClass:[UIButton class]]) {
+            [v removeFromSuperview];
+        }
+    }
+    
     NSInteger intPageIndex = [self.pageIndex integerValue];
     NSInteger recordcount = [self.recordCount integerValue];
     
@@ -89,6 +110,13 @@
 }
 
 - (IBAction)btn4Tapped:(id)sender {
+    // 从界面删除所有图片
+    for (UIView *v in self.scrollView.subviews) {
+        if ([v isKindOfClass:[UIButton class]]) {
+            [v removeFromSuperview];
+        }
+    }
+    
     [self setPageIndex:self.recordCount];
     [self loadData];
 }
@@ -105,7 +133,7 @@
 }
 
 - (void) loadData {
-//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 //    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
 //    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         NSString *requestInfo;
@@ -222,9 +250,11 @@
                         
                         // 文件是否存在
                         if (fileData != NULL) {
-                            [self drawImage:fileData :filename :i];
+                            if ([[filename pathExtension] isEqualToString:@"jpg"] || [[filename pathExtension] isEqualToString:@"jpeg"] || [[filename pathExtension] isEqualToString:@"png"] ||[[filename pathExtension] isEqualToString:@"bmp"] ||[[filename pathExtension] isEqualToString:@"gif"]) {
+                                [self drawImage:fileData :filename :i];
+                                i++;
+                            }
                         }
-                        i++;
                     }
                     [self.scrollView setNeedsDisplay];
                 } else {
@@ -295,7 +325,7 @@
 //    if ([self.action isEqualToString:@"selectExamReceiveMsgDetail"]) {
 //    }
     
-//        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
 //    });
 }
 
@@ -307,18 +337,19 @@
     UIImage *image;
     
     // 判断是否图片
-    if ([[imageName pathExtension] isEqualToString:@"jpg"] || [[imageName pathExtension] isEqualToString:@"jpeg"] || [[imageName pathExtension] isEqualToString:@"png"] ||[[imageName pathExtension] isEqualToString:@"bmp"] ||[[imageName pathExtension] isEqualToString:@"gif"]) {
+//    if ([[imageName pathExtension] isEqualToString:@"jpg"] || [[imageName pathExtension] isEqualToString:@"jpeg"] || [[imageName pathExtension] isEqualToString:@"png"] ||[[imageName pathExtension] isEqualToString:@"bmp"] ||[[imageName pathExtension] isEqualToString:@"gif"]) {
         image = [UIImage imageWithData:imageData];
         
         [btn addTarget:self action:@selector(saveFile:) forControlEvents:UIControlEventTouchUpInside];
-    } else {
-        image = [UIImage imageNamed:@"messageRead.png"];
-    }
-    
-    [btn setImage:image forState:UIControlStateNormal];
-    btn.frame = CGRectMake(15 - 10 + xOffset, 5, 50, 50);
-    
-    [self.scrollView addSubview:btn];
+        
+        [btn setImage:image forState:UIControlStateNormal];
+        btn.frame = CGRectMake(15 - 10 + xOffset, 5, 50, 50);
+        
+        [self.scrollView addSubview:btn];
+//    }
+//    else {
+//        image = [UIImage imageNamed:@"messageRead.png"];
+//    }
 }
 
 // 保存到相册

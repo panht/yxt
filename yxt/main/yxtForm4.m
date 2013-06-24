@@ -238,15 +238,15 @@
 - (void) closePicker {
     NSInteger row = [self.inputPicker1 selectedRowInComponent:0];
     
-    if (self.inputPicker1.tag == 1) {
+    if ([self.dataSource1 count] > 0 && self.inputPicker1.tag == 1) {
         NSDictionary *value = [self.dataSource1 objectAtIndex:row];
         self.classId = [value objectForKey:@"value"];
-        
-        [self.inputPicker1 setHidden:YES];
         
         // 载入多选picker
         [self loadData2];
     }
+    
+    [self.inputPicker1 setHidden:YES];
 }
 
 #pragma mark - Delegate
@@ -254,16 +254,18 @@
 -(void)returnChoosedPickerString:(NSMutableArray *)selectedEntriesArr {
     NSString *names = [[NSString alloc] init];
     
-    for (NSString *row in self.multiPickerView.selectedArray) {
-        NSDictionary *rowData = [self.dataSource2 objectAtIndex:[row integerValue]];
-        
-        if (self.ids == nil) {
-            self.ids = [rowData objectForKey:@"user_id"];
-        } else {
-            self.ids = [self.ids stringByAppendingFormat:@",%@", [rowData objectForKey:@"user_id"]];
+    if ([self.dataSource2 count] > 0) {
+        for (NSString *row in self.multiPickerView.selectedArray) {
+            NSDictionary *rowData = [self.dataSource2 objectAtIndex:[row integerValue]];
+            
+            if (self.ids == nil) {
+                self.ids = [rowData objectForKey:@"user_id"];
+            } else {
+                self.ids = [self.ids stringByAppendingFormat:@",%@", [rowData objectForKey:@"user_id"]];
+            }
+            
+            names = [names stringByAppendingFormat:@"%@,", [rowData objectForKey:@"user_name"]];
         }
-        
-        names = [names stringByAppendingFormat:@"%@,", [rowData objectForKey:@"user_name"]];
     }
     
     if ([names isEqualToString:@""]) {

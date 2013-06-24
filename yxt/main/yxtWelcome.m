@@ -87,7 +87,7 @@
     
     // 创建定时器，每15分钟调用，循环调用repeats:YES，NO只调用一次
     id timer;
-    timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(runTimer:) userInfo:nil repeats:YES];
+    timer = [NSTimer scheduledTimerWithTimeInterval:900 target:self selector:@selector(runTimer:) userInfo:nil repeats:YES];
 }
 
 - (void)runTimer:(id)timer {
@@ -97,10 +97,7 @@
     NSString *identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
     NSString *data = [[NSString alloc] initWithFormat:@"[{\"token\":\"%@\", \"isbloc\":\"1\"}]", app.token];
     NSString *requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"tokenVerify" :@"0" :@"0" :identityInfo :data]];
-//    NSLog(@"%@", requestInfo);
-//    NSLog(@"%@", identityInfo);
-//    NSLog(@"%@", data);
-//    [yxtUtil getResponse:requestInfo :identityInfo :data];
+    [yxtUtil getResponse:requestInfo :identityInfo :data];
     
     // 获取集中平台推送信息
     identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
@@ -119,6 +116,8 @@
 //                                                                   error:&error];
 //        
 //        NSArray *dataListArray = [jsonList objectForKey:@"list"];
+//        
+//        
 //    }
 }
 

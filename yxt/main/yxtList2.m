@@ -105,12 +105,14 @@
         NSDictionary *rowData = [self.dataSource objectAtIndex:indexPath.row];
         UILabel *title = [[UILabel alloc] initWithFrame: CGRectMake(5, 5, 250, 15)];
         title.text = [rowData objectForKey:@"user_name"];
+        [title sizeToFit];
         [cell.contentView addSubview:title];
         
         UILabel *date = [[UILabel alloc] initWithFrame: CGRectMake(5, 26, 200, 15)];
         date.text = [NSString stringWithFormat:@"%@  %@", [rowData objectForKey:@"header_title"],  [rowData objectForKey:@"course_name"]];
         date.font = [UIFont boldSystemFontOfSize:12];
         date.textColor = [UIColor grayColor];
+        [date sizeToFit];
         [cell.contentView addSubview:date];
         
         NSString *phoneNo = [rowData objectForKey:@"mobilephone"];

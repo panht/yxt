@@ -86,11 +86,13 @@
                                                                        error:&error];
             
             self.dataListArray = [jsonList objectForKey:@"list"];
-            NSDictionary *row = [self.dataListArray objectAtIndex:0];
-            
-            // 通知范围初始值
-            [self.inputScope setTitle:[row objectForKey:@"name"] forState:UIControlStateNormal];
-            [self.inputScope setTag:[[row objectForKey:@"value"] integerValue]];
+            if ([self.dataListArray count] > 0) {
+                NSDictionary *row = [self.dataListArray objectAtIndex:0];
+                
+                // 通知范围初始值
+                [self.inputScope setTitle:[row objectForKey:@"name"] forState:UIControlStateNormal];
+                [self.inputScope setTag:[[row objectForKey:@"value"] integerValue]];
+            }
         }
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -155,7 +157,10 @@
         requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"addBulletin" :@"0" :@"0" :identityInfo :data]];
         // 从服务端获取数据
         NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
-
+        NSLog(@"requestInfo   %@", requestInfo);
+        NSLog(@"identityInfo   %@", identityInfo);
+        NSLog(@"data   %@", data);
+        
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
         if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
@@ -207,12 +212,14 @@
 - (void) closePicker {
     NSInteger row = [self.picker selectedRowInComponent:0];
     
-    if (self.picker.tag == 1) {
-        NSDictionary *value = [self.dataSource objectAtIndex:row];
-        [self.inputScope setTitle:[value objectForKey:@"name"]  forState:UIControlStateNormal];
-    } else if (self.picker.tag == 2) {
-        NSString *value = [self.dataSource objectAtIndex:row];
-        [self.inputTarget setTitle:value forState:UIControlStateNormal];
+    if ([self.dataSource count] > 0) {
+        if (self.picker.tag == 1) {
+            NSDictionary *value = [self.dataSource objectAtIndex:row];
+            [self.inputScope setTitle:[value objectForKey:@"name"]  forState:UIControlStateNormal];
+        } else if (self.picker.tag == 2) {
+            NSString *value = [self.dataSource objectAtIndex:row];
+            [self.inputTarget setTitle:value forState:UIControlStateNormal];
+        }
     }
     [self.picker setHidden:YES];
 }

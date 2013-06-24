@@ -108,10 +108,12 @@
                                                                        error:&error];
             
             self.dataListArray = [jsonList objectForKey:@"list"];
-            NSDictionary *row = [self.dataListArray objectAtIndex:0];
-            
-            // 作业课程初始值
-            [self.inputCourse setTitle:[row objectForKey:@"name"] forState:UIControlStateNormal];
+            if ([self.dataListArray count] > 0) {
+                NSDictionary *row = [self.dataListArray objectAtIndex:0];
+                
+                // 作业课程初始值
+                [self.inputCourse setTitle:[row objectForKey:@"name"] forState:UIControlStateNormal];
+            }
 //            [self.inputCourse setTag:[[row objectForKey:@"value"] integerValue]];
         }
         
@@ -178,7 +180,7 @@
         [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
         [request setHTTPShouldHandleCookies:NO];
         [request setTimeoutInterval:30];
-        [request setHTTPMethod:@"POST"];
+        [request setHTTPMethod:@"POST"];	
         NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
         [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
         
@@ -225,14 +227,14 @@
                                                                error:&error];
         
         
-        NSString *stringTemp = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-        
-        // responseinfo段再转json
-        NSString* responseinfo = [json objectForKey:@"responseinfo"];
-        NSData *dataResponseinfo = [responseinfo dataUsingEncoding:NSUTF8StringEncoding];
-        NSDictionary* jsonResponseinfo = [NSJSONSerialization JSONObjectWithData:dataResponseinfo
-                                                                         options:kNilOptions
-                                                                           error:&error];
+//        NSString *stringTemp = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+//        
+//        // responseinfo段再转json
+//        NSString* responseinfo = [json objectForKey:@"responseinfo"];
+//        NSData *dataResponseinfo = [responseinfo dataUsingEncoding:NSUTF8StringEncoding];
+//        NSDictionary* jsonResponseinfo = [NSJSONSerialization JSONObjectWithData:dataResponseinfo
+//                                                                         options:kNilOptions
+//                                                                           error:&error];
         
 //        NSLog(@"responseinfo %@", responseinfo);
         // 返回数据
@@ -401,7 +403,7 @@
 - (void) closePicker {
     NSInteger row = [self.inputPicker selectedRowInComponent:0];
     
-    if (self.inputPicker.tag == 1) {
+    if ([self.dataSource count] > 0 && self.inputPicker.tag == 1) {
         NSDictionary *value = [self.dataSource objectAtIndex:row];
         [self.inputCourse setTitle:[value objectForKey:@"name"]  forState:UIControlStateNormal];
     }
