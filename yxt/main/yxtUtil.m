@@ -128,7 +128,7 @@
                                                                  options:kNilOptions
                                                                    error:&error];
                 
-                NSLog(@"resultdata = %@", resultData);
+//                NSLog(@"resultdata = %@", resultData);
             }
             
             
@@ -234,17 +234,10 @@
     if (filesize > 1024 * 1024) {
         CGSize newSize = CGSizeMake(width / 2, height / 2);
         UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.5);
-//        UIGraphicsBeginImageContext(newSize);
         [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
         UIImage *smallImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
-        
-//        NSData *data = UIImageJPEGRepresentation(smallImage, 1);
-//        NSInteger filesize1 = data.length;
-//        
-//        iv.image = smallImage;
-//        NSLog(@"after: filesize=%d, width=%f, height=%f", filesize1, [iv image].size.width, [iv image].size.height);
-        
+       
         image = smallImage;
     }
     

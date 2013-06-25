@@ -157,9 +157,9 @@
         requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"addBulletin" :@"0" :@"0" :identityInfo :data]];
         // 从服务端获取数据
         NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
-        NSLog(@"requestInfo   %@", requestInfo);
-        NSLog(@"identityInfo   %@", identityInfo);
-        NSLog(@"data   %@", data);
+//        NSLog(@"requestInfo   %@", requestInfo);
+//        NSLog(@"identityInfo   %@", identityInfo);
+//        NSLog(@"data   %@", data);
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
