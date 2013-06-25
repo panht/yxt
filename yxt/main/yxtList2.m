@@ -260,6 +260,9 @@
 }
 
 - (IBAction)btn1Tapped:(id)sender {
+    // 上次y坐标值后清0，否则切换后不能翻页
+    self.lastOffsetY = 0;
+    
     self.image11 = [UIImage imageNamed:@"list1Bulletin11.png"];
     self.image12 = [UIImage imageNamed:@"list1Bulletin12.png"];
     [self.btn1 setBackgroundImage:self.image12 forState:UIControlStateNormal];
@@ -275,6 +278,9 @@
 }
 
 - (IBAction)btn2Tapped:(id)sender {
+    // 上次y坐标值后清0，否则切换后不能翻页
+    self.lastOffsetY = 0;
+    
     self.image11 = [UIImage imageNamed:@"list1Bulletin11.png"];
     self.image12 = [UIImage imageNamed:@"list1Bulletin12.png"];
     [self.btn1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
@@ -290,6 +296,9 @@
 }
 
 - (IBAction)btn3Tapped:(id)sender {
+    // 上次y坐标值后清0，否则切换后不能翻页
+    self.lastOffsetY = 0;
+    
     self.image11 = [UIImage imageNamed:@"list1Bulletin11.png"];
     self.image12 = [UIImage imageNamed:@"list1Bulletin12.png"];
     [self.btn1 setBackgroundImage:self.image11 forState:UIControlStateNormal];

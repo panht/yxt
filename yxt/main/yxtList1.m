@@ -393,6 +393,9 @@
 // 点击发件箱
 - (IBAction)btn1Tapped:(id)sender {
     if ([self.action isEqualToString:@"bulletin"]) {
+        // 上次y坐标值后清0，否则切换后不能翻页
+        self.lastOffsetY = 0;
+        
         self.image12 = [UIImage imageNamed:@"list1Bulletin12.png"];
         self.image21 = [UIImage imageNamed:@"list1Bulletin21.png"];
         [self.btn1 setBackgroundImage:self.image12 forState:UIControlStateNormal];
@@ -411,6 +414,9 @@
 // 点击收件箱
 - (IBAction)btn2Tapped:(id)sender {
     if ([self.action isEqualToString:@"bulletin"]) {
+        // 上次y坐标值后清0，否则切换后不能翻页
+        self.lastOffsetY = 0;
+        
         self.image11 = [UIImage imageNamed:@"list1Bulletin11.png"];
         self.image22 = [UIImage imageNamed:@"list1Bulletin22.png"];
         [self.btn1 setBackgroundImage:self.image11 forState:UIControlStateNormal];
