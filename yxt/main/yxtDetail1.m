@@ -173,9 +173,9 @@
             if ([self.action isEqualToString:@"bulletinContent"]) {
                 // 通知公告
                 detailTitle = [row objectForKey:@"msg_title"];
-                detailTitle = [yxtUtil urlDecode:detailTitle];
+                detailTitle = [yxtUtil replacePercent:detailTitle];
                 DetailContent = [row objectForKey:@"bulletin_content"];
-                DetailContent = [yxtUtil urlDecode:DetailContent];
+                DetailContent = [yxtUtil replacePercent:DetailContent];
                 
                 self.label1.text = detailTitle;
                 self.label2.text = [NSString stringWithFormat:@"发件人：%@", [row objectForKey:@"user_name"]];
@@ -198,9 +198,9 @@
             } else if ([self.action isEqualToString:@"homeworkContent"]) {
                 // 家庭作业
                 detailTitle = [row objectForKey:@"ass_title"];
-                detailTitle = [yxtUtil urlDecode:detailTitle];
+                detailTitle = [yxtUtil replacePercent:detailTitle];
                 DetailContent = [row objectForKey:@"ass_content"];
-                DetailContent = [yxtUtil urlDecode:DetailContent];
+                DetailContent = [yxtUtil replacePercent:DetailContent];
                 self.label1.text = [NSString stringWithFormat:@"作业课程：%@", [row objectForKey:@"course_name"]];
                 self.label2.text = [NSString stringWithFormat:@"发  送  人：%@", [row objectForKey:@"user_name"]];
                 self.label3.text = [NSString stringWithFormat:@"发送时间：%@", [row objectForKey:@"rec_date"]];
@@ -303,9 +303,9 @@
             } else if ([self.action isEqualToString:@"reviewsConetent"]) {
                 // 日常表现
                 detailTitle = [row objectForKey:@"title"];
-                detailTitle = [yxtUtil urlDecode:detailTitle];
+                detailTitle = [yxtUtil replacePercent:detailTitle];
                 DetailContent = [row objectForKey:@"content"];
-                DetailContent = [yxtUtil urlDecode:DetailContent];
+                DetailContent = [yxtUtil replacePercent:DetailContent];
                 
                 self.label1.text = [NSString stringWithFormat:@"发件人：%@", [row objectForKey:@"user_name"]];
                 self.label2.text = detailTitle;

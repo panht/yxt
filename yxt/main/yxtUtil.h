@@ -16,12 +16,14 @@
 + (NSString*) setIdentityInfo;
 + (NSDictionary*) getResponse:(NSString *)requestInfo :(NSString *)identityInfo :(NSString *)data;
 
-+ (NSString*) urlEncode:(NSString *) input;
-+ (NSString*) urlDecode:(NSString *) input;
+//+ (NSString*) urlEncode:(NSString *) input;
+//+ (NSString*) urlDecode:(NSString *) input;
 + (NSString*) md5:(NSString *) input;
 + (void) message:(UIView *) view :(NSString *) message;
 + (void) warning:(UIView *) view :(NSString *) message;
 + (UIImage*) resizeImage:(UIImage *) image;
 + (NSString *) retrieveBlocToken;
++ (NSString *) replaceSpecialChar: (NSString *) input;
++ (NSString *) replacePercent: (NSString *) input;
 
 @end

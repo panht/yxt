@@ -150,9 +150,9 @@
         NSString *blocflag = self.inputWeibo.on ? @"1" : @"0";
         NSString *title = self.inputTitle.text;
         NSString *content = self.inputContent.text;
-        title = [yxtUtil urlEncode:title];
-        content = [yxtUtil urlEncode:content];
-        coursename = [yxtUtil urlEncode:coursename];
+        title = [yxtUtil replaceSpecialChar:title];
+        content = [yxtUtil replaceSpecialChar:content];
+//        coursename = [yxtUtil urlEncode:coursename];
         NSString *blocToken = [yxtUtil retrieveBlocToken];
         if (blocToken == nil || blocToken == NULL || blocToken == Nil) {
             blocToken = @"";
@@ -162,7 +162,7 @@
         NSString *data;
         NSString *identityInfo;
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userid\":\"%@\", \"assTitle\":\"%@\", \"assContent\":\"%@\", \"classCourse\":\"%@\", \"chkSms\":\"%@\", \"userName\":\"%@\", \"classCourseName\":\"%@\", \"blocToken\":\"%@\", \"userAccount\":\"%@\", \"blocFlag\":\"%@\"}]", app.userId, title, content, courseid, chksms, [yxtUtil urlEncode:app.username], coursename, blocToken, app.acc, blocflag]];
+        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userid\":\"%@\", \"assTitle\":\"%@\", \"assContent\":\"%@\", \"classCourse\":\"%@\", \"chkSms\":\"%@\", \"userName\":\"%@\", \"classCourseName\":\"%@\", \"blocToken\":\"%@\", \"userAccount\":\"%@\", \"blocFlag\":\"%@\"}]", app.userId, title, content, courseid, chksms, app.username, coursename, blocToken, app.acc, blocflag]];
         requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"addHomeWork" :@"0" :@"0" :identityInfo :data]];
 //        NSLog(@"requestInfo   %@", requestInfo);
 //        NSLog(@"identityInfo   %@", identityInfo);
@@ -201,7 +201,6 @@
         for (UIImage *image in self.files) {
             NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
             if (imageData) {
-                i++;
                 [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
                 [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"image%d.jpg\"\r\n", FileParamConstant, i] dataUsingEncoding:NSUTF8StringEncoding]];
                 [body appendData:[@"Content-Type: application/octet-stream; charset=UTF-8\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
@@ -209,6 +208,8 @@
 //                [body appendData:[@"Content-Type: image/jpeg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
                 [body appendData:imageData];
                 [body appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+                imageData = nil;
+                i++;
             }
         }
         
@@ -271,7 +272,7 @@
         [yxtUtil warning:self.view :@"最多只能上传五张图片"];
     } else {
         UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-        imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        imagePicker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
         imagePicker.delegate = self;
         [self presentModalViewController:imagePicker animated:YES];
     }

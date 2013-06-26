@@ -239,12 +239,12 @@
                 text2.text = [NSString stringWithFormat:@"考试班级:%@考试科目:%@", [rowData objectForKey:@"class_name"], [rowData objectForKey:@"course_name"]];
                 
             } else if ([self.action isEqualToString:@"selectExamReceiveMsg"]) {
-                text2.text = [yxtUtil urlDecode: [rowData objectForKey:@"msg_content"]];
+                text2.text = [yxtUtil replacePercent: [rowData objectForKey:@"msg_content"]];
                 if ([[rowData objectForKey:@"is_read"] isEqualToString:@"0"]) {
                     imageName = @"messageUnread.png";
                 }
             } else if ([self.action isEqualToString:@"reviews"]) {
-                text2.text = [yxtUtil urlDecode: [rowData objectForKey:@"content"]];
+                text2.text = [yxtUtil replacePercent: [rowData objectForKey:@"content"]];
             }
             text2.font = [UIFont boldSystemFontOfSize:12];
             text2.textColor = [UIColor grayColor];
@@ -258,14 +258,14 @@
         
         // 显示副标题
         if (![self.title2 isEqualToString:@""]) {
-            date.text = [yxtUtil urlDecode: [rowData objectForKey:self.title2]];
+            date.text = [yxtUtil replacePercent: [rowData objectForKey:self.title2]];
             date.font = [UIFont boldSystemFontOfSize:12];
             date.textColor = [UIColor grayColor];
             [cell.contentView addSubview:date];
         } 
         
         // 显示主标题
-        text1.text = [yxtUtil urlDecode: [rowData objectForKey:self.title1]];
+        text1.text = [yxtUtil replacePercent: [rowData objectForKey:self.title1]];
         if ([self.action isEqualToString:@"homework"]) {
             text1.text = [text1.text stringByAppendingFormat:@"作业"];
         } else if ([self.action isEqualToString:@"selectExamReceiveMsg"]) {

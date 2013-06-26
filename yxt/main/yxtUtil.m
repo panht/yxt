@@ -8,16 +8,10 @@
 
 #import "yxtUtil.h"
 #import "yxtAppDelegate.h"
-//#import "GTMBase64.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <netdb.h>
 #import <CommonCrypto/CommonDigest.h>
 #import <Security/Security.h>
-
-//#define kChosenDigestLength     CC_SHA1_DIGEST_LENGTH
-//
-//#define DESKEY @"D6D2402F1C98E208FF2E863AA29334BD65AE1932A821502D9E5673CDE3C713ACFE53E2103CD40ED6BEBB101B484CAE83D537806C6CB611AEE86ED2CA8C97BBE95CF8476066D419E8E833376B850172107844D394016715B2E47E0A6EECB3E83A361FA75FA44693F90D38C6F62029FCD8EA395ED868F9D718293E9C0E63194E87"
-
 
 @implementation yxtUtil
 
@@ -51,11 +45,14 @@
     return result;
 }
 
-+(NSString *) md5:(NSString *) input
-{
-    const char *cStr = [input UTF8String];
++(NSString *) md5:(NSString *) input {
+//    const char *cStr = [input UTF8String];
+    // 服务端md5使用gb2312编码
+    NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
+    
+    const char *cStr = [input cStringUsingEncoding:enc];
     unsigned char digest[16];
-    CC_MD5( cStr, strlen(cStr), digest ); // This is the md5 call
+    CC_MD5( cStr, strlen(cStr), digest );
     
     NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
     
@@ -80,18 +77,14 @@
         yxtAppDelegate *app = [[UIApplication sharedApplication] delegate];
         
         // 特殊字符urlencode
-        requestInfo = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) requestInfo, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
-        identityInfo = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) identityInfo, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
-        data = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) data, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\""), kCFStringEncodingUTF8));
-        //    requestInfo = [self urlEncode:requestInfo];
-        //    identityInfo = [self urlEncode:identityInfo];
-        //    data = [self urlEncode:data];
+//        requestInfo = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) requestInfo, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\"\\"), kCFStringEncodingUTF8));
+//        identityInfo = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) identityInfo, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\"\\"), kCFStringEncodingUTF8));
+        data = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) data, NULL, CFSTR("&"), kCFStringEncodingUTF8));
         
         NSString *postURL = [[NSString alloc] initWithFormat:@"RequestInfo=%@&IdentityInfo=%@&data=%@", requestInfo, identityInfo, data];
         
-        //    NSLog(@"postURL: %@", postURL);
         // 向服务器提交请求，并得到返回数据
-        NSData *postData = [postURL dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        NSData *postData = [postURL dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
         NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         [request setURL:[NSURL URLWithString:app.urlService]];
@@ -121,7 +114,7 @@
             }
             
             // 返回数据
-            if ([json objectForKey:@"responseinfo"] != nil) {
+            if ([json objectForKey:@"resultdata"] != nil) {
                 NSString *resultData = [json objectForKey:@"resultdata"];
                 NSData *dataResultData = [resultData dataUsingEncoding:NSUTF8StringEncoding];
                 jsonResultData = [NSJSONSerialization JSONObjectWithData:dataResultData
@@ -150,22 +143,22 @@
         return jsonResultData;
     }
 }
-
-+ (NSString*) urlEncode:(NSString *) input {
-    NSString *data = [input stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-//    NSString *data = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)input, nil, nil, kCFStringEncodingUTF8));
-
-    //    data = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)data, nil, nil, kCFStringEncodingUTF8);
-    
-    return data;
-}
-
-+ (NSString*) urlDecode:(NSString *) input {
-//    NSString *data = (NSString *)CFBridgingRelease(CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, (CFStringRef)input, nil,  kCFStringEncodingUTF8));
-    NSString *data =  [input stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    
-    return data;
-}
+//
+//+ (NSString*) urlEncode:(NSString *) input {
+//    NSString *data = [input stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+////    NSString *data = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)input, nil, nil, kCFStringEncodingUTF8));
+//
+//    //    data = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)data, nil, nil, kCFStringEncodingUTF8);
+//    
+//    return data;
+//}
+//
+//+ (NSString*) urlDecode:(NSString *) input {
+////    NSString *data = (NSString *)CFBridgingRelease(CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, (CFStringRef)input, nil,  kCFStringEncodingUTF8));
+//    NSString *data =  [input stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//    
+//    return data;
+//}
 
 // 检查网络连接
 +(BOOL) checkNetwork
@@ -268,6 +261,24 @@
 //    }
     
     return blocToken;
+}
+
+// 替换特殊字符
++ (NSString *) replaceSpecialChar: (NSString *) input {
+    input = [input stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
+    input = [input stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+    input = [input stringByReplacingOccurrencesOfString:@"{" withString:@" { "];
+    input = [input stringByReplacingOccurrencesOfString:@"}" withString:@" } "];
+//    input = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) input, NULL, CFSTR(":&=+?%[]{}"), kCFStringEncodingUTF8));
+    
+    return input;
+}
+
+// 替换百分号
++ (NSString *) replacePercent: (NSString *) input {
+    input = [input stringByReplacingOccurrencesOfString:@"%%" withString:@"%"];
+    
+    return input;
 }
 
 @end
