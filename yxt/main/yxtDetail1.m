@@ -135,8 +135,8 @@
 
 - (void) loadData {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
-//    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         NSString *requestInfo;
         NSString *identityInfo;
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
@@ -332,7 +332,7 @@
 //    }
     
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-//    });
+    });
 }
 
 // 显示图片
@@ -359,21 +359,28 @@
 
 // 在webview打开
 - (void) loadDocument:(UIButton *)button {
-    yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
-    NSDictionary *rowData = [self.dataFiles objectAtIndex:button.tag];
-    NSString *filepath = [[NSString alloc] initWithFormat:@"%@%@", app.urlFile, [rowData objectForKey:@"filepath"]];
-    NSURL *fileURL = [NSURL URLWithString:filepath];
-    NSURLRequest *request = [NSURLRequest requestWithURL:fileURL];
-    
-    [self.btnBack removeTarget:self action:@selector(backTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [self.btnBack  addTarget:self action:@selector(closeWebView) forControlEvents:UIControlEventTouchUpInside];
-    [webView loadRequest:request];
-    [webView setHidden:NO];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
+        NSDictionary *rowData = [self.dataFiles objectAtIndex:button.tag];
+        NSString *filepath = [[NSString alloc] initWithFormat:@"%@%@", app.urlFile, [rowData objectForKey:@"filepath"]];
+        NSURL *fileURL = [NSURL URLWithString:filepath];
+        NSURLRequest *request = [NSURLRequest requestWithURL:fileURL];
+        
+        [self.btnBack removeTarget:self action:@selector(backTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [self.btnBack  addTarget:self action:@selector(closeWebView) forControlEvents:UIControlEventTouchUpInside];
+        [webView loadRequest:request];
+        [webView setHidden:NO];
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    });
 }
 
 - (void) closeWebView {
     [self.btnBack removeTarget:self action:@selector(closeWebView) forControlEvents:UIControlEventTouchUpInside];
     [self.btnBack addTarget:self action:@selector(backTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [webView loadHTMLString:@"" baseURL:nil];
     [webView setHidden:YES];
 }
 
@@ -463,6 +470,9 @@
     
     [self setByAction:self.action];
 
+}
+
+- (void) viewDidAppear:(BOOL)animated {
     [self loadData];
 }
 

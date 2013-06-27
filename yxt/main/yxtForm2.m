@@ -196,16 +196,16 @@
         }
 
         // 处理图片
-        NSString* FileParamConstant = @"pic";
+//        NSString* FileParamConstant = @"pic";
         NSInteger i = 0;
         for (UIImage *image in self.files) {
             NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
             if (imageData) {
                 [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-                [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"image%d.jpg\"\r\n", FileParamConstant, i] dataUsingEncoding:NSUTF8StringEncoding]];
-                [body appendData:[@"Content-Type: application/octet-stream; charset=UTF-8\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+                [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"image%d\"; filename=\"image%d.jpg\"\r\n", i	, i] dataUsingEncoding:NSUTF8StringEncoding]];
+//                [body appendData:[@"Content-Type: application/octet-stream; charset=UTF-8\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+                [body appendData:[@"Content-Type: image/jpeg\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
                 [body appendData:[@"Content-Transfer-Encoding: 8bit\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-//                [body appendData:[@"Content-Type: image/jpeg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
                 [body appendData:imageData];
                 [body appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
                 imageData = nil;
