@@ -64,8 +64,8 @@
 
 - (void) loadData1 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+//    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
         // 获取班级
         NSString *requestInfo;
@@ -86,14 +86,18 @@
                                                                        error:&error];
             
             self.dataSource1 = [jsonList objectForKey:@"list"];
-            
-            [self.inputPicker1 setTag:1];
-            [self.inputPicker1 setHidden:NO];
-            [self.inputPicker1 reloadAllComponents];
         }
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-    });
+//    });
+    
+    if ([self.dataSource1 count] > 0) {
+        [self.inputPicker1 setTag:1];
+        [self.inputPicker1 setHidden:NO];
+        [self.inputPicker1 reloadAllComponents];
+    } else {
+        [yxtUtil warning:self.view :@"没有可用的班级"];
+    }
 }
 
 - (void) loadData2{
@@ -275,6 +279,19 @@
     
     // 再次初始化选中的数据
     self.dataSource2Selected = [NSArray arrayWithArray:selectedEntriesArr];
+}
+
+
+- (void) textFieldDidBeginEditing:(UITextField *)textField {
+    [super textFieldDidBeginEditing:textField];
+    [self.inputPicker1 setHidden:YES];
+    [self.multiPickerView pickerHide];
+}
+
+- (void) textViewDidBeginEditing:(UITextView *)textView {
+    [super textViewDidBeginEditing:textView];
+    [self.inputPicker1 setHidden:YES];
+    [self.multiPickerView pickerHide];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -129,7 +129,7 @@
     // 判断本地是否已保存头像文件
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsPath = [paths objectAtIndex:0];
-    NSString *filePath = [documentsPath stringByAppendingPathComponent:@"avatar.png"];
+    NSString *filePath = [documentsPath stringByAppendingPathComponent:[NSString stringWithFormat:@"avatar%@.png", app.acc]];
     NSData *data = [NSData dataWithContentsOfFile:filePath];
     UIImage *image;
     
@@ -251,26 +251,37 @@
 
 // 设置工具栏按钮宽度、文字及绑定事件
 - (IBAction)logout:(id)sender {
-    // 向服务器注销
-    NSString *requestInfo;
-    NSString *identityInfo;
-    NSString *data;
-    identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-    data = [[NSString alloc] initWithString:[NSString stringWithFormat:@""]];
-    requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"logout" :@"0" :@"0" :identityInfo :data]];
-    [yxtUtil getResponse:requestInfo :identityInfo :data];
-    
-    yxtAppDelegate *app = [[UIApplication sharedApplication] delegate];
-    [app setLoginType:@""];
-    [app setHeaderimg:@""];
-    [app setUserId:@""];
-    [app setUsername:@""];
-    [app setSchoolNo:@""];
-    [app setToken:@""];
-    
-    // 跳转到登录界面
-    [app showLogin];
-    [self.view removeFromSuperview];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"确定要退出吗" message:@"" delegate:self cancelButtonTitle:@"退出" otherButtonTitles: @"取消", nil];
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 0) {
+        // 向服务器注销
+        NSString *requestInfo;
+        NSString *identityInfo;
+        NSString *data;
+        identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
+        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@""]];
+        requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"logout" :@"0" :@"0" :identityInfo :data]];
+        [yxtUtil getResponse:requestInfo :identityInfo :data];
+        
+        yxtAppDelegate *app = [[UIApplication sharedApplication] delegate];
+        [app setLoginType:@""];
+        [app setAcc:@""];
+        [app setHeaderimg:@""];
+        [app setUserId:@""];
+        [app setUsername:@""];
+        [app setSchoolNo:@""];
+        [app setSchoolName:@""];
+        [app setToken:@""];
+        [app setAreaCode:@""];
+        
+        // 跳转到登录界面
+        [app showLogin];
+        [self.view removeFromSuperview];
+    } else if (buttonIndex == 1) {
+    }
 }
 
 -(void) setButton {

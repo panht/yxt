@@ -125,7 +125,10 @@
     [self.view endEditing: YES];
     
     // 校验必填项
-    if ([self.inputTitle.text isEqualToString:@""]) {
+    if (self.inputCourse.currentTitle == nil || [self.inputCourse.currentTitle isEqualToString:@""]) {
+        [yxtUtil warning:self.view :@"请选择作业课程"];
+        return;
+    } else if ([self.inputTitle.text isEqualToString:@""]) {
         [yxtUtil warning:self.view :@"请输入作业标题"];
         return;
     } else if ([self.inputContent.text isEqualToString:@""]) {
@@ -367,10 +370,14 @@
 }
 
 - (IBAction)courseTapped:(id)sender {
-    self.dataSource = self.dataListArray;
-    [self.inputPicker setTag:1];
-    [self.inputPicker setHidden:NO];
-    [self.inputPicker reloadAllComponents];
+    if ([self.dataListArray count] > 0) {
+        self.dataSource = self.dataListArray;
+        [self.inputPicker setTag:1];
+        [self.inputPicker setHidden:NO];
+        [self.inputPicker reloadAllComponents];
+    } else {
+        [yxtUtil warning:self.view :@"没有可用的作业课程"];
+    }
 }
 
 #pragma mark Picker Data Soucrce Methods
@@ -409,6 +416,16 @@
         [self.inputCourse setTitle:[value objectForKey:@"name"]  forState:UIControlStateNormal];
     }
     
+    [self.inputPicker setHidden:YES];
+}
+
+- (void) textFieldDidBeginEditing:(UITextField *)textField {
+    [super textFieldDidBeginEditing:textField];
+    [self.inputPicker setHidden:YES];
+}
+
+- (void) textViewDidBeginEditing:(UITextView *)textView {
+    [super textViewDidBeginEditing:textView];
     [self.inputPicker setHidden:YES];
 }
 

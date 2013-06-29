@@ -164,12 +164,17 @@
             int x, y, width, height;
             x = 5;
             y = self.navBar.frame.size.height + 5;
-            width = self.view.frame.size.width;
+            width = self.view.frame.size.width - x * 2;
             height = 25;
+            int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
+            
+            [self.view bringSubviewToFront:self.labelContent];
+            [self.labelContent setClipsToBounds:YES];
             
             // 数据绑定到控件
             NSString *detailTitle;
             NSString *DetailContent;
+            
             if ([self.action isEqualToString:@"bulletinContent"]) {
                 // 通知公告
                 detailTitle = [row objectForKey:@"msg_title"];
@@ -178,14 +183,14 @@
                 DetailContent = [yxtUtil replacePercent:DetailContent];
                 
                 self.label1.text = detailTitle;
-                self.label2.text = [NSString stringWithFormat:@"发件人：%@", [row objectForKey:@"user_name"]];
+                self.label2.text = [NSString stringWithFormat:@"发件人：%@  消息类型：通知公告", [row objectForKey:@"user_name"]];
                 self.label3.text = [NSString stringWithFormat:@"时间：%@", [row objectForKey:@"rec_date"]];
                 self.labelContent.text = DetailContent;
                 
                 self.label1.frame = CGRectMake(x, y, width, height);
                 self.label2.frame = CGRectMake(x, y + height, width, height);
                 self.label3.frame = CGRectMake(x, y + height * 2, width, height);
-                int heightContent = self.view.frame.size.height - height * 3 - self.navBar.frame.size.height * 2;
+                int heightContent = self.view.frame.size.height - height * 3 - self.navBar.frame.size.height * 2 - statusBarHeight - 10;
                 self.labelContent.frame = CGRectMake(x, y + height * 3, width, heightContent);
                 
                 self.label1.textAlignment = UITextAlignmentCenter;
@@ -195,6 +200,7 @@
                 self.label3.textColor =  [UIColor grayColor];
                 self.label2.font = [UIFont systemFontOfSize:12];
                 self.label3.font = [UIFont systemFontOfSize:12];
+                self.labelContent.font = [UIFont systemFontOfSize:14];
             } else if ([self.action isEqualToString:@"homeworkContent"]) {
                 // 家庭作业
                 detailTitle = [row objectForKey:@"ass_title"];
@@ -345,7 +351,6 @@
     // 判断是否图片
     if ([[imageName pathExtension] isEqualToString:@"jpg"] || [[imageName pathExtension] isEqualToString:@"jpeg"] || [[imageName pathExtension] isEqualToString:@"png"] ||[[imageName pathExtension] isEqualToString:@"bmp"] ||[[imageName pathExtension] isEqualToString:@"gif"]) {
         image = [UIImage imageWithData:fileData];
-//        [btn addTarget:self action:@selector(saveFile:) forControlEvents:UIControlEventTouchUpInside];
     } else if ([[imageName pathExtension] isEqualToString:@"doc"] || [[imageName pathExtension] isEqualToString:@"docx"] || [[imageName pathExtension] isEqualToString:@"xls"] || [[imageName pathExtension] isEqualToString:@"xlsx"] || [[imageName pathExtension] isEqualToString:@"pdf"] || [[imageName pathExtension] isEqualToString:@"txt"] || [[imageName pathExtension] isEqualToString:@"ppt"] || [[imageName pathExtension] isEqualToString:@"pptx"]) {
         image = [UIImage imageNamed:@"attachment.png"];
     }

@@ -100,10 +100,14 @@
 }
 
 - (IBAction)scopeTapped:(id)sender {
-    self.dataSource = self.dataListArray;
-    [self.picker setTag:1];
-    [self.picker setHidden:NO];
-    [self.picker reloadAllComponents];
+    if ([self.dataListArray count] > 0) {
+        self.dataSource = self.dataListArray;
+        [self.picker setTag:1];
+        [self.picker setHidden:NO];
+        [self.picker reloadAllComponents];
+    } else {
+        [yxtUtil warning:self.view :@"没有可用的通知范围"];
+    }
 }
 
 - (IBAction)targetTapped:(id)sender {
@@ -119,6 +123,9 @@
     // 校验必填项
     if ([self.inputTitle.text isEqualToString:@""]) {
         [yxtUtil warning:self.view :@"请输入通知主题"];
+        return;
+    } else if (self.inputScope.currentTitle == nil || [self.inputScope.currentTitle isEqualToString:@""]) {
+        [yxtUtil warning:self.view :@"请选择通知范围"];
         return;
     } else if ([self.inputContent.text isEqualToString:@""]) {
         [yxtUtil warning:self.view :@"请输入内容"];
@@ -223,6 +230,16 @@
             [self.inputTarget setTitle:value forState:UIControlStateNormal];
         }
     }
+    [self.picker setHidden:YES];
+}
+
+- (void) textFieldDidBeginEditing:(UITextField *)textField {
+    [super textFieldDidBeginEditing:textField];
+    [self.picker setHidden:YES];
+}
+
+- (void) textViewDidBeginEditing:(UITextView *)textView {
+    [super textViewDidBeginEditing:textView];
     [self.picker setHidden:YES];
 }
 

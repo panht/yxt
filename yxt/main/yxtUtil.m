@@ -120,8 +120,6 @@
                 jsonResultData = [NSJSONSerialization JSONObjectWithData:dataResultData
                                                                  options:kNilOptions
                                                                    error:&error];
-                
-//                NSLog(@"resultdata = %@", resultData);
             }
             
             
@@ -139,6 +137,8 @@
             [jsonResultData1 setObject:@"服务器异常，请稍候重试" forKey:@"resultdes"];
             jsonResultData = [NSDictionary dictionaryWithDictionary:jsonResultData1];
         }
+        
+        NSLog(@"resultdata = %@", jsonResultData);
         
         return jsonResultData;
     }

@@ -147,15 +147,13 @@
         if (self.imageOld != self.imageNew && self.imageNew != NULL) {
             NSData *dataImage = UIImageJPEGRepresentation(self.imageHead.image, 1.0);
             bytesImage = [GTMBase64 stringByEncodingData:dataImage];
-
+            yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
+            
             // 判断本地是否已保存头像文件
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
             NSString *documentsPath = [paths objectAtIndex:0];
-            NSString *filePath = [documentsPath stringByAppendingPathComponent:@"avatar.png"];
+            NSString *filePath = [documentsPath stringByAppendingPathComponent:[NSString stringWithFormat:@"avatar%@.png", app.acc]];
             [dataImage writeToFile:filePath atomically:YES];
-                    
-            // 更新主界面的头像
-            self.parentImageHead.image = self.imageNew;
         } else {
             bytesImage = @"";
         }
@@ -164,16 +162,23 @@
         NSString *requestInfo;
         NSString *identityInfo;
         NSString *data;
-        
-        
+
         //  3DES加密
         yxtAppDelegate *app = (yxtAppDelegate *)[[UIApplication sharedApplication] delegate];
-        NSString *oldpwd = [ThreeDES encrypt:self.oldpwd.text withKey:app.ThreeDesKey];
-        NSString *newpwd = [ThreeDES encrypt:self.newpwd1.text withKey:app.ThreeDesKey];
+        NSString *oldpwd = @"";
+        if (self.oldpwd.text != nil && ![self.oldpwd.text isEqualToString:@""]) {
+            [ThreeDES encrypt:self.oldpwd.text withKey:app.ThreeDesKey];
+        }
+        NSString *newpwd = @"";
+        if (self.newpwd1.text != nil && ![self.newpwd1.text isEqualToString:@""]) {
+            newpwd = [ThreeDES encrypt:self.newpwd1.text withKey:app.ThreeDesKey];
+        }
         
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
         data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"picstream\":\"%@\", \"oldPass\":\"%@\", \"newPass\":\"%@\"}]", bytesImage, oldpwd, newpwd]];
         requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"updateUserInfo" :@"0" :@"0" :identityInfo :data]];
+//        NSLog(@"%@", requestInfo);
+//        NSLog(@"%@", identityInfo);
 //        NSLog(@"%@", data);
         
         NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
@@ -191,6 +196,9 @@
             [self.view removeFromSuperview];
             UIView *list1View = [topWindow viewWithTag:300];
             [list1View removeFromSuperview];
+            
+            // 更新主界面的头像
+            self.parentImageHead.image = self.imageNew;
         } else {
             [yxtUtil warning: self.view :[dataResponse objectForKey:@"resultdes"]];
         }

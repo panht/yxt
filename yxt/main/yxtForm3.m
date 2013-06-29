@@ -148,6 +148,17 @@
 - (IBAction)send:(id)sender {
     [self.view endEditing: YES];
     
+    if (self.inputName.currentTitle == nil || [self.inputName.currentTitle isEqualToString:@""]) {
+        [yxtUtil warning:self.view :@"请选择考试名称"];
+        return;
+    } else if (self.inputClass.currentTitle == nil || [self.inputClass.currentTitle isEqualToString:@""]) {
+        [yxtUtil warning:self.view :@"请选择考试班级"];
+        return;
+    } else if (self.inputSubject.currentTitle == nil || [self.inputSubject.currentTitle isEqualToString:@""]) {
+        [yxtUtil warning:self.view :@"请选择考试科目"];
+        return;
+    }
+    
     // 保存
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
@@ -193,24 +204,36 @@
 #pragma mark Picker Data Soucrce Methods
 
 - (IBAction)nameTapped:(id)sender {
-    self.dataSource = self.dataListArray1;
-    [self.picker setTag:1];
-    [self.picker setHidden:NO];
-    [self.picker reloadAllComponents];
+    if ([self.dataListArray1 count] > 0) {
+        self.dataSource = self.dataListArray1;
+        [self.picker setTag:1];
+        [self.picker setHidden:NO];
+        [self.picker reloadAllComponents];
+    } else {
+        [yxtUtil warning:self.view :@"没有可用的考试名称"];
+    }
 }
 
 - (IBAction)classTapped:(id)sender {
-    self.dataSource = self.dataListArray2;
-    [self.picker setTag:2];
-    [self.picker setHidden:NO];
-    [self.picker reloadAllComponents];
+    if ([self.dataListArray2 count] > 0) {
+        self.dataSource = self.dataListArray2;
+        [self.picker setTag:2];
+        [self.picker setHidden:NO];
+        [self.picker reloadAllComponents];
+    } else {
+        [yxtUtil warning:self.view :@"没有可用的考试班级"];
+    }
 }
 
 - (IBAction)subjectTapped:(id)sender {
-    self.dataSource = self.dataListArray3;
-    [self.picker setTag:3];
-    [self.picker setHidden:NO];
-    [self.picker reloadAllComponents];
+    if ([self.dataListArray3 count] > 0) {
+        self.dataSource = self.dataListArray3;
+        [self.picker setTag:3];
+        [self.picker setHidden:NO];
+        [self.picker reloadAllComponents];
+    } else {
+        [yxtUtil warning:self.view :@"没有可用的考试科目"];
+    }
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{

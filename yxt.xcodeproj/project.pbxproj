@@ -194,6 +194,8 @@
 		F28C979617214676009D8F1C /* index2Title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = index2Title.png; sourceTree = "<group>"; };
 		F28C979717214676009D8F1C /* index3Title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = index3Title.png; sourceTree = "<group>"; };
 		F28C979817214676009D8F1C /* index1Title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = index1Title.png; sourceTree = "<group>"; };
+		F28E9B06177DE69A0085D3A6 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/yxtLogin.xib"; sourceTree = "<group>"; };
+		F28E9B07177DE69A0085D3A6 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		F2A6061517671D2D00D9331B /* 37x-Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark.png"; sourceTree = "<group>"; };
 		F2A6061617671D2D00D9331B /* 37x-Checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark@2x.png"; sourceTree = "<group>"; };
 		F2A7702B1720F5FD00CCEE55 /* 翼校通.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "翼校通.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -485,6 +487,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				"zh-Hans",
 			);
 			mainGroup = F2A770221720F5FD00CCEE55;
 			productRefGroup = F2A7702C1720F5FD00CCEE55 /* Products */;
@@ -615,6 +618,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				F2A770381720F5FD00CCEE55 /* en */,
+				F28E9B07177DE69A0085D3A6 /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -623,6 +627,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				F2A7704A1720F5FD00CCEE55 /* en */,
+				F28E9B06177DE69A0085D3A6 /* zh-Hans */,
 			);
 			name = yxtLogin.xib;
 			path = ..;

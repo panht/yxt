@@ -17,6 +17,7 @@
 @property (nonatomic, weak) id<CYCustomMultiSelectPickerViewDelegate> multiPickerDelegate;
 
 - (void)pickerShow;
+- (void)pickerHide;
 @end
 
 @protocol CYCustomMultiSelectPickerViewDelegate <NSObject>

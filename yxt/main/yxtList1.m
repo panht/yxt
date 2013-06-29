@@ -21,6 +21,7 @@
 
 @implementation yxtList1
 
+@synthesize recordcount;
 @synthesize lastOffsetY;
 @synthesize flagLoadNext;
 @synthesize action;
@@ -154,12 +155,16 @@
 
 - (void) loadData {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
-//    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         NSString *requestInfo;
         NSString *identityInfo;
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
         requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:self.action :self.pageIndex :self.pageSize :identityInfo :self.data]];
+        
+        NSLog(@"%@", requestInfo);
+        NSLog(@"%@", identityInfo);
+        NSLog(@"%@", self.data);
         // 从服务端获取数据
         NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :self.data];
         
@@ -169,6 +174,11 @@
             NSDictionary *jsonList = [NSJSONSerialization JSONObjectWithData:dataList
                                                                      options:kNilOptions
                                                                        error:&error];
+            if ([dataResponse objectForKey:@"recordcount"] != nil) {
+                self.recordcount = [[dataResponse objectForKey:@"recordcount"] integerValue];
+            } else {
+                self.recordcount = 0;
+            }
             NSArray *dataListArray = [jsonList objectForKey:@"list"];
             
             // 将数据合并到原数组中
@@ -182,7 +192,7 @@
         }
     
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-//    });
+    });
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -278,6 +288,8 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:YES];
+    
     if (indexPath.row < [self.dataSource count]) {
         // 获得屏幕宽高
         int screenWidth = [[UIScreen mainScreen] bounds].size.width;
@@ -343,7 +355,7 @@
 //    int screenHeight = [[UIScreen mainScreen] bounds].size.height;
 //    NSLog(@"%f", scrollView.contentOffset.y);
     // 如果向上拖动超过屏高三分之一，并且flagLoadNext = YES
-    if (scrollView.contentOffset.y - self.lastOffsetY  > 60 && self.flagLoadNext == YES) {
+    if (scrollView.contentOffset.y - self.lastOffsetY  > 60 && self.flagLoadNext == YES && [self.tableView1 numberOfRowsInSection:0] < self.recordcount) {
         NSInteger intPageIndex = [self.pageIndex integerValue];
         intPageIndex++;
         
