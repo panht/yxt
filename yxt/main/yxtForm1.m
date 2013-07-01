@@ -164,10 +164,10 @@
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
         data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"userid\":\"%@\", \"title\":\"%@\", \"content\":\"%@\", \"classid\":\"%@\", \"selectuser\":\"%@\", \"chksms\":\"%@\", \"useraccount\":\"%@\", \"bloctoken\":\"%@\", \"blocflag\":\"%@\"}]", app.userId, title, content, classid, target, chksms, app.acc, blocToken, blocflag]];
         requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"addBulletin" :@"0" :@"0" :identityInfo :data]];
-//        NSLog(@"requestInfo   %@", requestInfo);
-//        NSLog(@"identityInfo   %@", identityInfo);
-//        NSLog(@"data   %@", data);
-        
+        NSLog(@"requestInfo   %@", requestInfo);
+        NSLog(@"identityInfo   %@", identityInfo);
+        NSLog(@"data   %@", data);
+    NSLog(@"%@", [yxtUtil md5:@"㟗"]);
         // 从服务端获取数据
         NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
         [MBProgressHUD hideHUDForView:self.view animated:YES];

@@ -79,7 +79,7 @@
         // 特殊字符urlencode
 //        requestInfo = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) requestInfo, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\"\\"), kCFStringEncodingUTF8));
 //        identityInfo = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) identityInfo, NULL, CFSTR("!*'();:@&=+$,/?%#[]{}\"\\"), kCFStringEncodingUTF8));
-        data = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) data, NULL, CFSTR("&"), kCFStringEncodingUTF8));
+        data = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef) data, NULL, CFSTR("&+"), kCFStringEncodingUTF8));
         
         NSString *postURL = [[NSString alloc] initWithFormat:@"RequestInfo=%@&IdentityInfo=%@&data=%@", requestInfo, identityInfo, data];
         
@@ -138,7 +138,7 @@
             jsonResultData = [NSDictionary dictionaryWithDictionary:jsonResultData1];
         }
         
-        NSLog(@"resultdata = %@", jsonResultData);
+//        NSLog(@"resultdata = %@", jsonResultData);
         
         return jsonResultData;
     }
@@ -195,6 +195,8 @@
 	HUD.mode = MBProgressHUDModeCustomView;
 //	HUD.delegate = self;
 	HUD.labelText = message;
+    // 非模态弹出
+    HUD.userInteractionEnabled = NO;
 	
 	[HUD show:YES];
 	[HUD hide:YES afterDelay:2];
@@ -206,6 +208,8 @@
 	HUD.mode = MBProgressHUDModeCustomView;
 //	HUD.delegate = self;
 	HUD.labelText = message;
+    // 非模态弹出
+    HUD.userInteractionEnabled = NO;
 	
 	[HUD show:YES];
 	[HUD hide:YES afterDelay:2];

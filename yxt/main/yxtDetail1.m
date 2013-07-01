@@ -40,13 +40,20 @@
 
 -(void) setByAction: (NSString *)action{
     yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
+    NSString *boxtype;
     
     if ([self.action isEqualToString:@"bulletinContent"]) {
         self.navTitle.title = @"通知公告 >> 详细内容";
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"%@\", \"userid\":\"%@\"}]", self.type, app.userId]];
     } else if ([self.action isEqualToString:@"homeworkContent"]) {
+        if ([app.loginType isEqualToString:@"1"]) {
+            boxtype = @"outbox";
+        } else {
+            boxtype = @"inbox";
+        }
+        
         self.navTitle.title = @"家庭作业 >> 详细内容";
-        self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.userId]];
+        self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"%@\", \"userid\":\"%@\"}]", boxtype, app.userId]];
     } else if ([self.action isEqualToString:@"selectExamSendMsg"]) {
         self.navTitle.title = @"成绩信息 >> 详细内容";
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@""]];
@@ -54,8 +61,14 @@
         self.navTitle.title = @"成绩信息 >> 详细内容";
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@""]];
     } else if ([self.action isEqualToString:@"reviewsConetent"]) {
+        if ([app.loginType isEqualToString:@"1"]) {
+            boxtype = @"outbox";
+        } else {
+            boxtype = @"inbox";
+        }
+        
         self.navTitle.title = @"日常表现 >> 详细内容";
-        self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.userId]];
+        self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"%@\", \"userid\":\"%@\"}]", boxtype, app.userId]];
     }
 }
 
@@ -217,9 +230,8 @@
                 self.label2.frame = CGRectMake(x, y + height, width, height);
                 self.label3.frame = CGRectMake(x, y + height * 2, width, height);
                 self.label4.frame = CGRectMake(x, y + height * 3, width, height);
-                self.labelContent.frame = CGRectMake(x, y + height * 4, width, self.view.frame.size.height - height * 4 - self.navBar.frame.size.height * 2 - self.scrollView.frame.size.height);
                 self.scrollView.frame = CGRectMake(0, self.view.frame.size.height - 64 - self.scrollView.frame.size.height, self.scrollView.frame.size.width, self.scrollView.frame.size.height);
-                
+                self.labelContent.frame = CGRectMake(x, y + height * 4, width, self.view.frame.size.height - height * 4 - self.navBar.frame.size.height * 2 - self.scrollView.frame.size.height- statusBarHeight - 5);
                 
                 self.label1.textAlignment = UITextAlignmentLeft;
                 self.label2.textAlignment = UITextAlignmentLeft;
@@ -301,7 +313,9 @@
                 
                 self.label1.frame = CGRectMake(x, y, width, height);
                 self.label2.frame = CGRectMake(x, y + height, width, height);
-                self.labelContent.frame = CGRectMake(x, y + height * 2, width, height);
+//                self.labelContent.frame = CGRectMake(x, y + height * 2, width, height);
+                int heightContent = self.view.frame.size.height - height * 2 - self.navBar.frame.size.height * 2 - statusBarHeight - 10;
+                self.labelContent.frame = CGRectMake(x, y + height * 2, width, heightContent);
                 
                 self.label1.textAlignment = UITextAlignmentLeft;
                 self.label2.textAlignment = UITextAlignmentLeft;
@@ -321,7 +335,8 @@
                 self.label1.frame = CGRectMake(x, y, width, height);
                 self.label2.frame = CGRectMake(x, y + height, width, height);
                 self.label3.frame = CGRectMake(x, y + height * 2, width, height);
-                self.labelContent.frame = CGRectMake(x, y + height * 3, width, self.view.frame.size.height - height * 3 - self.navBar.frame.size.height * 2);
+                int heightContent = self.view.frame.size.height - height * 3 - self.navBar.frame.size.height * 3 - statusBarHeight - 10;
+                self.labelContent.frame = CGRectMake(x, y + height * 3, width, heightContent);
                 
                 self.label1.textAlignment = UITextAlignmentLeft;
                 self.label2.textAlignment = UITextAlignmentLeft;

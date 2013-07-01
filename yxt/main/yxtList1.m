@@ -62,6 +62,7 @@
 
 - (void) setByAction: (NSString *) action {
     yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
+    NSString *boxtype;
     
     // 默认隐藏按钮
     [self.btn0 setHidden:YES];
@@ -119,8 +120,14 @@
             heightTableView1 -= self.btn1.frame.size.height;
         }
     } else if ([self.action isEqualToString:@"homework"]) {
+        if ([app.loginType isEqualToString:@"1"]) {
+            boxtype = @"outbox";
+        } else {
+            boxtype = @"inbox";
+        }
+        
         self.navTitle.title = @"家庭作业 >> 列表信息";
-        self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.userId]];
+        self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"%@\", \"userid\":\"%@\"}]", boxtype, app.userId]];
         self.title1 = @"course_name";
         self.title2 = @"rec_date";
         self.actionDetail = @"homeworkContent";
@@ -137,8 +144,14 @@
         self.title2 = @"op_date";
         self.actionDetail = @"selectExamReceiveMsgDetail";
     }  else if ([self.action isEqualToString:@"reviews"]) {
+        if ([app.loginType isEqualToString:@"1"]) {
+            boxtype = @"outbox";
+        } else {
+            boxtype = @"inbox";
+        }
+        
         self.navTitle.title = @"日常表现 >> 列表信息";
-        self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"logintype\":\"%@\", \"boxtype\":\"inbox\", \"userid\":\"%@\"}]", app.loginType, app.userId]];
+        self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"logintype\":\"%@\", \"boxtype\":\"%@\", \"userid\":\"%@\"}]", app.loginType, boxtype, app.userId]];
         self.title1 = @"title";
         self.title2 = @"announce_date";
         self.actionDetail = @"reviewsConetent";
@@ -162,9 +175,9 @@
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
         requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:self.action :self.pageIndex :self.pageSize :identityInfo :self.data]];
         
-        NSLog(@"%@", requestInfo);
-        NSLog(@"%@", identityInfo);
-        NSLog(@"%@", self.data);
+//        NSLog(@"%@", requestInfo);
+//        NSLog(@"%@", identityInfo);
+//        NSLog(@"%@", self.data);
         // 从服务端获取数据
         NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :self.data];
         
@@ -355,7 +368,7 @@
 //    int screenHeight = [[UIScreen mainScreen] bounds].size.height;
 //    NSLog(@"%f", scrollView.contentOffset.y);
     // 如果向上拖动超过屏高三分之一，并且flagLoadNext = YES
-    if (scrollView.contentOffset.y - self.lastOffsetY  > 60 && self.flagLoadNext == YES && [self.tableView1 numberOfRowsInSection:0] < self.recordcount) {
+    if (scrollView.contentOffset.y - self.lastOffsetY  > 0 && self.flagLoadNext == YES && [self.tableView1 numberOfRowsInSection:0] < self.recordcount) {
         NSInteger intPageIndex = [self.pageIndex integerValue];
         intPageIndex++;
         

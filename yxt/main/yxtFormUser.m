@@ -50,10 +50,11 @@
     self.newpwd2.delegate = self;
     
     // 设置头像
+    yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
     // 判断本地是否已保存头像文件
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsPath = [paths objectAtIndex:0];
-    NSString *filePath = [documentsPath stringByAppendingPathComponent:@"avatar.png"];
+    NSString *filePath = [documentsPath stringByAppendingPathComponent:[NSString stringWithFormat:@"avatar%@.png", app.acc]];
     NSData *data = [NSData dataWithContentsOfFile:filePath];
     
     if (data != NULL) {
@@ -144,16 +145,11 @@
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         NSString *bytesImage;
+        NSData *dataImage;
+        
         if (self.imageOld != self.imageNew && self.imageNew != NULL) {
-            NSData *dataImage = UIImageJPEGRepresentation(self.imageHead.image, 1.0);
+            dataImage = UIImageJPEGRepresentation(self.imageHead.image, 1.0);
             bytesImage = [GTMBase64 stringByEncodingData:dataImage];
-            yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
-            
-            // 判断本地是否已保存头像文件
-            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-            NSString *documentsPath = [paths objectAtIndex:0];
-            NSString *filePath = [documentsPath stringByAppendingPathComponent:[NSString stringWithFormat:@"avatar%@.png", app.acc]];
-            [dataImage writeToFile:filePath atomically:YES];
         } else {
             bytesImage = @"";
         }
@@ -197,6 +193,13 @@
             UIView *list1View = [topWindow viewWithTag:300];
             [list1View removeFromSuperview];
             
+            
+            // 判断本地是否已保存头像文件
+            yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+            NSString *documentsPath = [paths objectAtIndex:0];
+            NSString *filePath = [documentsPath stringByAppendingPathComponent:[NSString stringWithFormat:@"avatar%@.png", app.acc]];
+            [dataImage writeToFile:filePath atomically:YES];
             // 更新主界面的头像
             self.parentImageHead.image = self.imageNew;
         } else {
