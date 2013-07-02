@@ -187,6 +187,7 @@
         identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
         data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"title\":\"%@\", \"content\":\"%@\", \"classid\":\"%@\", \"ids\":\"%@\", \"chksms\":\"%@\", \"userName\":\"%@\", \"blocToken\":\"%@\", \"userAccount\":\"%@\", \"blocFlag\":\"%@\"}]", title, content, self.classId, ids, chksms, app.username, blocToken, app.acc, blocflag]];
         requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"addReviews" :@"0" :@"0" :identityInfo :data]];
+        
         // 从服务端获取数据
         NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
         
