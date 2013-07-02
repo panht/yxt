@@ -29,6 +29,7 @@
 @synthesize buttonLogin;
 
 - (void)viewDidLoad {
+//    NSLog(@"%@", [yxtUtil md5:@"㟗"]);
     [super viewDidLoad];
     [self setFlagCheckVersion:YES];
     

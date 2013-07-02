@@ -46,11 +46,10 @@
 }
 
 +(NSString *) md5:(NSString *) input {
-//    const char *cStr = [input UTF8String];
+    const char *cStr = [input UTF8String];
     // 服务端md5使用gb2312编码
-    NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
-    
-    const char *cStr = [input cStringUsingEncoding:enc];
+//    NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
+//    const char *cStr = [input cStringUsingEncoding:enc];
     unsigned char digest[16];
     CC_MD5( cStr, strlen(cStr), digest );
     

@@ -213,7 +213,6 @@
 		F2A770441720F5FD00CCEE55 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		F2A770461720F5FD00CCEE55 /* yxtLogin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = yxtLogin.h; path = ../yxtLogin.h; sourceTree = "<group>"; };
 		F2A770471720F5FD00CCEE55 /* yxtLogin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = yxtLogin.m; path = ../yxtLogin.m; sourceTree = "<group>"; };
-		F2A7704A1720F5FD00CCEE55 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/yxtLogin.xib; sourceTree = "<group>"; };
 		F2A770571720F80800CCEE55 /* Checkbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Checkbox.m; sourceTree = "<group>"; };
 		F2A770581720F80800CCEE55 /* Checkbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Checkbox.h; sourceTree = "<group>"; };
 		F2A77077172138BD00CCEE55 /* yxtTab2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yxtTab2.h; sourceTree = "<group>"; };
@@ -326,13 +325,13 @@
 		F2A770511720F67500CCEE55 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				F277B9871778A7C700C7DCC8 /* attachment.png */,
 				F2A6061517671D2D00D9331B /* 37x-Checkmark.png */,
 				F2A6061617671D2D00D9331B /* 37x-Checkmark@2x.png */,
 				F2FC66CC175B23460076F50E /* account_ico.png */,
 				F2BF8927175AF62C0046FF56 /* arrow_down.png */,
 				F2BF8928175AF62C0046FF56 /* arrow_up.png */,
 				F239FFC8176633340079A0F1 /* arrowLeft1.png */,
+				F277B9871778A7C700C7DCC8 /* attachment.png */,
 				F27499BF176085E8008F62A7 /* back1.png */,
 				F27499CE1760CFB3008F62A7 /* background.png */,
 				F27499CC1760CFA8008F62A7 /* backgroundLogin.png */,
@@ -626,7 +625,6 @@
 		F2A770491720F5FD00CCEE55 /* yxtLogin.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				F2A7704A1720F5FD00CCEE55 /* en */,
 				F28E9B06177DE69A0085D3A6 /* zh-Hans */,
 			);
 			name = yxtLogin.xib;
