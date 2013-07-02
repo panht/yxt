@@ -225,6 +225,7 @@
         if (self.picker.tag == 1) {
             NSDictionary *value = [self.dataSource objectAtIndex:row];
             [self.inputScope setTitle:[value objectForKey:@"name"]  forState:UIControlStateNormal];
+            self.inputScope.tag = [[value objectForKey:@"value"] integerValue];
         } else if (self.picker.tag == 2) {
             NSString *value = [self.dataSource objectAtIndex:row];
             [self.inputTarget setTitle:value forState:UIControlStateNormal];
