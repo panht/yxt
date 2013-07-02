@@ -23,6 +23,8 @@
 @property (strong, nonatomic) NSString *pageIndex;
 @property (strong, nonatomic) NSString *recordCount;
 @property (strong, nonatomic) NSArray *dataFiles;
+@property (strong, nonatomic) NSString *assignmentID;
+
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navBar;
 @property (weak, nonatomic) IBOutlet UINavigationItem *navTitle;
@@ -51,7 +53,7 @@
 - (void) resettle;
 - (void) loadData;
 - (void) setByAction: (NSString *)action;
-- (void) drawImage: (NSData *)fileData :(NSString *)imageName :(NSInteger)seqNo :(NSInteger)tagNo;
+- (void) drawImage: (NSData *)fileData :(NSString *)filename :(NSInteger)seqNo :(NSInteger)tagNo;
 - (void) loadDocument:(UIButton *)button;
 - (void) closeWebView;
 

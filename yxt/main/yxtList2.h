@@ -11,6 +11,7 @@
 @interface yxtList2 : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property NSInteger lastOffsetY;
+@property NSInteger recordcount;
 @property BOOL flagLoadNext;
 @property (strong, nonatomic) NSString *data;
 @property (strong, nonatomic) NSString *role;

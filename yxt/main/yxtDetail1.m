@@ -27,6 +27,7 @@
 @synthesize pageSize;
 @synthesize recordCount;
 @synthesize dataFiles;
+@synthesize assignmentID;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -239,7 +240,8 @@
                 self.label4.textAlignment = UITextAlignmentLeft;
                 
                 // 家庭作业需要判断是否有附件
-                NSString *dataHomework = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"assignmentid\":\"%@\"}]", [row objectForKey:@"assignment_id"]]];
+                self.assignmentID = [row objectForKey:@"assignment_id"];
+                NSString *dataHomework = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"assignmentid\":\"%@\"}]", self.assignmentID]];
                 requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"getHomeWorkFile" :@"1" :@"5" :identityInfo :dataHomework]];
                 NSDictionary *dataHomeworkResponse = [yxtUtil getResponse:requestInfo :identityInfo :dataHomework];
                 
@@ -263,13 +265,28 @@
                         filename = [rowData objectForKey:@"filename"];
                         filepath = [rowData objectForKey:@"filepath"];
                         
-                        // 从服务器获取
-                        fileURL = [NSURL URLWithString:[[NSString alloc] initWithFormat:@"%@%@", app.urlFile, filepath]];
-                        fileData = [NSData dataWithContentsOfURL:fileURL];
+                        // 判断本地是否已保存
+                        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+                        NSString *documentsPath = [paths objectAtIndex:0];
+                        NSString *filenameLocal = [documentsPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_%@.png", self.assignmentID, filename]];
+                        fileData = [NSData dataWithContentsOfFile:filenameLocal];
+                        
+                        if (fileData != NULL) {
+                        } else {
+                            // 否则从服务器获取
+                            fileURL = [NSURL URLWithString:[[NSString alloc] initWithFormat:@"%@%@", app.urlFile, filepath]];
+                            fileData = [NSData dataWithContentsOfURL:fileURL];
+                            
+                            if (fileData != NULL) {
+                                //  保存为本地文件
+                                [fileData writeToFile:filenameLocal atomically:YES];
+                            } else {
+                            }
+                        }
                         
                         // 文件是否存在
                         if (fileData != NULL) {
-                            [self drawImage:fileData :filename :i :j];
+                            [self drawImage:fileData :filenameLocal :i :j];
                             i++;
                         }
                         j++;
@@ -295,11 +312,13 @@
                 self.label4.text = [NSString stringWithFormat:@"发送备注：%@", [[row objectForKey:@"send_remark"] isEqualToString:@"1"] ? @"是" : @"否"];
                 self.label5.text = [NSString stringWithFormat:@"发送时间：%@", [row objectForKey:@"op_date"]];
                 
-                self.label1.frame = CGRectMake(x, y, width, height);
-                self.label2.frame = CGRectMake(x, y + height, width, height);
-                self.label3.frame = CGRectMake(x, y + height * 2, width, height);
-                self.label4.frame = CGRectMake(x, y + height * 3, width, height);
-                self.label5.frame = CGRectMake(x, y + height * 4, width, height);
+                self.label1.numberOfLines = 2;
+                [self.label1 sizeToFit];
+                self.label1.frame = CGRectMake(x, y, width, height * 2);
+                self.label2.frame = CGRectMake(x, y + height * 2, width, height);
+                self.label3.frame = CGRectMake(x, y + height * 3, width, height);
+                self.label4.frame = CGRectMake(x, y + height * 4, width, height);
+                self.label5.frame = CGRectMake(x, y + height * 5, width, height);
                 
                 self.label1.textAlignment = UITextAlignmentLeft;
                 self.label2.textAlignment = UITextAlignmentLeft;
@@ -357,16 +376,16 @@
 }
 
 // 显示图片
-- (void) drawImage: (NSData *)fileData :(NSString *)imageName :(NSInteger)seqNo :(NSInteger)tagNo {
+- (void) drawImage: (NSData *)fileData :(NSString *)fileName :(NSInteger)seqNo :(NSInteger)tagNo {
     int xOffset = seqNo * 60;
     // 添加imgaeView
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *image;
     
     // 判断是否图片
-    if ([[imageName pathExtension] isEqualToString:@"jpg"] || [[imageName pathExtension] isEqualToString:@"jpeg"] || [[imageName pathExtension] isEqualToString:@"png"] ||[[imageName pathExtension] isEqualToString:@"bmp"] ||[[imageName pathExtension] isEqualToString:@"gif"]) {
+    if ([[fileName pathExtension] isEqualToString:@"jpg"] || [[fileName pathExtension] isEqualToString:@"jpeg"] || [[fileName pathExtension] isEqualToString:@"png"] ||[[fileName pathExtension] isEqualToString:@"bmp"] ||[[fileName pathExtension] isEqualToString:@"gif"]) {
         image = [UIImage imageWithData:fileData];
-    } else if ([[imageName pathExtension] isEqualToString:@"doc"] || [[imageName pathExtension] isEqualToString:@"docx"] || [[imageName pathExtension] isEqualToString:@"xls"] || [[imageName pathExtension] isEqualToString:@"xlsx"] || [[imageName pathExtension] isEqualToString:@"pdf"] || [[imageName pathExtension] isEqualToString:@"txt"] || [[imageName pathExtension] isEqualToString:@"ppt"] || [[imageName pathExtension] isEqualToString:@"pptx"]) {
+    } else if ([[fileName pathExtension] isEqualToString:@"doc"] || [[fileName pathExtension] isEqualToString:@"docx"] || [[fileName pathExtension] isEqualToString:@"xls"] || [[fileName pathExtension] isEqualToString:@"xlsx"] || [[fileName pathExtension] isEqualToString:@"pdf"] || [[fileName pathExtension] isEqualToString:@"txt"] || [[fileName pathExtension] isEqualToString:@"ppt"] || [[fileName pathExtension] isEqualToString:@"pptx"]) {
         image = [UIImage imageNamed:@"attachment.png"];
     }
     [btn addTarget:self action:@selector(loadDocument:) forControlEvents:UIControlEventTouchUpInside];
@@ -382,11 +401,19 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
+//        yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
         NSDictionary *rowData = [self.dataFiles objectAtIndex:button.tag];
-        NSString *filepath = [[NSString alloc] initWithFormat:@"%@%@", app.urlFile, [rowData objectForKey:@"filepath"]];
-        NSURL *fileURL = [NSURL URLWithString:filepath];
+        NSString *filename = [rowData objectForKey:@"filename"];
+        
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsPath = [paths objectAtIndex:0];
+        NSString *filenameLocal = [documentsPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_%@.png", self.assignmentID, filename]];
+        NSURL *fileURL = [NSURL fileURLWithPath:filenameLocal];
         NSURLRequest *request = [NSURLRequest requestWithURL:fileURL];
+        
+//        NSString *filename = [[NSString alloc] initWithFormat:@"%@%@", app.urlFile, [rowData objectForKey:@"filename"]];
+//        NSURL *fileURL = [NSURL URLWithString:filepath];
+//        NSURLRequest *request = [NSURLRequest requestWithURL:fileURL];
         
         [self.btnBack removeTarget:self action:@selector(backTapped:) forControlEvents:UIControlEventTouchUpInside];
         [self.btnBack  addTarget:self action:@selector(closeWebView) forControlEvents:UIControlEventTouchUpInside];
@@ -493,6 +520,7 @@
 }
 
 - (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:NO];
     [self loadData];
 }
 

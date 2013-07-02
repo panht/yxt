@@ -182,8 +182,6 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
         if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
-            self.imageOld = self.imageNew;
-            
             // 关闭当前视图，在父视图弹出消息
             UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
             UIView *welcomeView = [topWindow viewWithTag:200];
@@ -193,15 +191,19 @@
             UIView *list1View = [topWindow viewWithTag:300];
             [list1View removeFromSuperview];
             
+            if (self.imageOld != self.imageNew && self.imageNew != NULL) {
+                // 本地保存头像
+                yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
+                NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+                NSString *documentsPath = [paths objectAtIndex:0];
+                NSString *filePath = [documentsPath stringByAppendingPathComponent:[NSString stringWithFormat:@"avatar%@.png", app.acc]];
+                [dataImage writeToFile:filePath atomically:YES];
+                
+                // 更新主界面的头像
+                self.parentImageHead.image = self.imageNew;
+            }
             
-            // 判断本地是否已保存头像文件
-            yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
-            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-            NSString *documentsPath = [paths objectAtIndex:0];
-            NSString *filePath = [documentsPath stringByAppendingPathComponent:[NSString stringWithFormat:@"avatar%@.png", app.acc]];
-            [dataImage writeToFile:filePath atomically:YES];
-            // 更新主界面的头像
-            self.parentImageHead.image = self.imageNew;
+            self.imageOld = self.imageNew;
         } else {
             [yxtUtil warning: self.view :[dataResponse objectForKey:@"resultdes"]];
         }

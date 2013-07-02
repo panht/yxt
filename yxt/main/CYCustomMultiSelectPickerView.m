@@ -120,7 +120,7 @@
 - (NSString *)pickerView:(ALPickerView *)pickerView textForRow:(NSInteger)row
 {
     NSDictionary *dict = [self.entriesArray objectAtIndex:row];
-    NSString *rowText = [NSString stringWithFormat:@"%@(%@)", [dict objectForKey:@"user_name"], [[dict objectForKey:@"is_open"] isEqualToString:@"1"] ? @"已开通业务" : @"未开通业务"];
+    NSString *rowText = [NSString stringWithFormat:@"%@(%@)", [dict objectForKey:@"user_name"], [[dict objectForKey:@"is_open"] isEqualToString:@"0"] ? @"未开通业务" : @"已开通业务"];
     
     return rowText;
 }

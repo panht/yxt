@@ -17,6 +17,7 @@
 
 @implementation yxtList2
 
+@synthesize recordcount;
 @synthesize flagLoadNext;
 @synthesize data;
 @synthesize role;
@@ -67,6 +68,12 @@
             NSDictionary *jsonList = [NSJSONSerialization JSONObjectWithData:dataList
                                                                      options:kNilOptions
                                                                        error:&error];
+            
+            if ([dataResponse objectForKey:@"recordcount"] != nil) {
+                self.recordcount = [[dataResponse objectForKey:@"recordcount"] integerValue];
+            } else {
+                self.recordcount = 0;
+            }
             
             NSArray *dataListArray = [jsonList objectForKey:@"list"];
             
@@ -156,7 +163,7 @@
 //    int screenHeight = [[UIScreen mainScreen] bounds].size.height;
     
     // 如果向上拖动超过屏高三分之一，并且flagLoadNext = YES
-    if (scrollView.contentOffset.y - self.lastOffsetY  > 60 && self.flagLoadNext == YES) {
+    if (scrollView.contentOffset.y - self.lastOffsetY  > 0	 && self.flagLoadNext == YES && [self.tableView1 numberOfRowsInSection:0] < self.recordcount) {
         NSInteger intPageIndex = [self.pageIndex integerValue];
         intPageIndex++;
         

@@ -122,6 +122,8 @@
 }
 
 - (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:NO];
+    
     // 设置头像、名字
     yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
     self.username.text = app.username;

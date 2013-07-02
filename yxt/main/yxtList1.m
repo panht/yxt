@@ -403,6 +403,7 @@
 }
 
 - (void) viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:NO];
     // 载入数据
     [self loadData];
 }
