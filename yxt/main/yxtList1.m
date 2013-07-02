@@ -81,14 +81,46 @@
     widthTableView1 = screenWidth;
     heightTableView1 = screenHeight - self.navBar.frame.size.height;
     
-    // 如果是教师，且不是班级成员栏目，显示发送按钮
-    if ([app.loginType isEqualToString:@"1"] && ![self.action isEqualToString:@"eduClass"]) {
-        [self.btn0 setHidden:NO];
+    // 如果是教师
+    if ([app.loginType isEqualToString:@"1"]) {
+        // 底部按钮位置
+        int x, y, width, height;
+        x = 0;
+        y = screenHeight - statusBarHeight - self.navBar.frame.size.height;
+        width = self.view.frame.size.width / 2;
+        height = self.navBar.frame.size.height;
         
-        // 表格视图位置
-        yTableView1 += self.btn0.frame.size.height + 10;
-        heightTableView1 -= self.btn0.frame.size.height + 10;
-    } 
+        if ([self.action isEqualToString:@"bulletin"]) {
+            // 通知公告栏目，显示发送按钮
+            [self.btn0 setHidden:NO];
+            
+            self.btn1.frame = CGRectMake(x, y, width, height);
+            self.btn2.frame = CGRectMake(x + width, y, width, height);
+            
+            // 为教师时，通知公告显示收发件箱
+            [self.btn1 setHidden:NO];
+            [self.btn2 setHidden:NO];
+            
+            // 表格视图位置
+            yTableView1 += self.btn0.frame.size.height + 10;
+            heightTableView1 -= self.btn0.frame.size.height + 10;
+        } else {
+            self.btn1.frame = CGRectMake(x, y, width * 2, height);
+            
+            if ([self.action isEqualToString:@"homework"]) {
+                [self.btn1 setTitle:@"发送作业" forState:UIControlStateNormal];
+            } else if ([self.action isEqualToString:@"selectExamSendMsg"]) {
+                [self.btn1 setTitle:@"发送成绩" forState:UIControlStateNormal];
+            } else if ([self.action isEqualToString:@"reviews"]) {
+                [self.btn1 setTitle:@"发送日常表现" forState:UIControlStateNormal];
+            }
+            
+            [self.btn1 setHidden:NO];
+            
+            // 表格视图高度
+            heightTableView1 -= self.btn1.frame.size.height;
+        }
+    }
     
     // 设置标题栏、请求数据、表格行文本、详细页action名称
     if ([self.action isEqualToString:@"bulletin"]) {
@@ -100,25 +132,25 @@
         self.actionDetail = @"bulletinContent";
         
         // 如果是教师，显示收、发件箱按钮
-        if ([app.loginType isEqualToString:@"1"]) {
-            // 收、发件箱按钮调整
-            int x, y, width, height;
-            x = 0;
-            y = screenHeight - statusBarHeight - self.navBar.frame.size.height;
-            width = self.view.frame.size.width / 2;
-            height = self.navBar.frame.size.height;
-            self.btn1.frame = CGRectMake(x, y, width, height);
-            self.btn2.frame = CGRectMake(x + width, y, width, height);
-            
-            // 为教师时，通知公告显示收发件箱
-            if ([app.loginType isEqualToString:@"1"]) {
-                [self.btn1 setHidden:NO];
-                [self.btn2 setHidden:NO];
-            }
-            
-            // 表格视图高度
-            heightTableView1 -= self.btn1.frame.size.height;
-        }
+//        if ([app.loginType isEqualToString:@"1"]) {
+//            // 收、发件箱按钮调整
+//            int x, y, width, height;
+//            x = 0;
+//            y = screenHeight - statusBarHeight - self.navBar.frame.size.height;
+//            width = self.view.frame.size.width / 2;
+//            height = self.navBar.frame.size.height;
+//            self.btn1.frame = CGRectMake(x, y, width, height);
+//            self.btn2.frame = CGRectMake(x + width, y, width, height);
+//            
+//            // 为教师时，通知公告显示收发件箱
+//            if ([app.loginType isEqualToString:@"1"]) {
+//                [self.btn1 setHidden:NO];
+//                [self.btn2 setHidden:NO];
+//            }
+//            
+//            // 表格视图高度
+//            heightTableView1 -= self.btn1.frame.size.height;
+//        }
     } else if ([self.action isEqualToString:@"homework"]) {
         if ([app.loginType isEqualToString:@"1"]) {
             boxtype = @"outbox";
@@ -416,7 +448,7 @@
     [self.view removeFromSuperview];
 }
 
-// 点击发件箱
+// 点击发件箱或按钮一
 - (IBAction)btn1Tapped:(id)sender {
     if ([self.action isEqualToString:@"bulletin"]) {
         // 上次y坐标值后清0，否则切换后不能翻页
@@ -434,6 +466,35 @@
         self.data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"boxtype\":\"%@\", \"userid\":\"%@\"}]", self.type, app.userId]];
         
         [self loadData];
+    } else {
+        // 打开通用表单
+        self.form = [[yxtForm alloc] initWithNibName:@"yxtForm" bundle:[NSBundle mainBundle]];
+        
+        if ([self.action isEqualToString:@"homework"]) {
+            self.form.xibName = @"yxtForm2";
+        } else if ([self.action isEqualToString:@"selectExamSendMsg"]) {
+            self.form.xibName = @"yxtForm3";
+        } else if ([self.action isEqualToString:@"reviews"]) {
+            self.form.xibName = @"yxtForm4";
+        }
+        
+        // 获得屏幕宽高
+        int screenWidth = [[UIScreen mainScreen] bounds].size.width;
+        int screenHeight = [[UIScreen mainScreen] bounds].size.height;
+        int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
+        
+        // 设置子视图高度
+        int x, y, width, height;
+        x = 0;
+        y = statusBarHeight;
+        width = screenWidth;
+        height = screenHeight - statusBarHeight;
+        self.form.view.frame = CGRectMake(x, y, width, height);
+        self.form.view.tag = 400;
+        
+        UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+        [topWindow addSubview: self.form.view];
+        [topWindow makeKeyAndVisible];
     }
 }
 
