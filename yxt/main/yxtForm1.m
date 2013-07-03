@@ -18,6 +18,8 @@
 
 @implementation yxtForm1
 
+@synthesize selectedRow1;
+@synthesize selectedRow2;
 @synthesize dataSource;
 @synthesize dataListArray;
 //@synthesize picker;
@@ -88,6 +90,7 @@
             self.dataListArray = [jsonList objectForKey:@"list"];
             if ([self.dataListArray count] > 0) {
                 NSDictionary *row = [self.dataListArray objectAtIndex:0];
+                self.selectedRow1 = 0;
                 
                 // 通知范围初始值
                 [self.inputScope setTitle:[row objectForKey:@"name"] forState:UIControlStateNormal];
@@ -105,6 +108,7 @@
         [self.picker setTag:1];
         [self.picker setHidden:NO];
         [self.picker reloadAllComponents];
+        [self.picker selectRow:self.selectedRow1 inComponent:0 animated:NO];
     } else {
         [yxtUtil warning:self.view :@"没有可用的通知范围"];
     }
@@ -115,6 +119,7 @@
     [self.picker setTag:2];
     [self.picker setHidden:NO];
     [self.picker reloadAllComponents];
+    [self.picker selectRow:self.selectedRow2 inComponent:0 animated:NO];
 }
 
 - (IBAction)send:(id)sender {
@@ -129,6 +134,13 @@
         return;
     } else if ([self.inputContent.text isEqualToString:@""]) {
         [yxtUtil warning:self.view :@"请输入内容"];
+        return;
+    }
+    else if ([self.inputTitle.text length] > 127) {
+        [yxtUtil warning:self.view :@"通知主题不能超过127字"];
+        return;
+    } else if ([self.inputContent.text length] > 1000) {
+        [yxtUtil warning:self.view :@"内容不能超过1000字"];
         return;
     }
     
@@ -226,9 +238,11 @@
             NSDictionary *value = [self.dataSource objectAtIndex:row];
             [self.inputScope setTitle:[value objectForKey:@"name"]  forState:UIControlStateNormal];
             self.inputScope.tag = [[value objectForKey:@"value"] integerValue];
+            self.selectedRow1 = [self.picker selectedRowInComponent:0];
         } else if (self.picker.tag == 2) {
             NSString *value = [self.dataSource objectAtIndex:row];
             [self.inputTarget setTitle:value forState:UIControlStateNormal];
+            self.selectedRow2 = [self.picker selectedRowInComponent:0];
         }
     }
     [self.picker setHidden:YES];

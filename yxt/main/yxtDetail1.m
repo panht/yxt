@@ -201,11 +201,17 @@
                 self.label3.text = [NSString stringWithFormat:@"时间：%@", [row objectForKey:@"rec_date"]];
                 self.labelContent.text = DetailContent;
                 
-                self.label1.frame = CGRectMake(x, y, width, height);
-                self.label2.frame = CGRectMake(x, y + height, width, height);
-                self.label3.frame = CGRectMake(x, y + height * 2, width, height);
-                int heightContent = self.view.frame.size.height - height * 3 - self.navBar.frame.size.height * 2 - statusBarHeight - 10;
-                self.labelContent.frame = CGRectMake(x, y + height * 3, width, heightContent);
+                // 标题多行显示
+                NSInteger lines;
+                // 取法向上取整 (A + B - 1) / B
+                lines = ([detailTitle length] + (18 - 1)) / 18;
+                self.label1.numberOfLines = lines;
+                
+                self.label1.frame = CGRectMake(x, y, width, height * lines);
+                self.label2.frame = CGRectMake(x, y + height * lines, width, height);
+                self.label3.frame = CGRectMake(x, y + height * (lines + 1), width, height);
+                int heightContent = self.view.frame.size.height - height * (lines + 2) - self.navBar.frame.size.height * 2 - statusBarHeight - 10;
+                self.labelContent.frame = CGRectMake(x, y + height * (lines + 2), width, heightContent);
                 
                 self.label1.textAlignment = UITextAlignmentCenter;
                 self.label2.textAlignment = UITextAlignmentCenter;
@@ -227,12 +233,17 @@
                 self.label4.text = [NSString stringWithFormat:@"作业标题：%@", detailTitle];
                 self.labelContent.text = DetailContent;
                 
+                // 标题多行显示
+                NSInteger lines;
+                // 取法向上取整 (A + B - 1) / B
+                lines = ([detailTitle length] + 5 + (18 - 1)) / 18;
+                self.label4.numberOfLines = lines;
                 self.label1.frame = CGRectMake(x, y, width, height);
                 self.label2.frame = CGRectMake(x, y + height, width, height);
                 self.label3.frame = CGRectMake(x, y + height * 2, width, height);
-                self.label4.frame = CGRectMake(x, y + height * 3, width, height);
+                self.label4.frame = CGRectMake(x, y + height * 3, width, height * lines);
                 self.scrollView.frame = CGRectMake(0, self.view.frame.size.height - 64 - self.scrollView.frame.size.height, self.scrollView.frame.size.width, self.scrollView.frame.size.height);
-                self.labelContent.frame = CGRectMake(x, y + height * 4, width, self.view.frame.size.height - height * 4 - self.navBar.frame.size.height * 2 - self.scrollView.frame.size.height- statusBarHeight - 5);
+                self.labelContent.frame = CGRectMake(x, y + height * (3 + lines), width, self.view.frame.size.height - height * (3 + lines) - self.navBar.frame.size.height * 2 - self.scrollView.frame.size.height- statusBarHeight - 5);
                 
                 self.label1.textAlignment = UITextAlignmentLeft;
                 self.label2.textAlignment = UITextAlignmentLeft;
@@ -312,13 +323,18 @@
                 self.label4.text = [NSString stringWithFormat:@"发送备注：%@", [[row objectForKey:@"send_remark"] isEqualToString:@"1"] ? @"是" : @"否"];
                 self.label5.text = [NSString stringWithFormat:@"发送时间：%@", [row objectForKey:@"op_date"]];
                 
-                self.label1.numberOfLines = 2;
-                [self.label1 sizeToFit];
-                self.label1.frame = CGRectMake(x, y, width, height * 2);
-                self.label2.frame = CGRectMake(x, y + height * 2, width, height);
-                self.label3.frame = CGRectMake(x, y + height * 3, width, height);
-                self.label4.frame = CGRectMake(x, y + height * 4, width, height);
-                self.label5.frame = CGRectMake(x, y + height * 5, width, height);
+                
+                // 标题多行显示
+                NSInteger lines;
+                // 取法向上取整 (A + B - 1) / B
+                lines = ([[row objectForKey:@"msg_title"] length] + 3 + (18 - 1)) / 18;
+                self.label1.numberOfLines = lines;
+                
+                self.label1.frame = CGRectMake(x, y, width, height * lines);
+                self.label2.frame = CGRectMake(x, y + height * lines, width, height);
+                self.label3.frame = CGRectMake(x, y + height * (lines + 1), width, height);
+                self.label4.frame = CGRectMake(x, y + height * (lines + 2), width, height);
+                self.label5.frame = CGRectMake(x, y + height * (lines + 3), width, height);
                 
                 self.label1.textAlignment = UITextAlignmentLeft;
                 self.label2.textAlignment = UITextAlignmentLeft;
@@ -351,11 +367,19 @@
                 self.label3.text = [NSString stringWithFormat:@"发送时间：%@", [row objectForKey:@"announce_date"]];
                 self.labelContent.text = DetailContent;
                 
-                self.label1.frame = CGRectMake(x, y, width, height);
-                self.label2.frame = CGRectMake(x, y + height, width, height);
-                self.label3.frame = CGRectMake(x, y + height * 2, width, height);
-                int heightContent = self.view.frame.size.height - height * 3 - self.navBar.frame.size.height * 3 - statusBarHeight - 10;
-                self.labelContent.frame = CGRectMake(x, y + height * 3, width, heightContent);
+                // 标题多行显示
+                NSInteger lines1, lines2;
+                // 取法向上取整 (A + B - 1) / B
+                lines1 = ([[row objectForKey:@"user_name"] length] + 4 + (18 - 1)) / 18;
+                self.label1.numberOfLines = lines1;
+                lines2 = ([detailTitle length] + (18 - 1)) / 18;
+                self.label2.numberOfLines = lines2;
+                
+                self.label1.frame = CGRectMake(x, y, width, height * lines1);
+                self.label2.frame = CGRectMake(x, y + height * lines1, width, height * lines2);
+                self.label3.frame = CGRectMake(x, y + height * (lines1 + lines2), width, height);
+                int heightContent = self.view.frame.size.height - height * (lines1 + lines2 + 1) - self.navBar.frame.size.height * 3 - statusBarHeight - 10;
+                self.labelContent.frame = CGRectMake(x, y + height * (lines1 + lines2 + 1), width, heightContent);
                 
                 self.label1.textAlignment = UITextAlignmentLeft;
                 self.label2.textAlignment = UITextAlignmentLeft;

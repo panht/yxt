@@ -137,7 +137,7 @@
             jsonResultData = [NSDictionary dictionaryWithDictionary:jsonResultData1];
         }
         
-        NSLog(@"resultdata = %@", jsonResultData);
+//        NSLog(@"resultdata = %@", jsonResultData);
         
         return jsonResultData;
     }

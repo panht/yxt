@@ -19,6 +19,9 @@
 
 @implementation yxtForm3
 
+@synthesize selectedRow1;
+@synthesize selectedRow2;
+@synthesize selectedRow3;
 @synthesize dataSource;
 @synthesize dataListArray1;
 @synthesize dataListArray2;
@@ -39,7 +42,7 @@
     
     [self resettle];
 
-    [self loadData];
+    [self loadData:@""];
 }
 
 - (void) resettle{
@@ -56,41 +59,46 @@
     [self.picker addGestureRecognizer:pickerTapped];
 }
 
-- (void) loadData{
+- (void) loadData:(NSString *)examId {
+    __block NSString *examid = examId;
+    
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-    // 获取picker数据
+        // 获取picker数据
         NSString *requestInfo;
         NSString *data;
         NSString *identityInfo;
+        NSDictionary *dataResponse;
         
         // 考试类型，从segment控件获取，0为大考，1为其它
         NSString *type = [NSString stringWithFormat:@"%d", self.inputType.selectedSegmentIndex];
-        NSString *examid, *classid;
+        NSString *classid;
         
-        // 获取考试名称
-        identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-        data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"examType\":\"%@\"}]", type]];
-        requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"selectExam" :@"1" :@"10" :identityInfo :data]];
-        // 从服务端获取数据
-        NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
-        
-        if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
-            NSData *dataList = [[dataResponse objectForKey:@"data"] dataUsingEncoding:NSUTF8StringEncoding];
-            NSError *error;
-            NSDictionary *jsonList = [NSJSONSerialization JSONObjectWithData:dataList
-                                                                     options:kNilOptions
-                                                                       error:&error];
-            self.dataListArray1 = [jsonList objectForKey:@"list"];
-            if ([self.dataListArray1 count] > 0) {
-                NSDictionary *row = [self.dataListArray1 objectAtIndex:0];
-                
-                // 考试名称
-                [self.inputName setTitle:[row objectForKey:@"exam_name"] forState:UIControlStateNormal];
-                
-                examid = [row objectForKey:@"exam_id"];
-                [self.inputName setTag:[examid integerValue]];
+        if ([examid isEqualToString:@""]){
+            // 获取考试名称
+            identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
+            data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"examType\":\"%@\"}]", type]];
+            requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"selectExam" :@"1" :@"10" :identityInfo :data]];
+            // 从服务端获取数据
+            dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
+            
+            if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
+                NSData *dataList = [[dataResponse objectForKey:@"data"] dataUsingEncoding:NSUTF8StringEncoding];
+                NSError *error;
+                NSDictionary *jsonList = [NSJSONSerialization JSONObjectWithData:dataList
+                                                                         options:kNilOptions
+                                                                           error:&error];
+                self.dataListArray1 = [jsonList objectForKey:@"list"];
+                if ([self.dataListArray1 count] > 0) {
+                    NSDictionary *row = [self.dataListArray1 objectAtIndex:0];
+                    self.selectedRow1 = 0;
+                    // 考试名称
+                    [self.inputName setTitle:[row objectForKey:@"exam_name"] forState:UIControlStateNormal];
+                    
+                    examid = [row objectForKey:@"exam_id"];
+                    [self.inputName setTag:[examid integerValue]];
+                }
             }
         }
         
@@ -110,6 +118,7 @@
             self.dataListArray2 = [jsonList objectForKey:@"list"];
             if ([self.dataListArray2 count] > 0) {
                 NSDictionary *row = [self.dataListArray2 objectAtIndex:0];
+                self.selectedRow2 = 0;
                 
                 // 考试名称
                 [self.inputClass setTitle:[row objectForKey:@"class_name"] forState:UIControlStateNormal];
@@ -134,6 +143,7 @@
             self.dataListArray3 = [jsonList objectForKey:@"list"];
             if ([self.dataListArray3 count] > 0) {
                 NSDictionary *row = [self.dataListArray3 objectAtIndex:0];
+                self.selectedRow3 = 0;
                 
                 // 考试名称
                 [self.inputSubject setTitle:[row objectForKey:@"course_name"] forState:UIControlStateNormal];
@@ -202,6 +212,9 @@
 }
 
 #pragma mark Picker Data Soucrce Methods
+- (IBAction)typeTapped:(id)sender {
+    [self loadData:@""];
+}
 
 - (IBAction)nameTapped:(id)sender {
     if ([self.dataListArray1 count] > 0) {
@@ -209,6 +222,7 @@
         [self.picker setTag:1];
         [self.picker setHidden:NO];
         [self.picker reloadAllComponents];
+        [self.picker selectRow:self.selectedRow1 inComponent:0 animated:NO];
     } else {
         [yxtUtil warning:self.view :@"没有可用的考试名称"];
     }
@@ -220,6 +234,7 @@
         [self.picker setTag:2];
         [self.picker setHidden:NO];
         [self.picker reloadAllComponents];
+        [self.picker selectRow:self.selectedRow2 inComponent:0 animated:NO];
     } else {
         [yxtUtil warning:self.view :@"没有可用的考试班级"];
     }
@@ -231,6 +246,7 @@
         [self.picker setTag:3];
         [self.picker setHidden:NO];
         [self.picker reloadAllComponents];
+        [self.picker selectRow:self.selectedRow3 inComponent:0 animated:NO];
     } else {
         [yxtUtil warning:self.view :@"没有可用的考试科目"];
     }
@@ -276,14 +292,21 @@
         NSDictionary *value = [self.dataSource objectAtIndex:row];
         
         if (self.picker.tag == 1) {
+            // 考试名称
             [self.inputName setTitle:[value objectForKey:@"exam_name"]  forState:UIControlStateNormal];
             [self.inputName setTag:[[value objectForKey:@"exam_id"] integerValue]];
+            [self loadData:[value objectForKey:@"exam_id"]];
+            self.selectedRow1 = [self.picker selectedRowInComponent:0];
         } else if (self.picker.tag == 2) {
+            // 考试班级
             [self.inputClass setTitle:[value objectForKey:@"class_name"]  forState:UIControlStateNormal];
             [self.inputClass setTag:[[value objectForKey:@"class_id"] integerValue]];
+            self.selectedRow2 = [self.picker selectedRowInComponent:0];
         } else if (self.picker.tag == 3) {
+            // 考试科目
             [self.inputSubject setTitle:[value objectForKey:@"course_name"]  forState:UIControlStateNormal];
             [self.inputSubject setTag:[[value objectForKey:@"course_id"] integerValue]];
+            self.selectedRow3 = [self.picker selectedRowInComponent:0];
         }
     }
     [self.picker setHidden:YES];

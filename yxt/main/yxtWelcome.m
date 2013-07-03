@@ -85,6 +85,10 @@
     self.tabCurrent = self.tab1;
     [self setButton];
     
+    // 设置名字
+    yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
+    self.username.text = app.username;
+    
     // 创建定时器，每15分钟调用，循环调用repeats:YES，NO只调用一次
     id timer;
     timer = [NSTimer scheduledTimerWithTimeInterval:900 target:self selector:@selector(runTimer:) userInfo:nil repeats:YES];
@@ -124,9 +128,8 @@
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:NO];
     
-    // 设置头像、名字
+    // 设置头像
     yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
-    self.username.text = app.username;
     
     // 判断本地是否已保存头像文件
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);

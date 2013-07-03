@@ -14,6 +14,8 @@
 //    UIPickerView *picker;
 }
 
+@property NSInteger selectedRow1;
+@property NSInteger selectedRow2;
 @property (strong, nonatomic) NSArray *dataSource;
 @property (strong, nonatomic) NSArray *dataListArray;
 

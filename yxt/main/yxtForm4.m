@@ -157,13 +157,20 @@
     
     // 校验必填项
     if ([self.inputTitle.text isEqualToString:@""]) {
-        [yxtUtil warning:self.view :@"请输入作业标题"];
+        [yxtUtil warning:self.view :@"请输入标题"];
         return;
     } else if ([self.inputContent.text isEqualToString:@""]) {
         [yxtUtil warning:self.view :@"请输入内容"];
         return;
     }else if ([self.ids isEqualToString:@""] || self.ids == nil) {
         [yxtUtil warning:self.view :@"请选择接收用户"];
+        return;
+    }
+    else if ([self.inputTitle.text length] > 100) {
+        [yxtUtil warning:self.view :@"标题不能超过100字"];
+        return;
+    } else if ([self.inputContent.text length] > 250) {
+        [yxtUtil warning:self.view :@"内容不能超过250字"];
         return;
     }
     

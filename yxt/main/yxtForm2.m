@@ -135,6 +135,13 @@
         [yxtUtil warning:self.view :@"请输入内容"];
         return;
     }
+    else if ([self.inputTitle.text length] > 100) {
+        [yxtUtil warning:self.view :@"作业标题不能超过100字"];
+        return;
+    } else if ([self.inputContent.text length] > 250) {
+        [yxtUtil warning:self.view :@"内容不能超过250字"];
+        return;
+    }
     
     // 保存
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];

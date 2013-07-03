@@ -128,7 +128,7 @@
         if (![phoneNo isEqualToString:@""]) {
             UIButton *btnPhonecall = [UIButton buttonWithType:UIButtonTypeCustom];
             [btnPhonecall setImage:[UIImage imageNamed:@"phonecall.png"] forState:UIControlStateNormal];
-            btnPhonecall.frame = CGRectMake(220, 5, 30, 30);
+            btnPhonecall.frame = CGRectMake(200, 3, 35, 35);
             btnPhonecall.tag = indexPath.row;
             [btnPhonecall setBackgroundColor:[UIColor clearColor]];
             [btnPhonecall addTarget:self action:@selector(phoneTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -136,7 +136,7 @@
             
             UIButton *btnSMS = [UIButton buttonWithType:UIButtonTypeCustom];
             [btnSMS setImage:[UIImage imageNamed:@"sms.png"] forState:UIControlStateNormal];
-            btnSMS.frame = CGRectMake(270, 5, 30, 30);
+            btnSMS.frame = CGRectMake(270, 3, 35, 35);
             btnSMS.tag = indexPath.row;
             [btnSMS setBackgroundColor:[UIColor clearColor]];
             [btnSMS addTarget:self action:@selector(smsTapped:) forControlEvents:UIControlEventTouchUpInside];

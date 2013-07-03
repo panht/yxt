@@ -14,6 +14,9 @@
 //    UIPickerView *picker;
 }
 
+@property NSInteger selectedRow1;
+@property NSInteger selectedRow2;
+@property NSInteger selectedRow3;
 @property (strong, nonatomic) NSArray *dataSource;
 @property (strong, nonatomic) NSArray *dataListArray1;
 @property (strong, nonatomic) NSArray *dataListArray2;
@@ -29,13 +32,15 @@
 @property (weak, nonatomic) IBOutlet UISwitch *inputWeibo;
 @property (weak, nonatomic) IBOutlet UIPickerView *picker;
 
+
+- (IBAction)typeTapped:(id)sender;
 - (IBAction)nameTapped:(id)sender;
 - (IBAction)classTapped:(id)sender;
 - (IBAction)subjectTapped:(id)sender;
 - (IBAction)send:(id)sender;
 
 - (void) resettle;
-- (void) loadData;
+- (void) loadData:(NSString *)examid;
 - (void) closePicker;
 
 @end
