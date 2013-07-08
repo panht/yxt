@@ -59,6 +59,16 @@
     [self.picker addGestureRecognizer:pickerTapped];
 }
 
+- (void) resetForm {
+    self.inputType.selectedSegmentIndex = 0;
+    self.inputMemo.on = YES;
+    self.inputMessage.on = YES;
+    self.inputSMS.on = YES;
+    self.inputWeibo.on = YES;
+    [self loadData:@""];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+}
+
 - (void) loadData:(NSString *)examId {
     __block NSString *examid = examId;
     
@@ -198,13 +208,14 @@
         
         if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
             // 关闭当前视图，刷新父视图，并在父视图弹出消息
-            UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
-            UIView *listView = [topWindow viewWithTag:300];
-            [yxtUtil message:listView :@"发送成功"];
+//            UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+//            UIView *listView = [topWindow viewWithTag:300];
+            [self resetForm];
+            [yxtUtil message:self.view :@"发送成功"];
             
-            [self.view removeFromSuperview];
-            UIView *list1View = [topWindow viewWithTag:400];
-            [list1View removeFromSuperview];
+//            [self.view removeFromSuperview];
+//            UIView *list1View = [topWindow viewWithTag:400];
+//            [list1View removeFromSuperview];
         } else {
             [yxtUtil warning:self.view :[dataResponse objectForKey:@"resultdes"]];
         }

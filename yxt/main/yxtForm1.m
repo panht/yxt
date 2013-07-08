@@ -60,6 +60,23 @@
     [self.picker addGestureRecognizer:pickerTapped];
 }
 
+- (void) resetForm {
+    self.inputTitle.text = @"";
+    if ([self.dataListArray count] > 0) {
+        NSDictionary *row = [self.dataListArray objectAtIndex:0];
+        self.selectedRow1 = 0;
+        
+        // 通知范围初始值
+        [self.inputScope setTitle:[row objectForKey:@"name"] forState:UIControlStateNormal];
+        [self.inputScope setTag:[[row objectForKey:@"value"] integerValue]];
+    }
+    [self.inputTarget setTitle:@"家长" forState:UIControlStateNormal];
+    self.selectedRow2 = 0;
+    self.inputSMS.on = YES;
+    self.inputWeibo.on = YES;
+    self.inputContent.text = @"";
+}
+
 - (void) loadData {
     // 通知对象初始值
     [self.inputTarget setTitle:@"家长" forState:UIControlStateNormal];
@@ -186,14 +203,15 @@
         
         if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
             // 关闭当前视图，在父视图弹出消息
-            UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
-            UIView *listView = [topWindow viewWithTag:300];
-            [yxtUtil message:listView :@"发送成功"];
+//            UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+//            UIView *listView = [topWindow viewWithTag:300];
+            [self resetForm];
+            [yxtUtil message:self.view :@"发送成功"];
 //            [listView setNeedsDisplay];
             
-            [self.view removeFromSuperview];
-            UIView *list1View = [topWindow viewWithTag:400];
-            [list1View removeFromSuperview];
+//            [self.view removeFromSuperview];
+//            UIView *list1View = [topWindow viewWithTag:400];
+//            [list1View removeFromSuperview];
         } else {
             [yxtUtil warning:self.view :[dataResponse objectForKey:@"resultdes"]];
         }

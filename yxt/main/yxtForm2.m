@@ -80,7 +80,32 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
+//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"服务器故障，请稍后重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+//    [alert show];
+}
+
+- (void) resetForm {
+    self.inputTitle.text = @"";
+    if ([self.dataListArray count] > 0) {
+        NSDictionary *row = [self.dataListArray objectAtIndex:0];
+        [self.inputPicker selectRow:0 inComponent:0 animated:NO];
+        
+        // 作业课程初始值
+        [self.inputCourse setTitle:[row objectForKey:@"name"] forState:UIControlStateNormal];
+        [self.inputCourse setTag:[[row objectForKey:@"value"] integerValue]];
+    }
+    self.inputSMS.on = YES;
+    self.inputWeibo.on = YES;
+    self.inputContent.text = @"";
+    
+    [self.files removeAllObjects];
+    // 从界面删除所有图片
+    for (UIView *v in self.scrollView.subviews) {
+        if ([v isKindOfClass:[UIImageView class]] || [v isKindOfClass:[UIButton class]]) {
+            [v removeFromSuperview];
+        }
+    }
 }
 
 - (void) loadData {
@@ -261,15 +286,16 @@
         
         if ([[jsonResultData objectForKey:@"resultcode"] isEqualToString: @"0"]) {
             // 关闭当前视图，在父视图弹出消息
-            UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
-            UIView *listView = [topWindow viewWithTag:200];
-            [yxtUtil message:listView :@"发送成功"];
+//            UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+//            UIView *listView = [topWindow viewWithTag:200];
+            [self resetForm];
+            [yxtUtil message:self.view :@"发送成功"];
             
-            [self.view removeFromSuperview];
-            UIView *formView = [topWindow viewWithTag:300];
-            [formView removeFromSuperview];
-            UIView *list1View = [topWindow viewWithTag:400];
-            [list1View removeFromSuperview];
+//            [self.view removeFromSuperview];
+//            UIView *formView = [topWindow viewWithTag:300];
+//            [formView removeFromSuperview];
+//            UIView *list1View = [topWindow viewWithTag:400];
+//            [list1View removeFromSuperview];
         } else {
             [yxtUtil warning:self.view :[jsonResultData objectForKey:@"resultdes"]];
         }

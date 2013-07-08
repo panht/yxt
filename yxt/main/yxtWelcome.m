@@ -20,6 +20,7 @@
 
 @implementation yxtWelcome
 
+@synthesize dataImageHead;
 @synthesize tab1;
 @synthesize tab2;
 @synthesize tab3;
@@ -127,7 +128,6 @@
 
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:NO];
-    
     // 设置头像
     yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
     
@@ -141,18 +141,22 @@
     if (data != NULL) {
         image = [UIImage imageWithData:data];
     } else {
-        // 否则从服务器获取
-        NSURL *url = [NSURL URLWithString:[[NSString alloc] initWithFormat:@"%@%@", app.urlHead, app.headerimg]];
-        data = [NSData dataWithContentsOfURL:url];
+        self.dataImageHead = [[NSMutableData alloc] initWithLength:0];
         
-        if (data != NULL) {
-            //  保存为本地文件
-            [data writeToFile:filePath atomically:YES];
-            image = [UIImage imageWithData:data];
-        } else {
-            // 否则显示默认头像
-            image = [UIImage imageNamed:@"account_ico.png"];
-        }
+        // 本地没有则从服务器异步获取
+        NSURL *url = [NSURL URLWithString:[[NSString alloc] initWithFormat:@"%@%@", app.urlHead, app.headerimg]];
+        NSURLRequest *request = [NSURLRequest requestWithURL:url];
+        NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+//        data = [NSData dataWithContentsOfURL:url];
+//        
+//        if (data != NULL) {
+//            //  保存为本地文件
+//            [data writeToFile:filePath atomically:YES];
+//            image = [UIImage imageWithData:data];
+//        } else {
+//            // 否则显示默认头像
+//            image = [UIImage imageNamed:@"account_ico.png"];
+//        }
     }
     self.imageHead.image = image;
     [self.imageHead setNeedsDisplay];
@@ -160,6 +164,36 @@
     // 点击头像打开更新用户信息界面
     UITapGestureRecognizer *headTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(openForm:)];
     [self.imageHead addGestureRecognizer:headTap];
+}
+
+- (void)connection:(NSURLConnection *)aConn didReceiveData:(NSData *)data
+{
+    [self.dataImageHead appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)aConn {
+    yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsPath = [paths objectAtIndex:0];
+    NSString *filePath = [documentsPath stringByAppendingPathComponent:[NSString stringWithFormat:@"avatar%@.png", app.acc]];
+    UIImage *image;
+    
+    // 否则从服务器获取
+//    NSURL *url = [NSURL URLWithString:[[NSString alloc] initWithFormat:@"%@%@", app.urlHead, app.headerimg]];
+//    self.dataImageHead = [NSData dataWithContentsOfURL:url];
+    
+    if (self.dataImageHead != NULL) {
+        //  保存为本地文件
+        [self.dataImageHead writeToFile:filePath atomically:YES];
+        image = [UIImage imageWithData:self.dataImageHead];
+    } else {
+        // 否则显示默认头像
+        image = [UIImage imageNamed:@"account_ico.png"];
+    }
+
+    self.imageHead.image = image;
+    [self.imageHead setNeedsDisplay];
 }
 
 // 打开通用表单

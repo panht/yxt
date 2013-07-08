@@ -16,6 +16,7 @@
 
 @interface yxtWelcome : UIViewController
 
+@property (strong, nonatomic) NSMutableData *dataImageHead;
 @property (strong, nonatomic) yxtForm *form;
 @property (strong, nonatomic) yxtFormUser *formUser;
 @property (strong, nonatomic) yxtTab1 *tab1;

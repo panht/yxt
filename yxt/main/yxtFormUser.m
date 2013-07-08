@@ -163,7 +163,7 @@
         yxtAppDelegate *app = (yxtAppDelegate *)[[UIApplication sharedApplication] delegate];
         NSString *oldpwd = @"";
         if (self.oldpwd.text != nil && ![self.oldpwd.text isEqualToString:@""]) {
-            [ThreeDES encrypt:self.oldpwd.text withKey:app.ThreeDesKey];
+            oldpwd = [ThreeDES encrypt:self.oldpwd.text withKey:app.ThreeDesKey];
         }
         NSString *newpwd = @"";
         if (self.newpwd1.text != nil && ![self.newpwd1.text isEqualToString:@""]) {
@@ -185,7 +185,11 @@
             // 关闭当前视图，在父视图弹出消息
             UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
             UIView *welcomeView = [topWindow viewWithTag:200];
-            [yxtUtil message:welcomeView :@"保存成功"];
+            if ([dataResponse objectForKey:@"resultdes"] != nil && ![[dataResponse objectForKey:@"resultdes"] isEqualToString:@""]) {
+                [yxtUtil message:welcomeView :[dataResponse objectForKey:@"resultdes"]];
+            } else {
+                [yxtUtil message:welcomeView :@"保存成功"];
+            }
             
             [self.view removeFromSuperview];
             UIView *list1View = [topWindow viewWithTag:300];
@@ -209,6 +213,6 @@
         }
         
     });
-    
+
 }
 @end

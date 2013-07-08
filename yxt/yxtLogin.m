@@ -171,10 +171,9 @@
     NSDictionary* jsonResult;
     NSDictionary *dataResponse = [yxtUtil getResponse:requestInfo :identityInfo :data];
     
+    yxtAppDelegate *app = (yxtAppDelegate *)[[UIApplication sharedApplication] delegate];
     // 如果成功
-    if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"1"]) {
-        yxtAppDelegate *app = (yxtAppDelegate *)[[UIApplication sharedApplication] delegate];
-        
+    if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
         NSString *result = [dataResponse objectForKey:@"data"];
         NSData *dataResult = [result dataUsingEncoding:NSUTF8StringEncoding];
         jsonResult = [NSJSONSerialization JSONObjectWithData:dataResult
@@ -217,6 +216,7 @@
             [self.view removeFromSuperview];
         }
     } else {
+        [app setLoginType:@""];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:[dataResponse objectForKey:@"resultdes"] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
         [alert show];
     }
@@ -237,9 +237,9 @@
             
             NSString *pwd = [ThreeDES encrypt:self.textPassword.text withKey:app.ThreeDesKey];
             NSString *identityInfo = [[NSString alloc] initWithString:[yxtUtil setIdentityInfo]];
-            NSString *data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"logintype\":\"\", \"account\":\"%@\", \"pwd\":\"%@\"}]", self.textUsername.text, pwd]];
+            NSString *data = [[NSString alloc] initWithString:[NSString stringWithFormat:@"[{\"logintype\":\"%@\", \"account\":\"%@\", \"pwd\":\"%@\"}]", app.loginType, self.textUsername.text, pwd]];
             NSString *requestInfo = [[NSString alloc] initWithString:[yxtUtil setRequestInfo:@"login" :@"0" :@"0" :identityInfo :data]];
-            
+//            NSLog(@"%@", data);
             [self login: requestInfo :identityInfo : data];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
         });

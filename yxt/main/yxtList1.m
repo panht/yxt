@@ -91,6 +91,8 @@
         height = self.navBar.frame.size.height;
         
         if ([self.action isEqualToString:@"bulletin"]) {
+            self.pageSize = @"7";
+            
             // 通知公告栏目，显示发送按钮
             [self.btn0 setHidden:NO];
             
@@ -103,7 +105,8 @@
             
             // 表格视图位置
             yTableView1 += self.btn0.frame.size.height + 10;
-            heightTableView1 -= self.btn0.frame.size.height + 10;
+            heightTableView1 -= self.btn0.frame.size.height + 10 + self.btn1.frame.size.height;
+        } else if ([self.action isEqualToString:@"eduClass"]) {
         } else {
             self.btn1.frame = CGRectMake(x, y, width * 2, height);
             

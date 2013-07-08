@@ -62,6 +62,16 @@
     [self.inputPicker1 addGestureRecognizer:pickerTapped];
 }
 
+- (void) resetForm {
+    [self.inputUser setTitle:@"请选择用户" forState:UIControlStateNormal];
+    self.ids = @"";
+    [self.inputPicker1 selectRow:0 inComponent:0 animated:NO];
+    self.inputTitle.text = @"";
+    self.inputSMS.on = YES;
+    self.inputWeibo.on = YES;
+    self.inputContent.text = @"";
+}
+
 - (void) loadData1 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 //    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
@@ -202,13 +212,14 @@
         
         if ([[dataResponse objectForKey:@"resultcode"] isEqualToString: @"0"]) {
             // 关闭当前视图，在父视图弹出消息
-            UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
-            UIView *listView = [topWindow viewWithTag:300];
-            [yxtUtil message:listView :@"发送成功"];
+//            UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+//            UIView *listView = [topWindow viewWithTag:300];
+            [self resetForm];
+            [yxtUtil message:self.view :@"发送成功"];
             
-            [self.view removeFromSuperview];
-            UIView *list1View = [topWindow viewWithTag:400];
-            [list1View removeFromSuperview];
+//            [self.view removeFromSuperview];
+//            UIView *list1View = [topWindow viewWithTag:400];
+//            [list1View removeFromSuperview];
         } else {
             [yxtUtil warning:self.view :[dataResponse objectForKey:@"resultdes"]];
         }

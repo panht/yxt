@@ -245,6 +245,8 @@
                 self.scrollView.frame = CGRectMake(0, self.view.frame.size.height - 64 - self.scrollView.frame.size.height, self.scrollView.frame.size.width, self.scrollView.frame.size.height);
                 self.labelContent.frame = CGRectMake(x, y + height * (3 + lines), width, self.view.frame.size.height - height * (3 + lines) - self.navBar.frame.size.height * 2 - self.scrollView.frame.size.height- statusBarHeight - 5);
                 
+                [self.scrollView setClipsToBounds:YES];
+                
                 self.label1.textAlignment = UITextAlignmentLeft;
                 self.label2.textAlignment = UITextAlignmentLeft;
                 self.label3.textAlignment = UITextAlignmentLeft;
@@ -279,7 +281,7 @@
                         // 判断本地是否已保存
                         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
                         NSString *documentsPath = [paths objectAtIndex:0];
-                        NSString *filenameLocal = [documentsPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_%@.png", self.assignmentID, filename]];
+                        NSString *filenameLocal = [documentsPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_%@", self.assignmentID, filename]];
                         fileData = [NSData dataWithContentsOfFile:filenameLocal];
                         
                         if (fileData != NULL) {
@@ -302,7 +304,8 @@
                         }
                         j++;
                     }
-                    [self.scrollView setNeedsDisplay];
+                    self.scrollView.contentSize = CGSizeMake(i * 60, self.scrollView.contentSize.height);
+//                    [self.scrollView setNeedsDisplay];
                     
                     // 处理webview
                     int screenWidth = [[UIScreen mainScreen] bounds].size.width;
@@ -422,16 +425,16 @@
 
 // 在webview打开
 - (void) loadDocument:(UIButton *)button {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+//    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
 //        yxtAppDelegate *app = (yxtAppDelegate*)[[UIApplication sharedApplication] delegate];
         NSDictionary *rowData = [self.dataFiles objectAtIndex:button.tag];
         NSString *filename = [rowData objectForKey:@"filename"];
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsPath = [paths objectAtIndex:0];
-        NSString *filenameLocal = [documentsPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_%@.png", self.assignmentID, filename]];
+        NSString *filenameLocal = [documentsPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_%@", self.assignmentID, filename]];
         NSURL *fileURL = [NSURL fileURLWithPath:filenameLocal];
         NSURLRequest *request = [NSURLRequest requestWithURL:fileURL];
         
@@ -441,11 +444,19 @@
         
         [self.btnBack removeTarget:self action:@selector(backTapped:) forControlEvents:UIControlEventTouchUpInside];
         [self.btnBack  addTarget:self action:@selector(closeWebView) forControlEvents:UIControlEventTouchUpInside];
+    
+    @try {
         [webView loadRequest:request];
         [webView setHidden:NO];
+    }
+    @catch (NSException *exception) {
+        [yxtUtil warning:self.view :@"无法打开这个附件"];
+    }
+    @finally {
+    }
         
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-    });
+//        [MBProgressHUD hideHUDForView:self.view animated:YES];
+//    });
 }
 
 - (void) closeWebView {
